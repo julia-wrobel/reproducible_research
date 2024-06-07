@@ -1,0 +1,29 @@
+name: "The HitchHikers Guide to Reproducible Research"
+output_dir: "."
+navbar:
+  title: "The HitchHikers Guide to Reproducible Research"
+  left:
+    - text: "Home"
+      href: index.html
+    - text: "Short Course"
+      menu:
+        - text: "Course introduction"
+          href: intro.html
+        - text: "Course motivations"
+          href: motivations.html
+        - text: "Using the command line"
+          href: command_line.html
+        - text: "Project organization"
+          href: project_organization.html
+        - text: "Coding style"
+          href: coding_style.html
+        - text: "Git and GitHub"
+          href: git.html
+  right:
+    - text: "About"
+      href: about.html
+    - icon: fa-github fa-lg
+      href: https://github.com/julia-wrobel/reproducible_research
+output:
+  html_document:
+    theme: flatly

@@ -1,0 +1,9 @@
+---
+title: "The HitchHikers Guide to Reproducible Research"
+---
+
+
+This page contains materials by [David Benkeser](https://davidbphd.com/) and [Julia Wrobel](http://juliawrobel.com/) for the short course titled "The HitchHikers Guide to Reproducible Research", developed for the 2024 Summer Institute in Statistics and Modeling in Infections Diseases (SISMID). 
+
+
+

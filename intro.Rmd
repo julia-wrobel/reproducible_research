@@ -1,0 +1,30 @@
+---
+title: "Introduction"
+output:
+  html_document: 
+    toc: true
+    toc_float: true
+---
+
+
+
+```{r, echo = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  fig.width = 6,
+  fig.asp = .6,
+  out.width = "90%",
+  message = FALSE
+)
+
+```
+
+
+
+
+## Slide Deck
+
+<iframe class="speakerdeck-iframe" frameborder="0" src="https://speakerdeck.com/player/19588e79e83146a8bc844ed2f335c79e" title="MI_intro" allowfullscreen="true" style="border: 0px; background: padding-box padding-box rgba(0, 0, 0, 0.1); margin: 0px; padding: 0px; border-radius: 6px; box-shadow: rgba(0, 0, 0, 0.2) 0px 5px 40px; width: 100%; height: auto; aspect-ratio: 560 / 314;" data-ratio="1.78343949044586"></iframe>
+
+
+## Code

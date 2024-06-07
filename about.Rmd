@@ -1,0 +1,34 @@
+---
+title: "About This Website"
+---
+
+This is an [R Markdown website](http://rmarkdown.rstudio.com/rmarkdown_websites.html) for a reproducible research workshop at SISMID 2024.
+
+In the short course, we'll use several packages which are listed below. Code to install the packages follows, and version information about each of these packages and their dependencies is at the bottom of this page.
+
+Installing packages from CRAN
+
+```{r, eval=FALSE}
+# main packages
+install.packages(c("tidyverse"))
+
+# additional packages used for visualization
+install.packages(c("viridis", "patchwork"))
+```
+
+Installing packages from GitHub
+
+```{r, eval = FALSE}
+# install projectr from GitHub
+install.packages("devtools")
+devtools::install_github("julia-wrobel/projectr")
+```
+
+
+
+Versions of key packages:
+
+```{r}
+devtools::session_info(c("tidyverse"))
+```
+
