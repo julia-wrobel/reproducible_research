@@ -28,5 +28,62 @@ knitr::opts_chunk$set(
 <iframe class="speakerdeck-iframe" frameborder="0" src="https://speakerdeck.com/player/ccecd0548b874505b4bdd80172769ffe" title="MI_normalization" allowfullscreen="true" style="border: 0px; background: padding-box padding-box rgba(0, 0, 0, 0.1); margin: 0px; padding: 0px; border-radius: 6px; box-shadow: rgba(0, 0, 0, 0.2) 0px 5px 40px; width: 100%; height: auto; aspect-ratio: 560 / 314;" data-ratio="1.78343949044586"></iframe>
 
 
-## Code
+## Breakout exercise 1
+
+Execute the following code:
+```{bash, exercise1, eval = FALSE}
+# make a directory named tmp
+mkdir tmp
+# move into tmp 
+cd tmp
+# add an empty file named tmp_file
+touch tmp_file
+# add an empty directory named another_tmp
+mkdir another_tmp
+# add an empty file to another_tmp directory
+touch another_tmp/another_tmp_file
+```
+* In your breakout group, figure out how to...
+  * list all files with sizes displayed in bytes/kilobyes/megabytes
+  * remove `tmp_file`
+  * rename `another_tmp_file` to `such_a_cool_file`
+  * remove `tmp` directory *and* all its contents
+
+???
+
+~ 7 minutes.
+
+
+## Breakout exercise 2
+
+In your breakout group, write bash code that executes each of the following. 
+* find "To be, or not to be" and write the contents of this monologue to a file `speech.txt` (hint: the speech is 35 lines)
+* make a file called `greatest_hits.txt` that includes:
+  * the "To be, or not to be" speech
+  * the line that includes "know not what we may be"
+  * all lines that include the word "doubts" or "Doubts"
+* replaces all instances of the string "doubts" with "uncertainties" in your `greatest_hits.txt` file (hint: `sed` or `awk`)
+
+???
+
+`sed` and `awk` are more flexible than `grep`, but I find the syntax very cryptic and
+difficult to remember. I often have to Google to remind myself how it works.
+
+~ 10-15 min
+
+---
+
+
+## Breakout exercise 3
+
+Write a script that 
+* uses `curl` to download the text of __Romeo and Juliet__ from Project Gutenberg
+  * http://www.gutenberg.org/files/1112/1112.txt ;
+* counts the number of lines for characters Romeo ("Rom."), Juliet ("Jul."), and the Apothecary ("Apoth."); 
+* saves a plain text file that for each of these characters says:
+  * "`[character]` has `[num]` lines".
+
+__Hints__: use `for` loops
+
+
 
