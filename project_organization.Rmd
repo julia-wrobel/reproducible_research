@@ -8,7 +8,7 @@ output:
 
 ```{r, echo = FALSE, message = FALSE}
 library(tidyverse)
-library(patchwork)
+
 
 
 knitr::opts_chunk$set(
@@ -28,18 +28,9 @@ theme_set(theme_bw() + theme(legend.position = "bottom"))
 
 ## Slide Deck
 
-<iframe class="speakerdeck-iframe" frameborder="0" src="https://speakerdeck.com/player/034999f5e7844fb9a3e778d055b3bedc" title="MI_spatialAnalysis" allowfullscreen="true" style="border: 0px; background: padding-box padding-box rgba(0, 0, 0, 0.1); margin: 0px; padding: 0px; border-radius: 6px; box-shadow: rgba(0, 0, 0, 0.2) 0px 5px 40px; width: 100%; height: auto; aspect-ratio: 560 / 314;" data-ratio="1.78343949044586"></iframe>
+<iframe src="slides/cl_slides.html" width="800" height="600" allowfullscreen = "true"></iframe>
 
-## Code
+## Breakout exercises
 
 
-## References
-
-* [Textbook for spatstat package](https://spatstat.org/book.html)
-* [spatstat JSS article](https://www.jstatsoft.org/article/view/v012i06)
-* [Paper for ovarian cancer data](https://aacrjournals.org/mcr/article/19/12/1973/675069/The-Spatial-Context-of-Tumor-Infiltrating-Immune)
-* [paper for spatialTIME package](https://academic.oup.com/bioinformatics/article/37/23/4584/6420699) and associated [methods paper](https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1009900)
-* [textbook chapter, Wrobel and Vandekar](https://link.springer.com/protocol/10.1007/978-1-0716-2986-4_8)
-* [Challenges and Opportunities in the Statistical Analysis of Multiplex Immunofluorescence Data](https://www.mdpi.com/2072-6694/13/12/3031)
-* [Chervoneva, 2022](https://academic.oup.com/bioinformatics/article/37/10/1452/6020255)
-
+## Additional reading

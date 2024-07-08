@@ -4,8 +4,6 @@ subtitle: "The command line may look scary, but it is your friend."
 author: "Julia Wrobel and David Benkeser"
 institute: "Emory University"
 start: "0:0:0"
-reading: "command-line"
-breakoutsoln: ""
 output:
   xaringan::moon_reader:
     css: xaringan-themer.css
