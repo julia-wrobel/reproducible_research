@@ -1,0 +1,54 @@
+---
+title: "Test exercise problem"
+output: 
+  html_document:
+    css: custom_test.css
+---
+
+This document outlines how to use collapsibles as an exercise solution
+
+## Exercise 1
+
+Suppose I have a variable named `NAME` that evaluates to `David`. How could I use bash to print out the string `'My name is David'` while referencing the variable `NAME`?
+
+<button type="button" class="collapsible">View solution</button>
+<div class="content">
+
+We can use `echo` while referencing the variable `NAME` as follows.
+
+```{bash}
+NAME=David
+echo "My name is $NAME"
+```
+
+Be sure to use double quotes or else bash will print verbatim.
+
+```{bash}
+echo 'My name is $NAME'
+```
+
+</div>
+
+## Exercise 2
+
+Suppose I have an array of variables called `NAMES`. How can I loop through each name and print `'My name is <NAME>'` where `<NAME>` is replaced with each name in `NAMES`?
+
+<button type="button" class="collapsible">View solution</button>
+<div class="content">
+
+We can use a `for` loop, combined with `echo`.
+
+```{bash}
+NAMES=(David Julia)
+
+for NAME in ${NAMES[@]}
+do
+  echo "My name is $NAME"
+done
+```
+
+</div>
+
+
+
+<script language="JavaScript" src="custom_js.js"></script>
