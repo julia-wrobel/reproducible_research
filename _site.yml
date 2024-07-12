@@ -9,7 +9,7 @@ navbar:
       menu:
         - text: "Software installations"
           href: preread-installs.html
-        - text: "R Studio review"
+        - text: "R Markdown review"
           href: preread-rstudio-review.html
     - text: "Course materials"
       menu:
