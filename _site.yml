@@ -2,15 +2,17 @@ name: "The HitchHikers Guide to Reproducible Research"
 output_dir: "."
 navbar:
   title: "The HitchHikers Guide to Reproducible Research"
-  left:
-    - text: "Home"
-      href: index.html
+  right:
     - text: "About"
       href: about.html
+    - text: "Pre-read materials"
+      menu:
+        - text: "Software installations"
+          href: preread-installs.html
+        - text: "R Studio review"
+          href: preread-rstudio-review.html
     - text: "Course materials"
       menu:
-        - text: "Pre-read"
-          href: preread.html
         - text: "Introduction"
           href: construction.html
         - text: "Motivations"
@@ -25,7 +27,6 @@ navbar:
           href: construction.html
         - text: "Docker"
           href: construction.html
-  right:
     - icon: fa-github fa-lg
       href: https://github.com/julia-wrobel/reproducible_research
 output:
