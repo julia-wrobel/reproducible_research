@@ -1,0 +1,106 @@
+---
+title: "Introduction"
+author: "Hitchhiker's Guide to Reproducible Research <br> <span style = 'font-size: 75%;'> Julia Wrobel and David Benkeser  </span>"
+date: '<br> `r icons::icon_style(icons::fontawesome("link"), fill = '#ffffff')` [.white[Course Website]](https://bit.ly/sismid_hitchhikers)'
+output:
+  xaringan::moon_reader:
+    css: xaringan-themer.css
+    nature:
+      titleSlideClass: ["left", "middle", "inverse"]
+---
+
+```{r xaringan-themer, include=FALSE, warning=FALSE}
+library(xaringanthemer)
+extra_css <- list(
+    "ul" = list(`margin-bottom` = "0.5em",
+      `margin-top` = "0.5em"),
+  	"p" = list(`margin-bottom` = "0.25em"),
+	"ul li" = list(`margin-bottom` = "10px"),
+	"a" = list(color = "#007dba"),
+	"a:hover" = list("text-decoration" = "underline"),
+	".green" = list(color = "#348338"),
+	".red" = list(color = "#da291c"),
+  ".remark-slide-content" = list(`font-size` = "24px")
+)
+
+style_mono_accent(
+  base_color = "#012169",
+  header_font_google = google_font("DM Sans"),
+  text_font_google   = google_font("DM Sans", "400", "400i"),
+  code_font_google   = google_font("Courier Prime"),
+  extra_css = extra_css
+)
+```
+<style type="text/css">
+.remark-slide-content {
+    font-size: 24px
+}
+</style>
+
+
+## Basic info
+
+__Course website__: https://bit.ly/sismid_hitchhiker
+
+__Meeting__: Monday/Tuesday 8:30AM-5PM; Wednesday 8:30AM-12PM
+
+__Location__: RRR 205
+
+__Breaks__: 10-10:30AM, 12-1:30PM, 3-3:30PM
+
+__Break location__: RRR 2nd floor lobby
+
+---
+
+## Contents of the course
+
+---
+
+## Learning objectives 
+
+---
+
+## Etiquette
+
+We expect that the audience is heterogeneous -- we will try to cater to everyone as best we can.
+
+Please __interrupt us__ to ask questions! Feel free to ask __any question__ you like. 
+* Clarification questions are __always welcome__.
+* Enrichment questions will be answered __time-permitting__.
+	* Come to office hours!
+
+---
+
+## Slack
+
+There is a [Slack workspace for SISMID](emorysismid.slack.com). 
+
+The channel for this course is `module-hitchhikers-guide-to-reproducibilty`.
+* Please let us know if you have not been added to the channel.
+
+Feel free to use the slack channel to:
+- socialize with other participants
+- ask questions after hours/on breaks
+- continue discussion of enrichment questions
+
+---
+
+## Exercises
+
+During class, we will have __in-class exercises__.
+* Some of these can be completed individually; others will require partners.
+* Encourage group work and socialization! Learning new coding skills alone can be frustrating!
+* Learn from each other. Learn from us.
+
+Exercises and solutions can be found on the [course website](https://bit.ly/sismid_hitchhiker), on the associated lecture page.
+
+---
+
+## SISMID events
+
+Monday 5-7PM: Networking night and poster session (RRR, Room P01)
+
+Tuesday 12-1:30PM: Lunch and learn
+- CDC's Prevention Effectiveness Fellowships (RR205)
+- Navigating the Academic Job Search (RR200)
+- Updates from the CFA Predict Division (RR226)
