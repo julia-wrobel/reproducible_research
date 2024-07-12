@@ -20,9 +20,16 @@ There is no need to make sure your version of R matches what is installed in the
 
 ### Mac instructions
 
-The following instructions pertain to installing software on a Mac. You will see that the videos are slightly dated. For example, Mac has now released an M2 + M3 chips (not just Intel + M1 chips as described in the video). Just be sure to select the right version of R to install based on the chip in your computer. 
+The following instructions pertain to installing software on a Mac. You can skip this section if you are a Windows user.
 
 #### Installing R and R Studio
+
+In this video, we describe:
+
+* how to install R and R Studio on a Mac
+* how to check which version of R should be installed based on the chip in your Mac
+
+You will see that the videos are slightly dated. For example, Mac has now released an M2 + M3 chips (not just Intel + M1 chips as described in the video). Just be sure to select the right version of R to install based on the chip in your computer. 
 
 <div style="padding:5px 0px 20px 0px;">
 <iframe width="560px" height="320px" allowfullscreen="true" allow="autoplay *" title="mac_install_r_rstudio" src="https://emory.instructuremedia.com/embed/69db8e47-36c4-448c-9e16-1a687fd5ddc4" frameborder="0" data-external="1"></iframe>
@@ -30,12 +37,20 @@ The following instructions pertain to installing software on a Mac. You will see
 
 #### Installing git
 
+In this video, we describe:
+
+* how to install `homebrew` on a Mac
+* how to install `git` via `homebrew` on a Mac
+
 <div style="padding:5px 0px 20px 0px;">
 <iframe width="560px" height="320px" allowfullscreen="true" allow="autoplay *" title="mac_install_homebrew_git" src="https://emory.instructuremedia.com/embed/7b4b98eb-9bfa-4b1c-9e59-2a857cead105" frameborder="0" data-external="1"></iframe>
 </div>
 
 #### Configuring git
 
+In this video, we describe:
+
+* how to configure basic settings in `git`
 
 <div style="padding:5px 0px 20px 0px;">
 <iframe width="560px" height="320px" allowfullscreen="true" allow="autoplay *" title="mac_configure_git" src="https://emory.instructuremedia.com/embed/0497ac78-a886-4211-b6d0-e0a7eb2fe03a" frameborder="0" data-external="1"></iframe>
@@ -43,11 +58,23 @@ The following instructions pertain to installing software on a Mac. You will see
 
 #### Installing bash
 
+In this video, we describe:
+
+* how to install the most recent version of `bash` via homebrew
+* how to set your Terminal to use `bash` instead of `zsh` (the default in recent Mac OS's)
+
+This video is not strictly necessary. `zsh` and `bash` share many elements of syntax and more than likely you will be able to follow all materials in this course without using `bash`. I will also note that different Mac OS's and different user set ups on Macs lead to different behavior of the default shell in Terminal so I cannot guarantee that these instructions will work for everyone. If you are determined to install `bash`, but are having difficult, you should be able to google alternative instructions.
+
 <div style="padding:5px 0px 20px 0px;">
 <iframe width="560px" height="320px" allowfullscreen="true" allow="autoplay *" title="mac_install_bash" src="https://emory.instructuremedia.com/embed/1b67e47d-b7d8-4cde-a474-a948e363d8c4" frameborder="0" data-external="1"></iframe>
 </div>
 
 #### More about homebrew
+
+In this video, we describe:
+
+* what `homebrew` is in greater detail
+* where `homebrew` stores files on your Mac
 
 This video is not strictly necessary to watch. Only needed if you are curious to learn more about homebrew and how it works.
 
@@ -57,13 +84,26 @@ This video is not strictly necessary to watch. Only needed if you are curious to
 
 ### Windows instructions
 
+The following instructions pertain to installing software on Windows. You can skip this section if you are a Mac or Linux user.
+
 #### Installing R, R studio, and git
+
+In this video, we describe:
+
+* how to install R, R studio and git on a Windows machine
+* what to select for the various options available during `git` installation
 
 <div style="padding:5px 0px 20px 0px;">
 <iframe width="560px" height="320px" allowfullscreen="true" allow="autoplay *" title="windows_install_R_Rstudio_git" src="https://emory.instructuremedia.com/embed/8e92e09b-2777-4c08-a4a4-964ea984413a" frameborder="0" data-external="1"></iframe>
 </div>
 
 #### Configuring git bash with R Studio
+
+In this video, we describe:
+
+* how to configure R Studio to use `git bash` in the Terminal console
+
+__This video is important for following along with the command line lecture!__
 
 <div style="padding:5px 0px 20px 0px;">
 <iframe width="560px" height="320px" allowfullscreen="true" allow="autoplay *" title="windows_rstudio_configure_gitbash" src="https://emory.instructuremedia.com/embed/141a7cf0-010d-4f31-a2c7-56ffe7934d95" frameborder="0" data-external="1"></iframe>
