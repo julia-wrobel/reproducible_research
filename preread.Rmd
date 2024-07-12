@@ -1,0 +1,74 @@
+---
+title: "Pre-read material"
+---
+
+## Background 
+
+This course will cover basics of reproducible research using R. We will also make use of the R Studio IDE, git, GitHub, and Docker. The code used in the course will also rely on several R packages. This page contains instructions on how to install the required software and packages.
+
+We assume that students in enrolled in this course have at least some experience using R and R Studio. For those with more limited knowledge, it may be useful to brush up on R, R Markdown, and R Studio via the videos below.
+
+The videos below were created for the DATA 550 course at Emory University RSPH and are reproduced here out of context of that course. Thus, there may be some irrelevant or nonsensical commentary related to other contents of that course. Nevertheless, we hope that these videos are useful for you in preparing for the short course.
+
+## Installing R, R Studio, and git
+
+The videos below will walk you through installation of R and R Studio. If you already have a working version of R Studio, you can ignore these parts of the videos. However, do be sure to also install git.
+
+There is no need to make sure your version of R matches what is installed in the videos. In general, any version of R after R 4.0 should be sufficient. If you are working in R version 3.X, then some of the code may not run for you (and it may be time to make the jump to version 4 anyway...).
+
+### Mac instructions
+
+The following instructions pertain to installing software on a Mac. You will see that the videos are slightly dated. For example, Mac has now released an M2 + M3 chips (not just Intel + M1 chips as described in the video). Just be sure to select the right version of R to install based on the chip in your computer. 
+
+#### Installing R and R Studio
+
+<iframe width="560px" height="320px" allowfullscreen="true" allow="autoplay *" title="mac_install_r_rstudio" src="https://emory.instructuremedia.com/embed/69db8e47-36c4-448c-9e16-1a687fd5ddc4" frameborder="0"></iframe>
+
+#### Installing git
+
+<iframe width="560px" height="320px" allowfullscreen="true" allow="autoplay *" title="mac_install_homebrew_git" src="https://emory.instructuremedia.com/embed/7b4b98eb-9bfa-4b1c-9e59-2a857cead105" frameborder="0"></iframe>
+
+#### Configuring git
+
+<iframe width="560px" height="320px" allowfullscreen="true" allow="autoplay *" title="mac_configure_git" src="https://emory.instructuremedia.com/embed/0497ac78-a886-4211-b6d0-e0a7eb2fe03a" frameborder="0"></iframe>
+
+#### Installing bash
+
+<iframe width="560px" height="320px" allowfullscreen="true" allow="autoplay *" title="mac_install_bash" src="https://emory.instructuremedia.com/embed/1b67e47d-b7d8-4cde-a474-a948e363d8c4" frameborder="0"></iframe>
+
+#### More about homebrew
+
+This video is not strictly necessary to watch. Only needed if you are curious to learn more about homebrew and how it works.
+
+<iframe width="560px" height="320px" allowfullscreen="true" allow="autoplay *" title="mac_more_on_homebrew" src="https://emory.instructuremedia.com/embed/7fa68cb6-bd4d-4ab4-8cc2-3c1f31701495" frameborder="0"></iframe>
+
+### Windows instructions
+
+#### Installing R, R studio, and git
+
+<iframe width="560px" height="320px" allowfullscreen="true" allow="autoplay *" title="windows_install_R_Rstudio_git" src="https://emory.instructuremedia.com/embed/8e92e09b-2777-4c08-a4a4-964ea984413a" frameborder="0"></iframe>
+
+#### Configuring git bash with R Studio
+
+<iframe width="560px" height="320px" allowfullscreen="true" allow="autoplay *" title="windows_rstudio_configure_gitbash" src="https://emory.instructuremedia.com/embed/141a7cf0-010d-4f31-a2c7-56ffe7934d95" frameborder="0"></iframe>
+
+## R packages
+
+Several R packages are used in this course and ideally should be installed prior to the start of the class. The following code chunk can be used to install the necessary packages.
+
+```{r, eval = FALSE}
+install.packages(c(
+  "tidyverse", "gtsummary", "here", "RSocrata", "forcats"
+))
+```
+
+If you have any difficulties installing these packages, please reach out to us via Slack.
+
+## Installing Docker
+
+Docker can be challenging to install depending on how your computer is configured. Please read through [the installation instructions](https://docs.docker.com/engine/install/) and attempt to install Docker prior to the start of the class. If you run into difficulties, please reach out to us on Slack. We will also be available during breaks on the first two days of the class to help trouble shoot.
+
+
+
+
+
