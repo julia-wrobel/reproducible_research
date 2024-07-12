@@ -15,6 +15,7 @@ We assume that students in enrolled in this course have at least some experience
 ### What is R Markdown?
 
 In this video, we describe:
+
 * the motivation for R Markdown
 * the installation process for `rmarkdown` package and its dependencies
 * opening an R Markdown document in R Studio
@@ -26,6 +27,7 @@ In this video, we describe:
 ### Anatomy of an R Markdown document
 
 In this video, we describe:
+
 * what elements can be included in an R Markdown document
 
 <div style="padding:5px 0px 20px 0px;">
@@ -35,6 +37,7 @@ In this video, we describe:
 ### Introduction to yaml and markdown
 
 In this video, we describe:
+
 * the `yaml` header of an R Markdown document
 * basics of markdown syntax
 * how to render R Markdown documents in R Studio
@@ -47,6 +50,7 @@ In this video, we describe:
 ### Adding R code to R Markdown documents
 
 In this video, we describe:
+
 * adding R code chunks to R Markdown documents
 * adding inline R code to R Markdown documents
 
@@ -60,6 +64,7 @@ The video references the "VRC01" data set, which is not described in previous vi
 ### Rendering pdf documents via `tinytex`
 
 In this video, we describe:
+
 * how to install `tinytex` to render pdf documents in R Markdown
 
 This video is not strictly necessary for the course, but may be helpful for using R Markdown in the future. If you already have a working `latex` installation, then you can ignore this video.
@@ -71,6 +76,7 @@ This video is not strictly necessary for the course, but may be helpful for usin
 ### Customizing the yaml header
 
 In this video, we describe:
+
 * customizing output of document via modification of the yaml header
 * including inline R expressions in the header
 
@@ -81,6 +87,7 @@ In this video, we describe:
 ### Including `latex` and `html` in documents
 
 In this video, we describe:
+
 * how to include `latex` and `html` in R Mardown documents when rendering to pdf
 * how various output formats handle these languages when rendering documents
 
@@ -93,6 +100,7 @@ As with the previous video, this is not strictly necessary for this course, but 
 ### Code chunk options
 
 In this video, we describe:
+
 * how to control output formatting via code chunk options
 * the various syntaxes available for specifying code chunk options
 * the `echo` and `include` options
@@ -105,6 +113,7 @@ In this video, we describe:
 ### `rmarkdown`: under the hood
 
 In this video, we describe:
+
 * the interplay of `rmarkdown`, `knitr`, and `pandoc` in creating output
 
 <div style="padding:5px 0px 20px 0px;">
@@ -114,6 +123,7 @@ In this video, we describe:
 ### Debugging errors in R Markdown
 
 In this video, we describe:
+
 * the difference between the interactive R console in R studio and an R Markdown document
 * demonstrating the order of operations when rendering R Markdown documents
 * strategies for figuring out where errors are occurring in a document
