@@ -10,8 +10,6 @@ output:
 
 This course will cover basics of reproducible research using R. We will also make use of the R Studio IDE, git, GitHub, and Docker. The code used in the course will also rely on several R packages. This page contains instructions on how to install the required software and packages.
 
-We assume that students in enrolled in this course have at least some experience using R and R Studio. For those with more limited knowledge, it may be useful to brush up on R, R Markdown, and R Studio via the videos below.
-
 The videos below were created for the DATA 550 course at Emory University RSPH and are reproduced here out of context of that course. Thus, there may be some irrelevant or nonsensical commentary related to other contents of that course. Nevertheless, we hope that these videos are useful for you in preparing for the short course.
 
 ## Installing R, R Studio, and git

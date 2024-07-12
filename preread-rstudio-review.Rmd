@@ -1,9 +1,138 @@
 ---
-title: "Introduction to R Studio"
+title: "Introduction to R Markdown"
 output:
   html_document: 
     toc: true
     toc_float: true
 ---
 
-## Background 
+## Background
+
+We assume that students in enrolled in this course have at least some experience using R via R Studio and in particular, using R Markdown. For those with more limited knowledge, it may be useful to brush up via the videos and additional readings below.
+
+## Review of R Markdown
+
+### What is R Markdown?
+
+In this video, we describe:
+* the motivation for R Markdown
+* the installation process for `rmarkdown` package and its dependencies
+* opening an R Markdown document in R Studio
+
+<div style="padding:5px 0px 20px 0px;">
+<iframe width="560px" height="320px" allowfullscreen="true" allow="autoplay *" title="rmarkdown_02_installing_rmarkdown" src="https://emory.instructuremedia.com/embed/a9fb5950-8176-4a14-bf08-eea528c84de5" frameborder="0" data-external="1"></iframe>
+</div>
+
+### Anatomy of an R Markdown document
+
+In this video, we describe:
+* what elements can be included in an R Markdown document
+
+<div style="padding:5px 0px 20px 0px;">
+<iframe width="560px" height="320px" allowfullscreen="true" allow="autoplay *" title="rmarkdown_03_anatomy_of_rmd" src="https://emory.instructuremedia.com/embed/dea1bae3-4f63-4f29-b6be-5d0b7831929a" frameborder="0" data-external="1"></iframe>
+</div>
+
+### Introduction to yaml and markdown
+
+In this video, we describe:
+* the `yaml` header of an R Markdown document
+* basics of markdown syntax
+* how to render R Markdown documents in R Studio
+
+<div style="padding:5px 0px 20px 0px;">
+<iframe width="560px" height="320px" allowfullscreen="true" allow="autoplay *" title="rmarkdown_04_exploring" src="https://emory.instructuremedia.com/embed/b915832a-c156-46b9-b504-e15d6612df06" frameborder="0" data-external="1"></iframe>
+</div>
+
+
+### Adding R code to R Markdown documents
+
+In this video, we describe:
+* adding R code chunks to R Markdown documents
+* adding inline R code to R Markdown documents
+
+The video references the "VRC01" data set, which is not described in previous videos. There is no real need to understand scientifically the contents of these data. They are simply an example to illustrate some of the features of R Markdown.
+
+<div style="padding:5px 0px 20px 0px;">
+<iframe width="560px" height="320px" allowfullscreen="true" allow="autoplay *" title="rmarkdown_05_r_code_in_rmd" src="https://emory.instructuremedia.com/embed/d2d281fd-0d90-49b1-9c0c-b3d64b0d8191" frameborder="0" data-external="1"></iframe>
+</div>
+
+
+### Rendering pdf documents via `tinytex`
+
+In this video, we describe:
+* how to install `tinytex` to render pdf documents in R Markdown
+
+This video is not strictly necessary for the course, but may be helpful for using R Markdown in the future. If you already have a working `latex` installation, then you can ignore this video.
+
+<div style="padding:5px 0px 20px 0px;">
+<iframe width="560px" height="320px" allowfullscreen="true" allow="autoplay *" title="rmarkdown_06_tinytex" src="https://emory.instructuremedia.com/embed/686d9952-a1f0-43bb-86bd-8ab102023652" frameborder="0" data-external="1"></iframe>
+</div>
+
+### Customizing the yaml header
+
+In this video, we describe:
+* customizing output of document via modification of the yaml header
+* including inline R expressions in the header
+
+<div style="padding:5px 0px 20px 0px;">
+<iframe width="560px" height="320px" allowfullscreen="true" allow="autoplay *" title="rmarkdown_07_yaml_header" src="https://emory.instructuremedia.com/embed/42ba66a6-304f-4ebb-abce-aa380b3f47f5" frameborder="0" data-external="1"></iframe>
+</div>
+
+### Including `latex` and `html` in documents
+
+In this video, we describe:
+* how to include `latex` and `html` in R Mardown documents when rendering to pdf
+* how various output formats handle these languages when rendering documents
+
+As with the previous video, this is not strictly necessary for this course, but may be useful if you like to look at pdf outputs.
+
+<div style="padding:5px 0px 20px 0px;">
+<iframe width="560px" height="320px" allowfullscreen="true" allow="autoplay *" title="rmarkdown_08_including_latex_html" src="https://emory.instructuremedia.com/embed/915c280b-c8ba-4c8a-9102-774e2f53717b" frameborder="0" data-external="1"></iframe>
+</div>
+
+### Code chunk options
+
+In this video, we describe:
+* how to control output formatting via code chunk options
+* the various syntaxes available for specifying code chunk options
+* the `echo` and `include` options
+* brief overview of other common code chunk options
+
+<div style="padding:5px 0px 20px 0px;">
+<iframe width="560px" height="320px" allowfullscreen="true" allow="autoplay *" title="rmarkdown_09_code_chunk_opts" src="https://emory.instructuremedia.com/embed/2c9297a3-53fe-45f6-ac8b-e9bd85b0fb89" frameborder="0" data-external="1"></iframe>
+</div>
+
+### `rmarkdown`: under the hood
+
+In this video, we describe:
+* the interplay of `rmarkdown`, `knitr`, and `pandoc` in creating output
+
+<div style="padding:5px 0px 20px 0px;">
+<iframe width="560px" height="320px" allowfullscreen="true" allow="autoplay *" title="rmarkdown_10_under_the_hood" src="https://emory.instructuremedia.com/embed/8c752ab3-6718-474a-81ba-0a6d456b9172" frameborder="0" data-external="1"></iframe>
+</div>
+
+### Debugging errors in R Markdown
+
+In this video, we describe:
+* the difference between the interactive R console in R studio and an R Markdown document
+* demonstrating the order of operations when rendering R Markdown documents
+* strategies for figuring out where errors are occurring in a document
+
+This video is not strictly necessary for the course, but may be helpful in using R Markdown.
+
+<div style="padding:5px 0px 20px 0px;">
+<iframe width="560px" height="320px" allowfullscreen="true" allow="autoplay *" title="rmarkdown_11_under_the_hood_demo" src="https://emory.instructuremedia.com/embed/d0c426ee-e316-4560-8985-2a04c5d97645" frameborder="0" data-external="1"></iframe>
+</div>
+
+## Additional resources
+
+* [R Markdown: The Definitive Guide](https://bookdown.org/yihui/rmarkdown/)
+* [Markdown cheat sheet](https://www.markdownguide.org/cheat-sheet/)
+* [R Markdown Tutorial](https://rmarkdown.rstudio.com/lesson-1.html)
+* [R Markdown Cheat Sheet](https://rstudio.com/wp-content/uploads/2015/02/rmarkdown-cheatsheet.pdf)
+* [knitr code chunk options](https://yihui.org/knitr/options/)
+* [Math in R Markdown](https://rpruim.github.io/s341/S19/from-class/MathinRmd.html)
+* [Creating Tables in R Markdown](http://haozhu233.github.io/kableExtra/awesome_table_in_html.html)
+* [bookdown: Authoring Books and Technical Documents with R Markdown](https://bookdown.org/yihui/bookdown/)
+* [R Markdown chapter in R for Data Science](https://r4ds.had.co.nz/r-markdown.html)
+* [R Markdown formats chapter in R for Data Science](https://r4ds.had.co.nz/r-markdown-formats.html)
