@@ -1,0 +1,24 @@
+---
+title: "Under construction"
+output:
+  html_document: 
+    toc: true
+    toc_float: true
+---
+
+
+
+```{r, echo = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  fig.width = 6,
+  fig.asp = .6,
+  out.width = "90%",
+  message = FALSE
+)
+
+```
+
+
+
+This page is currently under development. Check back soon for course contents.

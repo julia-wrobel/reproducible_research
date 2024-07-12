@@ -5,23 +5,27 @@ navbar:
   left:
     - text: "Home"
       href: index.html
-    - text: "Short Course"
-      menu:
-        - text: "Course introduction"
-          href: intro.html
-        - text: "Course motivations"
-          href: motivations.html
-        - text: "Using the command line"
-          href: command_line.html
-        - text: "Project organization"
-          href: project_organization.html
-        - text: "Coding style"
-          href: coding_style.html
-        - text: "Git and GitHub"
-          href: git.html
-  right:
     - text: "About"
       href: about.html
+    - text: "Course materials"
+      menu:
+        - text: "Pre-read"
+          href: preread.html
+        - text: "Introduction"
+          href: construction.html
+        - text: "Motivations"
+          href: construction.html
+        - text: "Using the command line"
+          href: construction.html
+        - text: "Project organization"
+          href: construction.html
+        - text: "Coding style"
+          href: construction.html
+        - text: "Git and GitHub"
+          href: construction.html
+        - text: "Docker"
+          href: construction.html
+  right:
     - icon: fa-github fa-lg
       href: https://github.com/julia-wrobel/reproducible_research
 output:
