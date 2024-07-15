@@ -17,6 +17,8 @@ navbar:
           href: construction.html
         - text: "Motivations"
           href: construction.html
+        - text: "Course data"
+          href: construction.html
         - text: "Using the command line"
           href: construction.html
         - text: "Project organization"
