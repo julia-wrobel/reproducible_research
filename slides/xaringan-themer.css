@@ -295,33 +295,28 @@ table.dataTable.hover tbody tr:hover, table.dataTable.display tbody tr:hover {
 
 
 /* Extra CSS */
-.monobox {
-  display: inline-block;
-  width: 90%;
-  height: 400px;
-  padding: 5px;
-  border: 1px solid #012169;
-  background-color: #d9d9d6;
-  font-family: Courier Prime;
-  align-items: left;
-  vertical-align: middle;
+ul {
+  margin-bottom: 0.5em;
+  margin-top: 0.5em;
 }
-.small {
-  font-size: 80%;
-}
-.large {
-  font-size: 150%;
+p {
+  margin-bottom: 0.25em;
 }
 ul li {
   margin-bottom: 10px;
-}
-.red {
-  color: #da291c;
-  font-weight: 600;
 }
 a {
   color: #007dba;
 }
 a:hover {
   text-decoration: underline;
+}
+.green {
+  color: #348338;
+}
+.red {
+  color: #da291c;
+}
+.remark-slide-content {
+  font-size: 24px;
 }

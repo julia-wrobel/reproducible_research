@@ -1,16 +1,12 @@
 ---
-title: "Using the (unix) command line"
-subtitle: "The command line may look scary, but it is your friend."
-author: "Julia Wrobel and David Benkeser"
-institute: "Emory University"
-start: "0:0:0"
+title: "Introduction"
+author: "Hitchhiker's Guide to Reproducible Research <br> <span style = 'font-size: 75%;'> Julia Wrobel and David Benkeser  </span>"
+date: '<br> `r icons::icon_style(icons::fontawesome("link"), fill = '#ffffff')` [.white[Course Website]](https://bit.ly/sismid_hitchhikers)'
 output:
   xaringan::moon_reader:
     css: xaringan-themer.css
     nature:
       titleSlideClass: ["left", "middle", "inverse"]
-      highlightStyle: tomorrow-night-blue
-      highlightLanguage: bash
 ---
 
 
