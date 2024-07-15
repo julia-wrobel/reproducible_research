@@ -28,5 +28,28 @@ theme_set(theme_bw() + theme(legend.position = "bottom"))
 
 <iframe class="speakerdeck-iframe" frameborder="0" src="https://speakerdeck.com/player/3710e7390c4842afb3f85c22e729ecde" title="MI_fda" allowfullscreen="true" style="border: 0px; background: padding-box padding-box rgba(0, 0, 0, 0.1); margin: 0px; padding: 0px; border-radius: 6px; box-shadow: rgba(0, 0, 0, 0.2) 0px 5px 40px; width: 100%; height: auto; aspect-ratio: 560 / 314;" data-ratio="1.78343949044586"></iframe>
 
-## Code
+## Exercises
+
+### Exercise 1: first commits
+
+In this exercise, we will:
+
+* use `git init` to initalize a git repo in your project's root directory
+* use the `git add` to stage files for commit
+* use `git commit` to make commits
+* use `git log` to look at history of a project
+
+Open a terminal emulator and use `cd` to navigate to the root directory of the project that you would like to turn into a git repository.
+
+You can use the chunk of code below, where `<path/to/your/project>` should be replaced with an appropriate absolute or relative file path to the root directory of your project.
+
+```{bash, eval = FALSE}
+cd <path/to/your/project>
+```
+
+Once you have navigated to the correct directory, use the `ls -a` command to list __all files__ in the directory. Take note of what files are included.
+
+
+
+
 
