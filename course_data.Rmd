@@ -1,0 +1,39 @@
+---
+title: "Coding style"
+output:
+  html_document: 
+    toc: true
+    toc_float: true
+---
+
+
+```{r, echo = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  fig.width = 6,
+  fig.asp = .6,
+  out.width = "90%",
+  message = FALSE,
+  warning = FALSE
+)
+
+```
+
+
+
+## Slides
+
+
+<iframe src="slides/data_slides.html" width="800" height="600" allowfullscreen = "true"></iframe>
+
+
+
+## Exercises
+
+
+## Additional resources
+
+
+* [OPEN Government data act](https://data.gov/open-gov/#:~:text=The%20OPEN%20Government%20Data%20Act%20makes%20Data.gov%20a%20requirement,in%20the%20Data.gov%20catalog.)
+* [Data.gov open source data](https://data.gov/)
+

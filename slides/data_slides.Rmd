@@ -1,0 +1,103 @@
+---
+title: "Accessing course data"
+author: "Hitchhiker's Guide to Reproducible Research <br> <span style = 'font-size: 75%;'> Julia Wrobel and David Benkeser  </span>"
+date: '<br> `r icons::icon_style(icons::fontawesome("link"), fill = '#ffffff')` [.white[Course Website]](https://bit.ly/sismid_hitchhikers)'
+output:
+  xaringan::moon_reader:
+    css: xaringan-themer.css
+    nature:
+      titleSlideClass: ["left", "middle", "inverse"]
+---
+
+```{r xaringan-themer, include=FALSE, warning=FALSE}
+library(xaringanthemer)
+extra_css <- list(
+    "ul" = list(`margin-bottom` = "0.5em",
+      `margin-top` = "0.5em"),
+  	"p" = list(`margin-bottom` = "0.25em"),
+	"ul li" = list(`margin-bottom` = "10px"),
+	"a" = list(color = "#007dba"),
+	"a:hover" = list("text-decoration" = "underline"),
+	".green" = list(color = "#348338"),
+	".red" = list(color = "#da291c"),
+  ".remark-slide-content" = list(`font-size` = "24px")
+)
+
+style_mono_accent(
+  base_color = "#012169",
+  header_font_google = google_font("DM Sans"),
+  text_font_google   = google_font("DM Sans", "400", "400i"),
+  code_font_google   = google_font("Courier Prime"),
+  extra_css = extra_css
+)
+```
+<style type="text/css">
+.remark-slide-content {
+    font-size: 24px
+}
+</style>
+
+## CDC open data
+
+The CDC has [1331](https://data.cdc.gov/browse) open-source datasets available at [data.cdc.gov](https://data.cdc.gov).
+* Diverse topic areas injury & violence, smoking, pregnancy, and chronic disease.
+* Great source of Covid surveillance data
+
+
+FYI, under the OPEN Government Data Act (2018), government data is required to be made available in open, machine-readable formats, while continuing to ensure privacy and security.
+* [data.gov](https://data.gov/) hosts additional 250K+ datasets
+
+---
+
+
+## NWSS SARS-CoV-2 Concentration in Wastewater
+
+
+
+
+## Some terminology
+
+__Shell__
+* user interface for interacting with a computer
+* the "outermost" layer of the operating system
+
+__Graphical user interface__ (GUI)
+* visual interface (icons, menus, etc...) for interacting with computer
+* Don't touch that mouse!
+
+__Command line interface__ (CLI)
+* text-based interface for interacting with computer
+* e.g., `bash`, `sh`, `tcsh`, `zsh`, ...
+
+???
+
+As I'll say many times, I am not a computer scientist, so I may say
+something stupid here. Please correct me if you know better!
+
+GUIs are pretty and user-friendly because anyone who can read and operate
+a mouse can interact with them, even with very little about computers. 
+However, they are antithetical to our endeavor for reproducible research.
+
+We will instead rely on the CLI to run all our programs. We will focus on 
+`bash`, mostly because it's all that I know. People also seem to like `zsh`. 
+
+---
+
+## Some terminology
+
+__Shell script__
+* plain text file designed to be run by the shell
+
+__Terminal__
+* "terminal emulator"
+* a program that lets you interact with the shell
+
+__Important principle:__ Everything scripted!
+
+???
+
+Scripts are the ultimate "paper trail". We can scrutinize the script
+to see exactly what the computer was told to do. We are working toward
+scripting all aspects of data cleaning, analysis, and report generation. 
+
+---
