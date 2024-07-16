@@ -140,7 +140,7 @@ tibble::as_tibble(df)
 ?read.socrata
 ```
 
-<img src="figures/readsocrata_help" alt="download" width="300" />
+<img src = "figures/readsocrata_help.png" alt="download" width="300" />
 
 ---
 
@@ -150,8 +150,45 @@ __App Token__
 
 * A unique passcode of letters and numbers that grants access to an API
 * Each user signs up for their own token [here](https://data.cdc.gov/profile/edit/developer_settings)
+* "A limited number of requests can be made without an app token, but they are subject to much lower throttling limits than request that do include one."
 
 
 __Fields__
 
 * Correspond to columns in the dataset (`key_plot_id` is 1st field in our Covid dataset) 
+* Can use SoQL __queries__ for each field to filter what is returned by each API request
+
+???
+SoQL stands for Socrata Query Language and is similar to SQL, if you're familiar with it.  I have provided resources for specific SoQL queries if you want to get fancy.
+---
+
+## App token
+
+```{r, eval = FALSE}
+df <- read.socrata(
+  "https://data.cdc.gov/resource/g653-rqe2.json",
+  app_token = "YOURAPPTOKENHERE",
+  email     = "user@example.com",
+  password  = "fakepassword"
+)
+```
+
+---
+
+## Example query
+
+```{r}
+df = read.socrata(url = "https://data.cdc.gov/resource/g653-rqe2.json?key_plot_id=NWSS_wv_2558_Treatment plant_raw wastewater")
+
+tibble::as_tibble(df)
+```
+
+
+???
+The query goes after the '?', and the field is `key_plot_id`
+---
+
+
+# Exercises
+
+Try it yourself!

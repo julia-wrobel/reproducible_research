@@ -41,6 +41,7 @@ Sign up for API and download the data using your API key.
 ## Additional resources
 
 
+* [Using SoQL queries in data pulls](https://dev.socrata.com/docs/queries/)
 * [OPEN Government data act](https://data.gov/open-gov/#:~:text=The%20OPEN%20Government%20Data%20Act%20makes%20Data.gov%20a%20requirement,in%20the%20Data.gov%20catalog.)
 * [Data.gov open source data](https://data.gov/)
 

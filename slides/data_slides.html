@@ -126,20 +126,20 @@ tibble::as_tibble(df)
 ```
 
 ```
-## # A tibble: 201,983 × 4
-##    key_plot_id                                          date       pcr_conc_lin       normalization  
-##    &lt;chr&gt;                                                &lt;chr&gt;      &lt;chr&gt;              &lt;chr&gt;          
-##  1 CDC_VERILY_al_2629_Treatment plant_post grit removal 2024-07-09 29775880.158212245 flow-population
-##  2 CDC_VERILY_al_2629_Treatment plant_post grit removal 2024-07-02 26287234.478798874 flow-population
-##  3 CDC_VERILY_al_2629_Treatment plant_post grit removal 2024-06-27 24661042.67835701  flow-population
-##  4 CDC_VERILY_al_2629_Treatment plant_post grit removal 2024-06-25 9430423.44926878   flow-population
-##  5 CDC_VERILY_al_2629_Treatment plant_post grit removal 2024-06-20 17756635.499866333 flow-population
-##  6 CDC_VERILY_al_2629_Treatment plant_post grit removal 2024-06-18 33539612.3394691   flow-population
-##  7 CDC_VERILY_al_2629_Treatment plant_post grit removal 2024-06-13 4128208.259072802  flow-population
-##  8 CDC_VERILY_al_2629_Treatment plant_post grit removal 2024-06-11 17413479.610016022 flow-population
-##  9 CDC_VERILY_al_2629_Treatment plant_post grit removal 2024-06-06 3404537.1429132475 flow-population
-## 10 CDC_VERILY_al_2629_Treatment plant_post grit removal 2024-06-04 5061811.105186827  flow-population
-## # ℹ 201,973 more rows
+## # A tibble: 202,242 × 4
+##    key_plot_id                                  date  pcr_conc_lin normalization
+##    &lt;chr&gt;                                        &lt;chr&gt; &lt;chr&gt;        &lt;chr&gt;        
+##  1 CDC_VERILY_ak_1491_Treatment plant_raw wast… 2024… 261075460.6… flow-populat…
+##  2 CDC_VERILY_ak_1491_Treatment plant_raw wast… 2024… 75762462.62… flow-populat…
+##  3 CDC_VERILY_ak_1491_Treatment plant_raw wast… 2024… 200986510.5… flow-populat…
+##  4 CDC_VERILY_ak_1491_Treatment plant_raw wast… 2024… 203876334.5… flow-populat…
+##  5 CDC_VERILY_ak_1491_Treatment plant_raw wast… 2024… 266107548.6… flow-populat…
+##  6 CDC_VERILY_ak_1491_Treatment plant_raw wast… 2024… 143488128.9… flow-populat…
+##  7 CDC_VERILY_ak_1491_Treatment plant_raw wast… 2024… 87356382.31… flow-populat…
+##  8 CDC_VERILY_ak_1491_Treatment plant_raw wast… 2024… 192885705.0… flow-populat…
+##  9 CDC_VERILY_ak_1491_Treatment plant_raw wast… 2024… 172078700.7… flow-populat…
+## 10 CDC_VERILY_ak_1491_Treatment plant_raw wast… 2024… 133819845.5… flow-populat…
+## # ℹ 202,232 more rows
 ```
 
 ---
@@ -153,7 +153,7 @@ tibble::as_tibble(df)
 ?read.socrata
 ```
 
-&lt;img src="figures/readsocrata_help" alt="download" width="300" /&gt;
+&lt;img src = "figures/readsocrata_help.png" alt="download" width="300" /&gt;
 
 ---
 
@@ -163,11 +163,67 @@ __App Token__
 
 * A unique passcode of letters and numbers that grants access to an API
 * Each user signs up for their own token [here](https://data.cdc.gov/profile/edit/developer_settings)
+* "A limited number of requests can be made without an app token, but they are subject to much lower throttling limits than request that do include one."
 
 
 __Fields__
 
 * Correspond to columns in the dataset (`key_plot_id` is 1st field in our Covid dataset) 
+* Can use SoQL __queries__ for each field to filter what is returned by each API request
+
+???
+SoQL stands for Socrata Query Language and is similar to SQL, if you're familiar with it.  I have provided resources for specific SoQL queries if you want to get fancy.
+---
+
+## App token
+
+
+``` r
+df &lt;- read.socrata(
+  "https://data.cdc.gov/resource/g653-rqe2.json",
+  app_token = "YOURAPPTOKENHERE",
+  email     = "user@example.com",
+  password  = "fakepassword"
+)
+```
+
+---
+
+## Example query
+
+
+``` r
+df = read.socrata(url = "https://data.cdc.gov/resource/g653-rqe2.json?key_plot_id=NWSS_wv_2558_Treatment plant_raw wastewater")
+
+tibble::as_tibble(df)
+```
+
+```
+## # A tibble: 1,006 × 4
+##    key_plot_id                                 date   pcr_conc_lin normalization
+##    &lt;chr&gt;                                       &lt;chr&gt;  &lt;chr&gt;        &lt;chr&gt;        
+##  1 NWSS_wv_2558_Treatment plant_raw wastewater 2024-… 100976425.3… flow-populat…
+##  2 NWSS_wv_2558_Treatment plant_raw wastewater 2024-… 36693803.39… flow-populat…
+##  3 NWSS_wv_2558_Treatment plant_raw wastewater 2024-… 72412878.28… flow-populat…
+##  4 NWSS_wv_2558_Treatment plant_raw wastewater 2024-… 58113474.08… flow-populat…
+##  5 NWSS_wv_2558_Treatment plant_raw wastewater 2024-… 46608112.37… flow-populat…
+##  6 NWSS_wv_2558_Treatment plant_raw wastewater 2024-… 65282077.04… flow-populat…
+##  7 NWSS_wv_2558_Treatment plant_raw wastewater 2024-… 83258938.74… flow-populat…
+##  8 NWSS_wv_2558_Treatment plant_raw wastewater 2024-… 29597111.69… flow-populat…
+##  9 NWSS_wv_2558_Treatment plant_raw wastewater 2024-… 49155438.03… flow-populat…
+## 10 NWSS_wv_2558_Treatment plant_raw wastewater 2024-… 961584.6527… flow-populat…
+## # ℹ 996 more rows
+```
+
+
+???
+The query goes after the '?', and the field is `key_plot_id`
+---
+
+
+# Exercises
+
+Try it yourself!
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
