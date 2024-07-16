@@ -2,7 +2,7 @@ load(here::here("Data", "raw.Rdata"))
 
 # grab only observations from Georgia
 # per CDC website first column is actually 4 columns, split back into 4 columns
-cov = cov %>%
+covid = covid %>%
   filter(grepl("ga", key_plot_id)) #%>%
   #separate(key_plot_id, into = c("wwtp_jurisdiction", "wwtp_id", "wwtp_id", "sample_location", "sample_matrix"), sep = "_")
 
@@ -16,7 +16,7 @@ counties = counties %>%
   distinct()
 
 # merge covid data with the county label information
-cov = left_join(cov, counties, by = "key_plot_id") %>%
+covid = left_join(covid, counties, by = "key_plot_id") %>%
   select(-key_plot_id) %>%
   mutate(pcr_conc_lin = as.numeric(pcr_conc_lin),
          population_served = as.numeric(population_served)) %>%
@@ -24,4 +24,4 @@ cov = left_join(cov, counties, by = "key_plot_id") %>%
 
 
 ## save intermediate data object and data data was accessed
-save(cov, file = here::here("Data", "clean.Rdata"))
+save(covid, file = here::here("Data", "clean.Rdata"))

@@ -30,6 +30,13 @@ knitr::opts_chunk$set(
 
 ## Exercises
 
+Sign up for API and download the data using your API key.
+
+[get API token here](https://data.cdc.gov/profile/edit/developer_settings)
+
+
+
+
 
 ## Additional resources
 

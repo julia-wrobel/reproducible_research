@@ -12,7 +12,7 @@ library(tidyverse)
 # don't put this on GitHub- read from .credentials file, or something like that (Rprofile, sources automatically)
 # https://dev.socrata.com/foundry/data.cdc.gov/g653-rqe2
 # data details: https://data.cdc.gov/Public-Health-Surveillance/NWSS-Public-SARS-CoV-2-Concentration-in-Wastewater/g653-rqe2/about_data
-cov <- read.socrata(
+covid <- read.socrata(
   "https://data.cdc.gov/resource/g653-rqe2.json"#,
   #app_token = Sys.getenv("TOKEN"),
   #email     = Sys.getenv("EMAIL"),
@@ -33,4 +33,4 @@ counties <- read.socrata(
 
 
 ## save intermediate data object and data data was accessed
-save(cov, counties, file = here::here("Data", "raw.Rdata"))
+save(covid, counties, file = here::here("Data", "raw.Rdata"))

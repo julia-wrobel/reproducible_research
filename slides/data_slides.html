@@ -44,52 +44,130 @@ FYI, under the OPEN Government Data Act (2018), government data is required to b
 ---
 
 
-## Some terminology
+## Covid19 wastewater data
 
-__Shell__
-* user interface for interacting with a computer
-* the "outermost" layer of the operating system
+Throughout this course, we will work with the National Wastewater Surveillance System (NWSS) Public SARS-CoV-2 Concentration in Wastewater Data.
+* SARS-CoV-2 concentration at different sampling locations
+* Updated daily
 
-__Graphical user interface__ (GUI)
-* visual interface (icons, menus, etc...) for interacting with computer
-* Don't touch that mouse!
 
-__Command line interface__ (CLI)
-* text-based interface for interacting with computer
-* e.g., `bash`, `sh`, `tcsh`, `zsh`, ...
+__Longitudinal data__
+* Provides concentrations over time 
+* 4 columns
 
-???
 
-As I'll say many times, I am not a computer scientist, so I may say
-something stupid here. Please correct me if you know better!
 
-GUIs are pretty and user-friendly because anyone who can read and operate
-a mouse can interact with them, even with very little about computers. 
-However, they are antithetical to our endeavor for reproducible research.
-
-We will instead rely on the CLI to run all our programs. We will focus on 
-`bash`, mostly because it's all that I know. People also seem to like `zsh`. 
+__Cross-sectional data__
+* Current concentrations and other summaries
+* 16 columns, including State, County
 
 ---
 
-## Some terminology
 
-__Shell script__
-* plain text file designed to be run by the shell
+## Covid19 wastewater data
 
-__Terminal__
-* "terminal emulator"
-* a program that lets you interact with the shell
+We will merge these datasets and analyze concentration over time in different counties. 
+* Data can be downloaded from [Socrata](https://dev.socrata.com/foundry/data.cdc.gov/g653-rqe2)
+  * Socrata is a cloud-based platform used by many local/state/federal governments for data-sharing
 
-__Important principle:__ Everything scripted!
+* Goal will be to produce end-to-end reproducible workflows with this data
+
 
 ???
-
-Scripts are the ultimate "paper trail". We can scrutinize the script
-to see exactly what the computer was told to do. We are working toward
-scripting all aspects of data cleaning, analysis, and report generation. 
+The goal here is not to do a really complicated analysis, but to show a reproducible workflow using real open-source infectious disease data.
 
 ---
+
+## Covid19 wastewater data
+
+&lt;img src="figures/CDC_download.png" alt="download" width="550" /&gt;
+
+???
+You can just click this button to export the data as a CSV file. Why might this not be a great idea?
+---
+
+
+## APIs
+
+Luckily, this data (and all data through Socrata) can be accessed reproducibly using an **API**.
+
+__API__: Application Programming Interface
+* Essentially, a set of rules and tools that allows different software programs to communicate with each other. Think of it as a waiter in a restaurant: you tell the waiter what you want (make a request), and the waiter brings you what you asked for (the response). In the same way, an API lets one program request data or services from another program, and then delivers that data back. This makes it easier for different software systems to work together.
+* A way to extract and share data within and across organizations. You are using an API every time you use a rideshare app, send a mobile payment, or use Google Maps. 
+* APIs have protocols that are standardized across apps and websites
+
+???
+What does "Application Programming Interface" actually mean? I asked ChatGPT. Let's break this down. Just imagine if every time you wanted to do something someone had to point and click the intermediate steps... would this be reproducible?  I am not an expert in APIs and you don't have to be for these to be useful. 
+---
+
+## APIs
+
+What does this mean for us?
+
+* We can download CDC data using a script rather than point-and-click
+* R interface for Socrata means this can be done directly in RStudio!
+* Leads to more reproducible workflows
+
+[Let's take a look...](https://data.cdc.gov/Public-Health-Surveillance/NWSS-Public-SARS-CoV-2-Concentration-in-Wastewater/g653-rqe2/about_data)
+
+???
+Plan to navigate around the website for this data and show them what to look at.
+---
+
+## Accessing data through RSocrata
+
+
+``` r
+library("RSocrata")
+
+df = read.socrata(url = "https://data.cdc.gov/resource/g653-rqe2.json")
+
+tibble::as_tibble(df)
+```
+
+```
+## # A tibble: 201,983 × 4
+##    key_plot_id                                          date       pcr_conc_lin       normalization  
+##    &lt;chr&gt;                                                &lt;chr&gt;      &lt;chr&gt;              &lt;chr&gt;          
+##  1 CDC_VERILY_al_2629_Treatment plant_post grit removal 2024-07-09 29775880.158212245 flow-population
+##  2 CDC_VERILY_al_2629_Treatment plant_post grit removal 2024-07-02 26287234.478798874 flow-population
+##  3 CDC_VERILY_al_2629_Treatment plant_post grit removal 2024-06-27 24661042.67835701  flow-population
+##  4 CDC_VERILY_al_2629_Treatment plant_post grit removal 2024-06-25 9430423.44926878   flow-population
+##  5 CDC_VERILY_al_2629_Treatment plant_post grit removal 2024-06-20 17756635.499866333 flow-population
+##  6 CDC_VERILY_al_2629_Treatment plant_post grit removal 2024-06-18 33539612.3394691   flow-population
+##  7 CDC_VERILY_al_2629_Treatment plant_post grit removal 2024-06-13 4128208.259072802  flow-population
+##  8 CDC_VERILY_al_2629_Treatment plant_post grit removal 2024-06-11 17413479.610016022 flow-population
+##  9 CDC_VERILY_al_2629_Treatment plant_post grit removal 2024-06-06 3404537.1429132475 flow-population
+## 10 CDC_VERILY_al_2629_Treatment plant_post grit removal 2024-06-04 5061811.105186827  flow-population
+## # ℹ 201,973 more rows
+```
+
+---
+
+
+## Accessing data through RSocrata
+
+
+
+``` r
+?read.socrata
+```
+
+&lt;img src="figures/readsocrata_help" alt="download" width="300" /&gt;
+
+---
+
+## Terminology
+
+__App Token__
+
+* A unique passcode of letters and numbers that grants access to an API
+* Each user signs up for their own token [here](https://data.cdc.gov/profile/edit/developer_settings)
+
+
+__Fields__
+
+* Correspond to columns in the dataset (`key_plot_id` is 1st field in our Covid dataset) 
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
