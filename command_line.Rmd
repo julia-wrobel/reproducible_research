@@ -2,8 +2,7 @@
 title: "Getting to know the command line"
 output:
   html_document: 
-    toc: true
-    toc_float: true
+    css: custom_test.css
 ---
 
 
@@ -23,16 +22,32 @@ knitr::opts_chunk$set(
 
 
 
-## Slide Deck
+## Slides
 
 
 <iframe src="slides/cl_slides.html" width="800" height="600" allowfullscreen = "true"></iframe>
 
 
-## Breakout exercise 1
+## Exercise 1
 
-Execute the following code:
+Open the terminal and perform the following tasks:
+
+1. What is your current working directory?
+2. In your current directory, make a directory named `tmp`
+3. Navigate into this new folder called `tmp`
+4. Add an empty file named `tmp_file`
+5. Within `tmp`, add an empty directory named `another_tmp`
+6. Within `another_tmp`, add an additional empty file named `another_tmp_file`
+
+
+<button type="button" class="collapsible">View solution</button>
+<div class="content">
+
+Execute the following code in your terminal:
+
 ```{bash, exercise1, eval = FALSE}
+# check your current working directory
+pwd
 # make a directory named tmp
 mkdir tmp
 # move into tmp 
@@ -44,18 +59,43 @@ mkdir another_tmp
 # add an empty file to another_tmp directory
 touch another_tmp/another_tmp_file
 ```
-* In your breakout group, figure out how to...
-  * list all files with sizes displayed in bytes/kilobyes/megabytes
-  * remove `tmp_file`
-  * rename `another_tmp_file` to `such_a_cool_file`
-  * remove `tmp` directory *and* all its contents
 
-???
-
-~ 7 minutes.
+</div>
 
 
-## Breakout exercise 2
+## Exercise 2
+
+Form a group, figure out how to...
+  
+1. list all files with sizes displayed in bytes/kilobyes/megabytes
+2. remove `tmp_file`
+3. rename `another_tmp_file` to `such_a_cool_file`
+4. remove `tmp` directory *and* all its contents
+
+<button type="button" class="collapsible">View solution</button>
+<div class="content">
+
+Execute the following code in your terminal. Note that this is one way and there are other possible solutions!
+
+```{bash, exercise2, eval = FALSE}
+# list all files with sizes displayed in bytes/kilobyes/megabytes
+ls -lhR
+# remove `tmp_file`
+rm tmp_file
+# rename `another_tmp_file` to `such_a_cool_file`
+cd another_tmp
+mv another_tmp_file such_a_cool_file 
+# remove `tmp` directory *and* all its contents
+cd ../..
+rm -r tmp
+```
+
+</div>
+
+
+
+
+## Exercise 3
 
 In your breakout group, write bash code that executes each of the following. 
 * find "To be, or not to be" and write the contents of this monologue to a file `speech.txt` (hint: the speech is 35 lines)
@@ -65,17 +105,9 @@ In your breakout group, write bash code that executes each of the following.
   * all lines that include the word "doubts" or "Doubts"
 * replaces all instances of the string "doubts" with "uncertainties" in your `greatest_hits.txt` file (hint: `sed` or `awk`)
 
-???
-
-`sed` and `awk` are more flexible than `grep`, but I find the syntax very cryptic and
-difficult to remember. I often have to Google to remind myself how it works.
-
-~ 10-15 min
-
----
 
 
-## Breakout exercise 3
+## Exercise 4
 
 Write a script that 
 * uses `curl` to download the text of __Romeo and Juliet__ from Project Gutenberg
@@ -87,4 +119,8 @@ Write a script that
 __Hints__: use `for` loops
 
 
+## Additional resources
+
+
+<script language="JavaScript" src="custom_js.js"></script>
 

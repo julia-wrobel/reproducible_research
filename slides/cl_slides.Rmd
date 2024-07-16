@@ -1,5 +1,5 @@
 ---
-title: "Introduction"
+title: "Using the command line"
 author: "Hitchhiker's Guide to Reproducible Research <br> <span style = 'font-size: 75%;'> Julia Wrobel and David Benkeser  </span>"
 date: '<br> `r icons::icon_style(icons::fontawesome("link"), fill = '#ffffff')` [.white[Course Website]](https://bit.ly/sismid_hitchhikers)'
 output:
@@ -9,29 +9,18 @@ output:
       titleSlideClass: ["left", "middle", "inverse"]
 ---
 
-
 ```{r xaringan-themer, include=FALSE, warning=FALSE}
 library(xaringanthemer)
-# define a class for a block of text with mono spaced print
 extra_css <- list(
-  ".monobox" = list(
-    display = "inline-block", 
-    width = "90%",
-    height = "400px",
-    padding = "5px",
-    border = "1px solid #012169",
-    `background-color` = "#d9d9d6",
-    `font-family` = "Courier Prime",
-    `align-items` = "left",
-    `vertical-align` = "middle"
-  ),
-  ".small" =  list(`font-size` = "80%"),
-  ".large" =  list(`font-size` = "150%"),
-  "ul li" = list(`margin-bottom` = "10px"),
-  ".red" = list(color = "#da291c",
-                `font-weight` = "600"),
-  "a" = list(color = "#007dba"),
-  "a:hover" = list("text-decoration" = "underline")
+    "ul" = list(`margin-bottom` = "0.5em",
+      `margin-top` = "0.5em"),
+  	"p" = list(`margin-bottom` = "0.25em"),
+	"ul li" = list(`margin-bottom` = "10px"),
+	"a" = list(color = "#007dba"),
+	"a:hover" = list("text-decoration" = "underline"),
+	".green" = list(color = "#348338"),
+	".red" = list(color = "#da291c"),
+  ".remark-slide-content" = list(`font-size` = "24px")
 )
 
 style_mono_accent(
@@ -44,26 +33,28 @@ style_mono_accent(
 ```
 <style type="text/css">
 .remark-slide-content {
-    font-size: 22px
+    font-size: 24px
 }
 </style>
+
 
 
 ## Operating systems
 
 * Windows
-  * Not programmer friendly
+  * Not always programmer friendly
 * Mac OSX
   * Better for programming
-  * Under the hood, is just unix
+  * Under the hood, is just Unix
 * Unix-based OS (Linux, Solaris, etc...)
   * Best for programming
 
 We'll learn to interact with our computer like it's a Unix OS. 
 * Best practices for programming
-* Uniformity for pedagogical purposes
 * Needed for AWS and Docker (later)
 
+???
+Assess how many students have which types of operating systems.
 ---
 
 
@@ -75,24 +66,21 @@ __Shell__
 
 __Graphical user interface__ (GUI)
 * visual interface (icons, menus, etc...) for interacting with computer
-* Don't touch that mouse!
+* "Point-and-click"
 
 __Command line interface__ (CLI)
 * text-based interface for interacting with computer
 * e.g., `bash`, `sh`, `tcsh`, `zsh`, ...
 
 ???
-
-As I'll say many times, I am not a computer scientist, so I may say
-something stupid here. Please correct me if you know better!
+A shell is essentially a user interface that allows users to interact with the OS. It provides ways to execute commands, run programs, and manage the system. Can be graphical or command-line.
 
 GUIs are pretty and user-friendly because anyone who can read and operate
 a mouse can interact with them, even with very little about computers. 
 However, they are antithetical to our endeavor for reproducible research.
 
 We will instead rely on the CLI to run all our programs. We will focus on 
-`bash`, mostly because it's all that I know. People also seem to like `zsh`. 
-
+`bash`. 
 ---
 
 ## Some terminology
@@ -104,7 +92,11 @@ __Terminal__
 * "terminal emulator"
 * a program that lets you interact with the shell
 
-__Important principle:__ Everything scripted!
+__Why use a terminal?__ 
+* work faster and more efficiently: no mouse or touchpad!
+* better debugging when you break stuff (i.e. Git/GitHub)
+* impress your friends and family?
+* reproducibility!!!!
 
 ???
 
@@ -113,6 +105,7 @@ to see exactly what the computer was told to do. We are working toward
 scripting all aspects of data cleaning, analysis, and report generation. 
 
 ---
+
 
 
 ## Terminal
@@ -131,8 +124,6 @@ If Mac, use [Terminal](https://support.apple.com/guide/terminal/open-or-quit-ter
 If Linux, whatever terminal emulator comes with your distribution. 
 
 ???
-
-
 Linux on Windows is a relatively new feature. I suggest Ubuntu or Debian
 as these are the most common distributions on resources you might use. 
 There's practically little difference for our purposes. Most of my 
@@ -143,21 +134,61 @@ preference, then I'd stick to that.
 
 ## Terminal
 
-.center[![A view of Terminal in Mac OSX](terminal.png)]
+Your open terminal will look something like this: 
+
+<img src="figures/terminal_open.png" style="width:75%">
+
+You'll see a _prompt_, which is an alphanumeric string that (usually) ends in __$__. Commands are typed after the __$__. 
 
 ???
+Your open terminal will look something like this (mine is customized to be green which is not the default).
+In the screenshot provided I typed the command `cd Desktop`, which we'll get to shortly.
 
 The terminal is the way we interact with the shell by issuing text-based
 commands.
 
 We'll be working with bash. If for some reason bash is not the default 
-shell (and you want it to be) this can be changed in Terminal settings.
+shell (and you want it to be) this can be changed in Terminal settings. For Mac the default is zsh, which functions similarly to bash.
 
+---
+
+## Using the terminal through RStudio
+
+You can also use the terminal directly in Rstudio!
+* Rstudio introduced the terminal tab in 2017
+* For our course, this may be the simplest approach
+
+__Display the Terminal tab__: If the tab isn't visible, you can display it by going to Tools > Terminal > Move Focus to Terminal. 
+* Can also use the keyboard shortcut Shift+Alt+M or Shift+Option+M on Mac.
+
+???
+Try opening Rstudio and seeing if you have a terminal tab. If you don't, raise your hand or use the Slack channel and Emily will come around to help.
+---
+
+## RStudio terminal
+
+<img src="figures/terminal_Rstudio.png" style="width:105%">
+
+???
+Try opening your terminal, either through Rstudio or otherwise. It may be helpful to follow along and code with me during this section, so please ask questions or summon the TA if you are having trouble.
 ---
 
 ## Working directories
 
 What is a working directory?
+
+???
+a working directory is the folder on your computer where your files are currently being saved or accessed when you run a program or command. Think of it as the default location where your computer looks for files and where it saves new files unless you tell it to look somewhere else.
+
+---
+
+## Moving around directories
+
+Folders within you computer are called **directories**. 
+You can navigate around to different directories, remove or create directories, remove or create files, move files around, and list their contents all from the terminal.
+
+
+These next sections may seem fairly basic but these are also the commands I use the most often, so I'm going to spend some time on them. 
 
 ---
 
@@ -171,9 +202,29 @@ What is a working directory?
 
 <div>
 
+* __cd__: Takes you to the home directory
+      * `cd ..`: Moves up one directory
+      * `cd ../..`: Moves up two directories
+* __ls -a__: list **hidden** files as well as other files
+      * Hidden files are often part of the instructions for the OS or a particular application
+      * Usually invisible when searching through folders
+      * Examples: .git, .gitignore, .Rhistory 
+      
+
+```{bash}
+pwd
+```
+
+---
+
+
+## Absolute vs. relative file paths
+
+
+
 .pull-left[.center[
 Absolute paths
-* .left[`/Users/davidbenkeser`]
+* .left[`/Users/juliawrobel`]
 * .left[`~/Documents`]
 * .left[`/`]
 ]]
@@ -185,22 +236,13 @@ Relative paths
 * .left[`../../`]
 ]]
 
+* Absolute paths include the __whole path__ for a directory
+* Relative paths depend on the working directory that they are executed in 
+  * The `./` means "in the current directory"
+  * The `../` means "in one directory
+up from the current directory".
+
 ???
-
-The next few slides are boring, but we will use these basic commands
-to illustrate how we interact with the shell. 
-
-Use these commands to explore file structures.
-
-Absolute paths include the __whole path__ for a directory. The `~` 
-symbol refers to the current users home directory. Execute `eval echo ~$USER`
-to print its location. `/` takes you to the root directory. 
-
-Relative paths depend on the working directory that they are executed in.
-The `./` means "in the current directory". The `../` means "in one directory
-up from the current directory". The `../../` means "in two directories up
-from current directory". 
-
 When we get to project management, we will prefer relative paths. It makes
 sharing code easier -- between different users or, with yourself, on a 
 different computer (e.g., your laptop vs. AWS). The two file systems are probably 
@@ -218,35 +260,51 @@ the same relative structure, then code with relative paths should still work.
 | `mv`            | move a file or directory     |
 | `cp`            | copy a file or directory     |
 
----
-
-## Commands structure
-
-.center[`command [-option(s)] [argument(s)]`]
-
-* `option(s)` are preceded with a `-` or `--`
-  * `-` options are a single letter
-  * `--` options are longer, informatively named, but can differ in across distributions/shells (I think)
-
-* `argument(s)` tell the command what to operate on
-  * `rm` what? `cp` what?
-
-To see available options check `man command`.
 
 ???
+Good to know that when you delete a file in bash, it's gone forever
+---
 
-The `man`'s for the various commands are sometimes not as helpful
-as just googling, "How do I ... `command` bash".
+## Structure of a bash command
+
+```{bash, eval = FALSE}
+command [options] [arguments]
+```
+
+1. `command`: the bash function you want to run, e.g. `ls`, `cd`, `echo`, etc.
+
+2. `options`: also called "flags", these are additional parameters to modify the behavior of the command, e.g., 
+  * `ls -R` lists all directories and contents recursively
+  * `ls -aR` recursively lists all files and hidden files
+
+3. `arguments`: inputs to the command, such as file names or other data that tell the command what to operate on
+  *  `rm` what? `cp` what?
+  * `ls \Documents` lists all files in the documents folder
+
+???
+We have already discussed a few bash commands (`pwd`, `ls`, `cd`). More generally, bash commands have the form.
 
 You can string together multiple `-` options, e.g., `ls -la` executes
 as `ls -l -a`.
-
 ---
+
+## bash help files
+
+To see available options check `man command`.
+
+<img src="figures/man_page.png" style="width:95%">
+
+???
+The `man`'s for the various commands are sometimes not as helpful
+as just googling, "How do I ... `command` bash". ChatGPT is helpful too.
+---
+
 
 ## Solving computing problems
 
 * `man [command]` 
 * Google (with `site:stackoverflow.com`?)
+* ChatGPT
 * Ask friends/classmates
 * .red[Try stuff!]
 
@@ -266,6 +324,37 @@ get better at language by forcing yourself to use it.
 Don't be satisfied with just copy/pasting an answer from StackOverflow. 
 Try (for at least a couple minutes) to understand how it works. This is 
 a worthwhile investment. 
+
+Also, keep in mind that ChatGPT is sometimes (confidently) wrong!
+---
+
+
+## Try it out!
+
+Open the terminal and perform the following tasks:
+
+1. What is your current working directory?
+2. In your current directory, make a directory named `tmp`
+3. Navigate into this new folder called `tmp`
+4. Add an empty file named `tmp_file`
+5. Within `tmp`, add an empty directory named `another_tmp`
+6. Within `another_tmp`, add an additional empty file named `another_tmp_file`
+
+
+Hint: if you need some help, check out the solutions under `Exercise 1`.
+
+---
+
+## Group exercise
+
+Next, get into breakout groups and perform the following tasks:
+
+1. list all files with sizes displayed in bytes/kilobyes/megabytes
+2. remove `tmp_file`
+3. rename `another_tmp_file` to `such_a_cool_file`
+4. remove `tmp` directory *and* all its contents
+
+
 
 ---
 
