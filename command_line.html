@@ -385,38 +385,42 @@ cd ../..
 rm -r tmp</code></pre>
 </div>
 </div>
-<div id="breakout-exercise-3" class="section level2">
-<h2>Breakout exercise 3</h2>
+<div id="exercise-3" class="section level2">
+<h2>Exercise 3</h2>
 <p>In your breakout group, write bash code that executes each of the
-following. * find “To be, or not to be” and write the contents of this
-monologue to a file <code>speech.txt</code> (hint: the speech is 35
-lines) * make a file called <code>greatest_hits.txt</code> that
-includes: * the “To be, or not to be” speech * the line that includes
-“know not what we may be” * all lines that include the word “doubts” or
-“Doubts” * replaces all instances of the string “doubts” with
-“uncertainties” in your <code>greatest_hits.txt</code> file (hint:
-<code>sed</code> or <code>awk</code>)</p>
-<p>???</p>
-<p><code>sed</code> and <code>awk</code> are more flexible than
-<code>grep</code>, but I find the syntax very cryptic and difficult to
-remember. I often have to Google to remind myself how it works.</p>
-<p>~ 10-15 min</p>
-<hr />
+following.</p>
+<ol style="list-style-type: decimal">
+<li>Write a sentence or two about Atlanta, or anything you’d like, and
+store it in a file called “atlanta.txt” within a folder called
+“atlanta”.</li>
+<li>Use vim to edit this file in some way (e.g. add some more
+text).</li>
+<li>Save the results and exit vim.</li>
+</ol>
+<button type="button" class="collapsible">
+View solution
+</button>
+<div class="content">
+<pre class="bash"><code>mkdir atlanta
+echo &quot;I work at Emory University and Live in Atlanta.&quot; &gt; atlanta/atlanta.txt
+vi atlanta/atlanta.txt</code></pre>
+<p>While in the vim environment:</p>
+<pre class="vim"><code>i # insert allows you to edit text
+YOUR TEXT INSERTED here
+esc # gets out of text writing mode
+:wq # saves your changes and exits vim</code></pre>
 </div>
-<div id="breakout-exercise-4" class="section level2">
-<h2>Breakout exercise 4</h2>
-<p>Write a script that * uses <code>curl</code> to download the text of
-<strong>Romeo and Juliet</strong> from Project Gutenberg * <a
-href="http://www.gutenberg.org/files/1112/1112.txt"
-class="uri">http://www.gutenberg.org/files/1112/1112.txt</a> ; * counts
-the number of lines for characters Romeo (“Rom.”), Juliet (“Jul.”), and
-the Apothecary (“Apoth.”); * saves a plain text file that for each of
-these characters says: * “<code>[character]</code> has
-<code>[num]</code> lines”.</p>
-<p><strong>Hints</strong>: use <code>for</code> loops</p>
 </div>
 <div id="additional-resources" class="section level2">
 <h2>Additional resources</h2>
+<ul>
+<li><a href="https://www.learnenough.com/command-line-tutorial">Learn
+enough command line to be dangerous</a>: this tutorial is more or less
+an expanded version of what I talked about today.</li>
+<li><a href="http://www.tutorialspoint.com/unix/">List of more
+tutorials</a>: tons of resources exist if you want to get more
+advanced!</li>
+</ul>
 <script language="JavaScript" src="custom_js.js"></script>
 </div>
 

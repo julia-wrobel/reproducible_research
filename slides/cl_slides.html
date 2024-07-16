@@ -358,42 +358,6 @@ Next, get into breakout groups and perform the following tasks:
 
 ---
 
-## `.bash_profile`
-
-`.bash_profile` is a plain text file that makes your life easier. 
-* set `PATH` variable
-* make `alias`'es for common commands 
-
-Example:
-
-``` bash
-# modify PATH
-export PATH=.:/usr/local/bin:$PATH
-# shortcut for listing
-alias ll='ls -lh'
-# shortcut for opening chrome from browser
-alias chrome="open -a 'Google Chrome'"
-```
-
-.red[Use of aliases within your code can create reproducibility issues!]
-
-???
-
-The most important aspect of your bash_profile is `PATH`. This variable 
-defines the set of directories where the shell will look for executable 
-programs. In other words, when you give the shell a command, these are 
-the folders where the computer "looks" to figure out how to execute that
-command. 
-
-We can add `.` (the current directory) to the path to be able to execute
-shell scripts with commands like `myscript.sh` instead of `./myscript.sh`.
-
-Aliases are convenient for interactively operating with the shell; 
-however, avoid using aliases in scripts that you will share, as the 
-execution of those scripts is now reliant on having the same bash_profile
-across multiple machines. 
-
----
 
 ## Redirects and pipes
 
@@ -405,12 +369,8 @@ across multiple machines.
 | &lt;code&gt;&amp;#124;&lt;/code&gt; | output of command becomes input of next | 
 
 Piping and redirects give you __flexibility__ in coding. 
-
-???
-
-Here, output means "stdout" and input means "stdin".
-
 ---
+
 
 ## To bash or not to bash
 
@@ -439,11 +399,13 @@ grep "Ham\." hamlet.txt | tail -1
 ???
 
 `curl` is useful for downloading text files from the web. `-L` means to 
-follow any re-directs.
+follow any re-directs, if the url redirects to elsewhere.
 
 `wget` also useful for web downloads.
 
 `head`, `tail`, and `wc` are generally useful commands. 
+
+Try this out for yourself.
 
 ---
 
@@ -469,7 +431,7 @@ ls [a-e]_file.txt
 
 ---
 
-## Moving around command line
+## Useful command line shortcuts
 
 | __Key stroke__         | __Action__                              |
 |:----------------------:|-----------------------------------------|
@@ -495,7 +457,7 @@ Variables are
 
 
 ``` bash
-# bad -- no spaces!
+# bad -- no spaces are allowed!
 a = "some"
 # good
 a="some"
@@ -514,147 +476,6 @@ echo "I am printing ${a}thing"
 
 Remember the command structure: `a = 12` gets interpreted as "run command 
 `a` with options `=` and `12`".
-
----
-
-## More tools
-
-`$(command)` executes `command` and returns its output.
-
-
-``` bash
-# a sequence
-seq 1 10
-# save the sequence as a variable
-my_sequence=$(seq 1 10)
-echo $my_sequence
-```
-
-`(())` performs operations. 
-
-
-``` bash
-b=$((12 + 2))
-((b + 2))
-((b++))
-```
-
-???
-
-Execute the code above and check the value of `b` after each line to see 
-how its value changes.
-
-
----
-
-## More tools
-
-Using `for` loops:
-
-
-``` bash
-for name in Ronald Ozzie Freddie
-do
-  echo "My name is $name."
-done
-```
-
-`if` statements:
-
-
-``` bash
-for i in {1..5}
-do
-  if [ "$i" == "3" ]
-  then 
-    echo "This is a special iteration"
-  else
-    echo "This is iteration $i"
-  fi
-done
-```
-
-???
-
-Note the use of `{1..5}` to generate a sequence
-
----
-
-## Shell scripts
-
-All scripts will start with a __shebang__. 
-* `#!` followed by file path to program that executes code.
-
-Find where `bash` lives on your computer: 
-
-
-``` bash
-which bash
-```
-
-The first line of my shell script will read:
-
-
-``` bash
-#! /bin/bash
-```
-
-???
-
-Remember the importance of `PATH` here. `which` looks through all 
-folders in your `PATH` for an executable named `bash`. 
-
----
-
-## Shell scripts
-
-Example bash script:
-
-
-``` bash
-#! /bin/bash
-# comments use # symbol
-# you may need to replace shebang!
-
-# define a variable
-a="bash"
-
-for i in "very" "so much" "incredibly"
-do
-  echo "$a is $i fun"'!'
-done
-```
-
-Save this file as `first_script.sh`.
-
-???
-
-Congrats, you've written your first shell script!
-
----
-
-## Shell scripts
-
-Tell the shell that it is allowed to execute `first_script.sh`
-
-
-``` bash
-chmod +x first_script.sh
-```
-
-Execute first script: 
-
-
-``` bash
-first_script.sh
-```
-
-???
-
-If `.` is not in your path, then you need to execute `./first_script.sh`.
-
-After you run the script, notice that the variables created inside the script,
-`a` (and `i` from the loop) are not available to you outside the script. 
 
 ---
 
@@ -697,6 +518,62 @@ Some common values summarized below:
 
 ---
 
+
+## Vim
+
+Vim is a minimalistic text editor that is built into Unix and is often the default text editor within the terminal.
+
+Key Features:
+
+1. Modal Editing:
+  * Normal Mode: Navigate and manipulate text.
+  * Insert Mode: Insert and edit text.
+  * Visual Mode: Select and highlight text.
+
+2. Commands
+  * Performs complex text manipulations with minimal keystrokes.
+  * Examples: `dd` (delete line), `yy` (yank/copy line), `p` (paste).
+
+
+???
+Vim is pretty old school but knowing a couple of commands can help you out in some case (for example with merge conflicts, which we will get to when we talk about git).
+---
+
+## Basic vim commands
+
+__Opening and exiting vim__
+* `vim filename`: open a file in vim
+* `:w`: save changes
+* `:q`: quit vim
+* `:wq`: save changes and quit
+
+__Navigating in vim__
+* `h`, `j`, `k`, `l`: move left, down, up, and right
+* `gg`: go to the beginning of the file
+* `G`: go to the end of the file
+
+__Editing text__
+* `i`: enter Insert mode before the cursor
+* `a`: enter Insert mode after the cursor
+
+---
+
+## Installing Vim
+
+If vim is not pre-installed, here are some example installation instructions:
+
+* On Debian-based systems (e.g., Ubuntu): `sudo apt-get install vim`
+* On macOS (using Homebrew): `brew install vim`
+
+---
+
+## Group exercise
+
+In your breakout group, write bash code that executes each of the following.
+
+1. Write a sentence or two about Atlanta, or anything you'd like, and store it in a file called "atlanta.txt" within a folder called "atlanta".
+2. Use vim to edit this file in some way (e.g. add some more text).
+3. Save the results and exit vim.
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>

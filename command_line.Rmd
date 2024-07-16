@@ -92,34 +92,40 @@ rm -r tmp
 
 </div>
 
-
-
-
 ## Exercise 3
 
-In your breakout group, write bash code that executes each of the following. 
-* find "To be, or not to be" and write the contents of this monologue to a file `speech.txt` (hint: the speech is 35 lines)
-* make a file called `greatest_hits.txt` that includes:
-  * the "To be, or not to be" speech
-  * the line that includes "know not what we may be"
-  * all lines that include the word "doubts" or "Doubts"
-* replaces all instances of the string "doubts" with "uncertainties" in your `greatest_hits.txt` file (hint: `sed` or `awk`)
+In your breakout group, write bash code that executes each of the following.
 
+1. Write a sentence or two about Atlanta, or anything you'd like, and store it in a file called "atlanta.txt" within a folder called "atlanta".
+2. Use vim to edit this file in some way (e.g. add some more text).
+3. Save the results and exit vim.
 
+<button type="button" class="collapsible">View solution</button>
+<div class="content">
 
-## Exercise 4
+```{bash, exercise3, eval = FALSE}
+mkdir atlanta
+echo "I work at Emory University and Live in Atlanta." > atlanta/atlanta.txt
+vi atlanta/atlanta.txt
+```
 
-Write a script that 
-* uses `curl` to download the text of __Romeo and Juliet__ from Project Gutenberg
-  * http://www.gutenberg.org/files/1112/1112.txt ;
-* counts the number of lines for characters Romeo ("Rom."), Juliet ("Jul."), and the Apothecary ("Apoth."); 
-* saves a plain text file that for each of these characters says:
-  * "`[character]` has `[num]` lines".
+While in the vim environment:
 
-__Hints__: use `for` loops
+```{vim, eval = FALSE}
+i # insert allows you to edit text
+YOUR TEXT INSERTED here
+esc # gets out of text writing mode
+:wq # saves your changes and exits vim
+```
+
+</div>
 
 
 ## Additional resources
+
+* [Learn enough command line to be dangerous](https://www.learnenough.com/command-line-tutorial): this tutorial is more or less an expanded version of what I talked about today.
+* [List of more tutorials](http://www.tutorialspoint.com/unix/): tons of resources exist if you want to get more advanced!
+
 
 
 <script language="JavaScript" src="custom_js.js"></script>
