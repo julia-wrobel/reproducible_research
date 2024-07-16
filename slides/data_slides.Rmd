@@ -123,6 +123,7 @@ Plan to navigate around the website for this data and show them what to look at.
 ## Accessing data through RSocrata
 
 ```{r}
+library(tidyverse)
 library("RSocrata")
 
 df = read.socrata(url = "https://data.cdc.gov/resource/g653-rqe2.json")
@@ -178,7 +179,9 @@ df <- read.socrata(
 ## Example query
 
 ```{r}
-df = read.socrata(url = "https://data.cdc.gov/resource/g653-rqe2.json?key_plot_id=NWSS_wv_2558_Treatment plant_raw wastewater")
+df = read.socrata(
+      "https://data.cdc.gov/resource/g653-rqe2.json?key_plot_id=NWSS_wv_2558_Treatment plant_raw wastewater"
+                  )
 
 tibble::as_tibble(df)
 ```
@@ -189,6 +192,22 @@ The query goes after the '?', and the field is `key_plot_id`
 ---
 
 
-# Exercises
+## Another example query
 
-Try it yourself!
+```{r}
+df = read.socrata(
+    "https://data.cdc.gov/resource/g653-rqe2.json?$where=date>'2023-12-31'"
+                  )
+
+
+as_tibble(df) %>%
+  arrange(date)
+```
+
+
+???
+This one is slightly more complex. If not directly calling the name of the field and instead using a search term like "where", need to add "$"
+---
+
+
+
