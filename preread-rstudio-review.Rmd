@@ -10,6 +10,8 @@ output:
 
 We assume that students in enrolled in this course have at least some experience using R via R Studio and in particular, using R Markdown. For those with more limited knowledge, it may be useful to brush up via the videos and additional readings below.
 
+The videos below were created for the DATA 550 course at Emory University RSPH and are reproduced here out of context of that course. Thus, there may be some irrelevant or nonsensical commentary related to other contents of that course. Nevertheless, we hope that these videos are useful for you in preparing for the short course.
+
 ## Review of R Markdown
 
 ### What is R Markdown?
