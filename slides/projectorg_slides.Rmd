@@ -322,6 +322,7 @@ Hadley Wickham [defined the notion of tidy data](https://doi.org/10.18637/jss.v0
 | 3    | 1   | 34  | 0    | 0   |
 | 3    | 2   | 34  | -    | 1   |
 ]
+---
 
 ### Exploring data
 
@@ -343,6 +344,7 @@ You want to avoid situations like:
 * need to recreate a plot that you made "by hand" and saved "by hand";
 * figuring out why you removed certain observations;
 * trying to remember what variables had an interesting relationship that you wanted to follow up on later.
+---
 
 ### Exploring data
 
@@ -402,6 +404,13 @@ Talk about choosing where your main file and your data files should live. This s
 
 ---
 
+### Built-in `projectr` Rmd template
+
+
+In Rstudio, click `File > New File > Rmarkdown`                               
+
+
+<img src="figures/template.png" style="width:65%">
 
 ### Symbolic links
 
@@ -446,7 +455,6 @@ I'm going to try to convince you that these are the best.
 ### Benefits of using R projects
 
 __Project organization__: 
-* Keeps all related files (scripts, data, outputs) in a dedicated project folder
 * Relative file paths: ensures file paths are relative to the project directory, making scripts portable and easier to share.
 * Separate workspaces: prevents conflicts between variables and packages across different projects.
 
@@ -460,6 +468,8 @@ Double clicking the `202405_sarah_productTesting.Rproj` opens up an R Studio ses
 
 ???
 We will get to the here package in a bit.
+
+For now, show off the use of R projects!
 ---
 
 ### Exercise 1

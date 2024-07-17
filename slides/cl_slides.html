@@ -449,36 +449,6 @@ If you take nothing else from this page, remember to use `tab`!
 
 ---
 
-## Variables
-
-Variables are 
-* assigned using `=` ;
-* referenced using `$` (possibly with `${}`).
-
-
-``` bash
-# bad -- no spaces are allowed!
-a = "some"
-# good
-a="some"
-
-# references a
-echo a
-echo $a
-echo "The value of a is $a"
-
-# curly braces are for avoiding ambiguity
-echo "I am printing $athing"
-echo "I am printing ${a}thing"
-```
-
-???
-
-Remember the command structure: `a = 12` gets interpreted as "run command 
-`a` with options `=` and `12`".
-
----
-
 
 ## File permissions
 
@@ -558,14 +528,7 @@ __Editing text__
 
 ---
 
-## Installing Vim
 
-If vim is not pre-installed, here are some example installation instructions:
-
-* On Debian-based systems (e.g., Ubuntu): `sudo apt-get install vim`
-* On macOS (using Homebrew): `brew install vim`
-
----
 
 ## Group exercise
 
