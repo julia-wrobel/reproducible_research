@@ -2,8 +2,7 @@
 title: "Project organization"
 output:
   html_document: 
-    toc: true
-    toc_float: true
+    css: custom_test.css
 ---
 
 ```{r, echo = FALSE, message = FALSE}
@@ -26,11 +25,60 @@ theme_set(theme_bw() + theme(legend.position = "bottom"))
 
 
 
-## Slide Deck
+## Slides
 
 <iframe src="slides/cl_slides.html" width="800" height="600" allowfullscreen = "true"></iframe>
 
-## Breakout exercises
+## Exercise 1
+
+Perform the following tasks (independently). You make speak with your neighbors for advice, but we will be using this folder for the rest of the lecture so please set up your own folder.
+
+1. Use `projectr::proj_start()` to initiate a new project called `20240722_YOURNAME_sismid`.   Use the argument `data_dir = NULL`. Where is your data being stored?
+2. Using the terminal, set up a symbolic link for where you will store data for this course that points to `20240722_YOURNAME_sismid/data`.
+
+
+
+<button type="button" class="collapsible">View solution</button>
+<div class="content">
+
+Set up the project directory structure.
+
+```{r, exercise1, eval = FALSE}
+## set up a new project
+# devtools::install_github("julia-wrobel/projectr")
+library(projectr)
+
+
+# Setting up a folder without a symbolic link to the data subfolder
+projectr::proj_start(proj_dir = "~/icloud/Documents/projects/2024/202407_wrobel_sismid", 
+                     data_dir = NULL) 
+
+```
+
+
+Set a symbolic link by opening a Terminal window and executing code like the following. Note that I am storing my data in a folder on OneDrive and you may want to store yours elsewhere.
+
+```{bash, eval = FALSE}
+ln -s "~/onedrive/Data/2024/202407_wrobel_sismid"  "~/projects/2024/202407_wrobel_sismid/data" 
+```
+
+Note that if you use the `data_dir` argument of `projectr::proj_start()`  you can set up the symbolic link automatically:
+
+```{r}
+
+# Setting up a folder WITH a symbolic link to the data subfolder
+projectr::proj_start(proj_dir = "~/icloud/Documents/projects/2024/202407_wrobel_sismid", 
+                     data_dir = "~/onedrive/Data/2024/202407_wrobel_sismid") 
+```
+
+
+</div>
 
 
 ## Additional reading
+
+* [Jenny Bryan and James Hester's chapter on project-oriented workflow](https://rstats.wtf/project-oriented-workflow.html)
+* [My version of projectr package on Github](https://github.com/julia-wrobel/projectr)
+
+
+<script language="JavaScript" src="custom_js.js"></script>

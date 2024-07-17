@@ -1,40 +1,26 @@
 ---
 title: "Project organization"
-author: "Julia Wrobel and David Benkeser"
-institute: "Emory University"
-start: "0:0:0"
+author: "Hitchhiker's Guide to Reproducible Research <br> <span style = 'font-size: 75%;'> Julia Wrobel and David Benkeser  </span>"
+date: '<br> `r icons::icon_style(icons::fontawesome("link"), fill = '#ffffff')` [.white[Course Website]](https://bit.ly/sismid_hitchhikers)'
 output:
   xaringan::moon_reader:
     css: xaringan-themer.css
     nature:
       titleSlideClass: ["left", "middle", "inverse"]
-      highlightStyle: tomorrow-night-blue
-      highlightLanguage: bash
 ---
-
 
 ```{r xaringan-themer, include=FALSE, warning=FALSE}
 library(xaringanthemer)
-# define a class for a block of text with mono spaced print
 extra_css <- list(
-  ".monobox" = list(
-    display = "inline-block", 
-    width = "90%",
-    height = "400px",
-    padding = "5px",
-    border = "1px solid #012169",
-    `background-color` = "#d9d9d6",
-    `font-family` = "Courier Prime",
-    `align-items` = "left",
-    `vertical-align` = "middle"
-  ),
-  ".small" =  list(`font-size` = "80%"),
-  ".large" =  list(`font-size` = "150%"),
-  "ul li" = list(`margin-bottom` = "10px"),
-  ".red" = list(color = "#da291c",
-                `font-weight` = "600"),
-  "a" = list(color = "#007dba"),
-  "a:hover" = list("text-decoration" = "underline")
+    "ul" = list(`margin-bottom` = "0.5em",
+      `margin-top` = "0.5em"),
+  	"p" = list(`margin-bottom` = "0.25em"),
+	"ul li" = list(`margin-bottom` = "10px"),
+	"a" = list(color = "#007dba"),
+	"a:hover" = list("text-decoration" = "underline"),
+	".green" = list(color = "#348338"),
+	".red" = list(color = "#da291c"),
+  ".remark-slide-content" = list(`font-size` = "24px")
 )
 
 style_mono_accent(
@@ -47,9 +33,10 @@ style_mono_accent(
 ```
 <style type="text/css">
 .remark-slide-content {
-    font-size: 22px
+    font-size: 24px
 }
 </style>
+
 
 
 ### Basic principles
@@ -57,7 +44,7 @@ style_mono_accent(
 * .red[Put everything in one version-controlled directory.]
 * Develop your own system. 
 * Be consistent, but look for ways to improve.
-  * naming conventions, file structure, `make` structure
+  * naming conventions, file structure
 * Raw data are sacred. Keep them separate from everything else. 
 * Separate code and data.
 * Use `make` files and/or READMEs to document dependencies.
@@ -65,7 +52,7 @@ style_mono_accent(
 * Use meaningful file names.
 * Use YYYY-MM-DD date formatting.
 * .red[No absolute paths.]
-* .red[Use a package management system.]
+
 
 ???
 
@@ -87,6 +74,8 @@ class: title-slide, center, inverse, middle
 
 This is as much for preserving your own sanity as it is about being reproducible (though it is about that too). There's a (big) upfront cost here, but in the end it is worth it. 
 
+Have sympathy for your future self!
+
 ---
 
 ### What to organize?
@@ -104,7 +93,7 @@ The systems should adhere to the same general principles, but different requirem
 
 Thinking about project organization from the outset is the most important thing. Map out (e.g., as comments in a README) how you see the project developing. Even if things change over time, it's good to have a structure in place from the beginning. 
 
-This pertains to project directories in particular, but also to your hard drive in general. I made the mistake of organizing projects by institution (UW, Berkeley, Emory), but am now regretting that. What about projects that weren't finished when I got to Emory? What about projects that I continued developing once I got here. It's a mess. Don't be like me. 
+This pertains to project directories in particular, but also to your hard drive in general. What about projects that weren't finished when I got to Emory? What about projects that I continued developing once I got here. It's a mess. Don't be like me. 
 
 ---
 
@@ -134,7 +123,69 @@ If working on a shared GitHub repo, keep open lines of communication, e.g., shor
 
 ---
 
-### Example data analysis project
+
+### Example data analysis project (Julia)
+
+.code-box[
+YYYY_MM_PI_topic/ <br>
+&nbsp;&nbsp;&nbsp; data/ <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; data/raw_data.csv <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; data/tidied_data.csv <br>
+&nbsp;&nbsp;&nbsp; analysis/ <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; analysis/exploratory_data_analysis.Rmd <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; analysis/modeling.Rmd <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; analysis/manuscript_figures.Rmd <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; analysis/report.Rmd <br>
+&nbsp;&nbsp;&nbsp; source/ <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; source/clean_raw_data.R <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; source/modeling_functions.R <br>
+&nbsp;&nbsp;&nbsp; results/ <br>
+&nbsp;&nbsp;&nbsp; literature/ <br>
+&nbsp;&nbsp;&nbsp; README.md <br>
+]
+
+???
+This is MY process. You'll see on the next slide David's process. We are different, were trained differently. There are some things from David's process that I have learned from putting these slides together that I like, and will adopt in the future.
+
+Goal is to find a workflow that will be AS EASY AS POSSIBLE FOR YOU TO ADOPT AND MAINTAIN IN THE LONG TERM.
+
+Also, the files I need for a methods project versus a more applied project may be very different
+
+Some notes:
+* separate raw data and processed data
+* separate folder for figures (could possible move R code for figures there)
+* `sandbox` is where I like to keep messy stuff that I'm trying out but never want to see the light of day
+* informative file names for `R` scripts broken down into logical steps of a workflow
+* `.gitignore` would include
+  * definitely: `figs/*`, `ref_papers/*`
+  * possibly: `raw_data`/`data` (if sensitive), `sandbox` (if informal)
+
+The `00`, `01`, ... number system is something that many people use because it helps create a sortable file system. It generally works, but some workflows don't really logically follow this sort of convention (e.g., things can happen in parallel).  
+
+---
+
+### Example data analysis project, cont'd (Julia)
+
+I typically have other ancillary files in my root directory as well. These are files I don't (often) modify but are important for workflow or reproducibility:
+
+.code-box[
+YYYY_MM_PI_topic/ <br>
+&nbsp;&nbsp;&nbsp; YYYY_MM_PI_topic.Rproj <br>
+&nbsp;&nbsp;&nbsp; .git <br>
+&nbsp;&nbsp;&nbsp; .gitignore <br>
+]
+
+???
+
+* `.gitignore` would include
+  * definitely: `figs/*`, `ref_papers/*`
+  * possibly: `raw_data`/`data` (if sensitive), `sandbox` (if informal)
+  
+  
+---
+
+
+### Example data analysis project (David)
 
 .code-box[
 analysis/ <br>
@@ -185,10 +236,8 @@ paper/ <br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; sim/helper_functions.R <br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; sim/sim_script.R <br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; sim/run_sim_script.sh <br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; sim/sandbox <br>
 &nbsp;&nbsp;&nbsp; figs/ <br>
 &nbsp;&nbsp;&nbsp; notes/ <br>
-&nbsp;&nbsp;&nbsp; ref_papers/ <br>
 &nbsp;&nbsp;&nbsp; submitted/ <br>
 &nbsp;&nbsp;&nbsp; revision/ <br>
 &nbsp;&nbsp;&nbsp; final/ <br>
@@ -209,6 +258,8 @@ Some notes:
 * `submitted` might include the compiled pdf that was submitted to the journal and a README that indicates which commit contained the submitted version of the repo. Similar story for `revision` and `final`. 
 * LaTeX produces lots of ugly files when it compiles documents (`.aux`, `.bbl`), in your `make paper` statement, remove those at the end.
 
+
+I don't always have a separate paper repo, but you can.
 --- 
 
 ### Example talk organization
@@ -233,11 +284,6 @@ Depending on how often you give a talk, you might consider:
 
 ---
 
-### Example class organization
-
-See the [class GitHub repository](https://github.com/benkeser/info550)!
-
----
 
 ### Organizing data
 
@@ -256,6 +302,7 @@ The generation of the raw data may be the one thing out of your control in an an
 
 This can be painful. For many projects, 90% of time might be devoted to wrangling raw data into a format that is usable. Save yourself from the danger of having to re-do all those painful bits when (not if) the data change.
 
+You should be able to get a new version of the data and easily re-run your analysis. Urge your collaborators to not mess with the structure of the data in between versions.
 ---
 
 ### Organizing data
@@ -275,12 +322,6 @@ Hadley Wickham [defined the notion of tidy data](https://doi.org/10.18637/jss.v0
 | 3    | 1   | 34  | 0    | 0   |
 | 3    | 2   | 34  | -    | 1   |
 ]
-
-???
-
-I am asking you to read this paper for homework. It's a worthwhile read. Hadley's packages like `dplyr` are very useful if you want to take the time to learn them. I probably should do that myself one day...
-
----
 
 ### Exploring data
 
@@ -323,16 +364,116 @@ From the outset, stop and think about what you want to do. Start filling in deta
 ### Exploring data
 
 Other helpful ideas for formalizing exploratory data analysis:
-* `.Rhistory` files
-  * all the commands used in an R session
 * Informal `.Rmd` documents. 
   * easy way to organize code/comments into readable format
+* `.Rhistory` files
+  * all the commands used in an R session
 * `save` intermediate objects and workspaces
   * and document what they contain! 
 * `knitr::spin` 
   * writing `.R` scripts with rendered-able comments 
 
 ---
+
+
+### Automated project initiation using `projectr` 
+
+The `projectr` package sets my preferred directory structure for a new project.
+* Borrowed *heavily* from `jeff-goldsmith/projectr`.
+  
+```{r, eval = FALSE}
+devtools::install_github("julia-wrobel/projectr")
+
+projectr::proj_start(proj_dir = "~/projects/2024/202407_PERSON_PROJECT", 
+                     data_dir = "~/Data/202407_data")
+```
+
+
+
+__proj_dir__: where on your computer you want the project to live
+* *~Documents/projects/2024/* is where I store new projects
+* Whatever you decide, be consistent!
+
+__data_dir__: where the data to live, if not within your project folder
+* Sets up a symbolic link from the project directory to this folder
+
+???
+Talk about choosing where your main file and your data files should live. This should lead us to symbolic links
+
+---
+
+
+### Symbolic links
+
+There are great reasons NOT to put your raw data in the project folder
+* iOS uploads many folders automatically to the cloud
+* if you want to put the project on GitHub, you might want to exclude the data
+* maybe data is stored on OneDrive/Box/AWS and you don't want to download a local copy
+
+<img src="figures/projectr_example.png" style="width:105%">
+
+???
+A symbolic link is basically just the Unix name for a shortcut. It allows the data to be accessed through the project directory data subfolder, even if the data is actually stored somewhere else.
+
+---
+
+### Setting up a symbolic link in the terminal
+
+Pseudo code for setting up a symbolic link:
+
+```{bash, eval = FALSE}
+ln -s /path/to/target /path/to/symlink
+```
+
+
+
+???
+Knowing how to use the terminal will already come in handy! I've needed to set these up by hand a couple of times. For example, if I change the location of my data or if I get a new computer with a different username, which breaks the symbolic link
+---
+
+### .Rproj files
+
+You may have noticed a file with the extension `.Rproj` in the productTesting folder
+* These are called `R projects` 
+* `projectr::proj_start()` automatically sets up an `.Rproj`.
+<img src="figures/Rproj_example.png" style="width:105%">
+
+I'm going to try to convince you that these are the best.
+
+---
+
+
+### Benefits of using R projects
+
+__Project organization__: 
+* Keeps all related files (scripts, data, outputs) in a dedicated project folder
+* Relative file paths: ensures file paths are relative to the project directory, making scripts portable and easier to share.
+* Separate workspaces: prevents conflicts between variables and packages across different projects.
+
+
+__Reproducibility__
+* Can hand off entire directory to someone else and have them rerun your analysis
+* Works great with the `here` package
+
+Double clicking the `202405_sarah_productTesting.Rproj` opens up an R Studio session and automatically sets your working directory to the `202405_sarah_productTesting` folder.
+
+
+???
+We will get to the here package in a bit.
+---
+
+### Exercise 1
+
+Perform the following tasks (independently). You make speak with your neighbors for advice, but we will be using this folder for the rest of the lecture so please set up your own folder.
+
+1. Use `projectr::proj_start()` to initiate a new project called `20240722_YOURNAME_sismid`.   Use the argument `data_dir = NULL`. Where is your data being stored?
+2. Using the terminal, set up a symbolic link for where you will store data for this course that points to `20240722_YOURNAME_sismid/data`.
+3. 
+
+
+---
+
+
 
 ### The `here` package
 
@@ -410,3 +551,5 @@ The call to `i_am` establishes the __root directory__.
 For example, `my_analysis.R` might look like this.
 
 ````
+
+
