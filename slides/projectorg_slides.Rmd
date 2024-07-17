@@ -468,7 +468,56 @@ Perform the following tasks (independently). You make speak with your neighbors 
 
 1. Use `projectr::proj_start()` to initiate a new project called `20240722_YOURNAME_sismid`.   Use the argument `data_dir = NULL`. Where is your data being stored?
 2. Using the terminal, set up a symbolic link for where you will store data for this course that points to `20240722_YOURNAME_sismid/data`.
-3. 
+3. Download the [data processing script](scripts/01_data_download.R) and save it in the `source` folder of your new project directory as `01_data_download.R`.
+4. Make an Rmarkdown document that knits to html called `build_analysis.Rmd` and put it in the `analysis` folder of your project directory. 
+
+---
+
+### Exercise 1 cont'd
+
+The `01_data_download.R` script should look like this:
+
+```{r, eval = FALSE}
+library("RSocrata")
+library(tidyverse)
+
+# download longitudinal Covid WW concentration data from API
+covid <- read.socrata(
+  "https://data.cdc.gov/resource/g653-rqe2.json",
+  app_token = Sys.getenv("TOKEN"),
+  email     = Sys.getenv("EMAIL"),
+  password  = Sys.getenv("PASSWORD")
+) %>%
+  mutate(date_downloaded = Sys.Date())
+
+# download cross-sectional Covid WW concentration data from API, which will be used to get county names
+counties <- read.socrata(
+  "https://data.cdc.gov/resource/2ew6-ywp6.json",
+  app_token = Sys.getenv("TOKEN"),
+  email     = Sys.getenv("EMAIL"),
+  password  = Sys.getenv("PASSWORD")
+)
+
+## save intermediate data object and data data was accessed
+save(covid, counties, file = here::here("data", "raw.Rdata"))
+```
+
+
+---
+
+
+### .Renviron files
+
+In the previous slide you may have noticed code you may not be familiar with:
+
+```{r, eval = FALSE}
+counties <- read.socrata(
+  "https://data.cdc.gov/resource/2ew6-ywp6.json",
+  app_token = Sys.getenv("TOKEN"),
+  email     = Sys.getenv("EMAIL"),
+  password  = Sys.getenv("PASSWORD")
+)
+```
 
 
 ---

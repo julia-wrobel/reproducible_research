@@ -35,6 +35,8 @@ Perform the following tasks (independently). You make speak with your neighbors 
 
 1. Use `projectr::proj_start()` to initiate a new project called `20240722_YOURNAME_sismid`.   Use the argument `data_dir = NULL`. Where is your data being stored?
 2. Using the terminal, set up a symbolic link for where you will store data for this course that points to `20240722_YOURNAME_sismid/data`.
+3. Download the [data processing script](scripts/01_data_download.R) and save it in the `source` folder of your new project directory as `01_data_download.R`.
+4. Make an Rmarkdown document that knits to html called `build_analysis.Rmd` and put it in the `analysis` folder of your project directory.
 
 
 
@@ -64,12 +66,47 @@ ln -s "~/onedrive/Data/2024/202407_wrobel_sismid"  "~/projects/2024/202407_wrobe
 
 Note that if you use the `data_dir` argument of `projectr::proj_start()`  you can set up the symbolic link automatically:
 
-```{r}
+```{r, eval = FALSE}
 
 # Setting up a folder WITH a symbolic link to the data subfolder
 projectr::proj_start(proj_dir = "~/icloud/Documents/projects/2024/202407_wrobel_sismid", 
                      data_dir = "~/onedrive/Data/2024/202407_wrobel_sismid") 
 ```
+
+Next, open the new project by double clicking the `.Rproj` icon. This will open up a new Rstudio session with the working director set to that project folder. It will also set the working directory of the terminal tab to that folder.
+
+It would be fine to copy/paste the code for `01_data_download.R` and saving it via point and click, but you can also do this using tools from the command line module by entering the following into the terminal:
+
+
+
+```{bash, eval = FALSE}
+echo '# install.packages("RSocrata")
+library("RSocrata")
+library(tidyverse)
+
+# download longitudinal Covid WW concentration data from API
+covid <- read.socrata(
+  "https://data.cdc.gov/resource/g653-rqe2.json",
+  app_token = Sys.getenv("TOKEN"),
+  email     = Sys.getenv("EMAIL"),
+  password  = Sys.getenv("PASSWORD")
+) %>%
+  mutate(date_downloaded = Sys.Date())
+
+
+# download cross-sectional Covid WW concentration data from API, which will be used to get county names
+counties <- read.socrata(
+  "https://data.cdc.gov/resource/2ew6-ywp6.json",
+  app_token = Sys.getenv("TOKEN"),
+  email     = Sys.getenv("EMAIL"),
+  password  = Sys.getenv("PASSWORD")
+)
+
+
+## save intermediate data object and data data was accessed
+save(covid, counties, file = here::here("data", "raw.Rdata"))' > source/01_data_download.R
+```
+
 
 
 </div>
@@ -78,6 +115,7 @@ projectr::proj_start(proj_dir = "~/icloud/Documents/projects/2024/202407_wrobel_
 ## Additional reading
 
 * [Jenny Bryan and James Hester's chapter on project-oriented workflow](https://rstats.wtf/project-oriented-workflow.html)
+* [Hadley Wickham on R Projects](https://r4ds.had.co.nz/workflow-projects.html)
 * [My version of projectr package on Github](https://github.com/julia-wrobel/projectr)
 
 
