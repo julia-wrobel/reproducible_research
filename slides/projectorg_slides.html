@@ -399,13 +399,6 @@ Talk about choosing where your main file and your data files should live. This s
 
 ---
 
-### Built-in `projectr` Rmd template
-
-
-In Rstudio, click `File &gt; New File &gt; Rmarkdown`                               
-
-
-&lt;img src="figures/template.png" style="width:95%"&gt;
 
 ### Symbolic links
 
@@ -434,6 +427,16 @@ ln -s /path/to/target /path/to/symlink
 
 ???
 Knowing how to use the terminal will already come in handy! I've needed to set these up by hand a couple of times. For example, if I change the location of my data or if I get a new computer with a different username, which breaks the symbolic link
+---
+
+### Built-in `projectr` Rmd template
+
+
+In Rstudio, click `File &gt; New File &gt; Rmarkdown`                               
+
+
+&lt;img src="figures/template.png" style="width:65%"&gt;
+
 ---
 
 ### .Rproj files
@@ -470,13 +473,11 @@ For now, show off the use of R projects!
 
 ### Exercise 1
 
-Perform the following tasks (independently). You make speak with your neighbors for advice, but we will be using this folder for the rest of the lecture so please set up your own folder.
+We will walk through the following tasks together. We will be using this folder for the rest of the course so please set up your own folder as we go, and ask questions if you get lost!
 
-1. Use `projectr::proj_start()` to initiate a new project called `20240722_YOURNAME_sismid`.   Use the argument `data_dir = NULL`. Where is your data being stored?
-2. Using the terminal, set up a symbolic link for where you will store data for this course that points to `20240722_YOURNAME_sismid/data`.
-3. Download the [data processing script](scripts/01_data_download.R) and save it in the `source` folder of your new project directory as `01_data_download.R`.
-4. Make an Rmarkdown document that knits to html called `build_analysis.Rmd` and put it in the `analysis` folder of your project directory. 
-
+1. Use `projectr::proj_start()` to initiate a new project called `20240722_sismid_repro`.   Set up a directory in a separate location using the argument `data_dir`.
+2. Download the [data download script](scripts/01_data_download.R) and save it in the `source` folder of your new project directory as `01_data_download.R`.
+3. Make an Rmarkdown document that knits to html called `build_analysis.Rmd` and put it in the `analysis` folder of your project directory.
 ---
 
 ### Exercise 1 cont'd
@@ -527,10 +528,31 @@ counties &lt;- read.socrata(
 )
 ```
 
+.Renviron files set environment variables in R that you might not want to hard code into your scripts (e.g. API keys, passwords).
+* Store in root directory of your project
+* Syntax is `variable_name = "variable value"`, e.g. `TOKEN = "12345abc"`.
+  * Access this variable using `Sys.getenv("TOKEN")`.
+
+???
+By using a .Renviron file, you can keep sensitive information and configuration settings out of your scripts, making your code more secure and easier to manage.
+---
+
+### .gitignore files
+
+A `.gitignore` file in Git is used to specify which files and directories should be ignored by Git when you make changes to a repository. This helps prevent unnecessary or sensitive files from being tracked and committed.
+* `projectr::proj_start()` automatically creates a `.gitignore` file and puts it in your root directory
+* ALWAYS put `.Renviron` in the `.gitignore` file if you want your API token and password to stay private!
+
+
+David will go over `.gitignore` files in more detail later when he talks about __git__ and __GitHub__.
 
 ---
 
+### Try it!
 
+Let's walk through `Example 2`, which adds an .Renviron file.
+
+---
 
 ### The `here` package
 
@@ -540,7 +562,7 @@ counties &lt;- read.socrata(
 For `R` projects, the [`here`](https://here.r-lib.org/) package provides a simple way to use relative file paths.
 * Read [Jenny Bryan and James Hester's chapter](https://rstats.wtf/project-oriented-workflow.html) on project-oriented work-flows.
 
-The use of `here` is dead-simple and best illustrated by example.
+The use of `here` is simple and best illustrated by example.
 
 ---
 
@@ -550,6 +572,7 @@ Consider this simple project structure.
 
 .code-box[
 my_project/ &lt;br&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp; my_project.Rproj &lt;br&gt;
 &amp;nbsp;&amp;nbsp;&amp;nbsp; data/ &lt;br&gt;
 &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; my_data.csv &lt;br&gt;
 &amp;nbsp;&amp;nbsp;&amp;nbsp; output/ &lt;br&gt;
@@ -560,12 +583,81 @@ my_project/ &lt;br&gt;
 ]
 
 Here, the folder `my_project` is the __root directory__.
-* Where `.git` lives
+* Where `.Rproj` lives
 * All file paths should be .green[relative] to `my_project`!
 
 ---
 
 ### The `here` package
+
+Makes it easy to load data using a relative file path that works across different operating systems: 
+
+
+``` rm
+library(here)
+my_data = read.csv(here("data", "file_i_want.csv"))
+```
+
+In contrast to:
+
+
+``` r
+# absolute path
+ugly_path = "/Users/JWROB/projects/my_project/data/file_i_want.csv"
+my_data = read.csv(ugly_path)
+```
+
+In contrast to:
+
+
+``` r
+relative_path = "./data/file_i_want.csv"
+my_data = read.csv(relative_path)
+```
+
+
+???
+The relative path is better, but still not reproducible across different OS. I want to be able to hand you my project folder and have you run it without having to change a single thing.
+---
+
+### The `here` package
+
+`here` works, regardless of where the associated source file lives inside your project
+* If you have an `.Rproj` file in your root directory of your project, here will set the location of the `.Rproj` to be the top-level directory 
+  * This is the behavior we want!
+* I am oversimplifying the heuristics, feel free to [read more](https://github.com/jennybc/here_here?tab=readme-ov-file).
+
+---
+
+### The `here` package
+
+What if I want to load data in a document that lives in a subfolder such as `my_project/analysis/code.Rmd`?
+* Doesn't matter! You can use the same code within the `.Rmd` document to load the data
+
+``` r
+library(here)
+path_to_data = here("data", "file_i_want.csv")
+my_data = read.csv(path_to_data)
+```
+
+
+What if my data I want to access is nested in a subfolder of data, such as `my_project\data\raw_data\raw_file.csv`?
+
+
+``` r
+library(here)
+path_to_data = here("data", "raw_data", "raw_file.csv")
+my_data = read.csv(path_to_data)
+```
+
+???
+It's not only data you can access this way, but this is the most common use case.
+---
+
+### The `here` package
+
+If for some reason you don't use R projects (even though you should), you can still benefit from the `here` package.
+
 
 Each `R` script or `Rmd` report, should contain a call to `here::i_am('path/to/this/file')` at the top.
 * `path/to/this/file` should be replaced with the path .green[relative] to the project's __root directory__.
@@ -573,42 +665,15 @@ Each `R` script or `Rmd` report, should contain a call to `here::i_am('path/to/t
 
 For example, the file `R/my_analysis.R` might look like this.
 
-````
+
+``` r
 # include at top of script
 here::i_am('R/my_analysis.R')
 
 # now add all your great R code...
-````
-
----
-
-### The `here` package
-
-`Rmd/my_report.Rmd` should include an `R` chunk that calls `i_am`.
-
-````
----
-output: html_document
----
-
-```{r}
-here::i_am('Rmd/my_report.Rmd')
 ```
 
-&lt;!-- Now the rest of your Rmd code --&gt;
-````
-
 ---
-
-### The `here` package
-
-The call to `i_am` establishes the __root directory__.
-* Subsequent file paths can be made using the `here` function.
-
-For example, `my_analysis.R` might look like this.
-
-````
-
 
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>

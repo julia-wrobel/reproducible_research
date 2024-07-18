@@ -33,6 +33,7 @@ knitr::opts_chunk$set(
 Sign up for an API token and write code to download the longitudinal and cross-sectional Covid19 wastewater datasets using your token.
 
 * [get your API token here](https://data.cdc.gov/profile/edit/developer_settings)
+  * Save the value of your token somewhere, along with the email and password you used to sign up for the token! We will be using these later.
 * [longitudinal data info page](https://data.cdc.gov/Public-Health-Surveillance/NWSS-Public-SARS-CoV-2-Concentration-in-Wastewater/g653-rqe2/about_data)
 * [cross-sectional data info page](https://data.cdc.gov/Public-Health-Surveillance/NWSS-Public-SARS-CoV-2-Wastewater-Metric-Data/2ew6-ywp6/about_data)
 

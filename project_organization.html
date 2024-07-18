@@ -324,54 +324,34 @@ $(document).ready(function () {
 <iframe src="slides/cl_slides.html" width="800" height="600" allowfullscreen="true">
 </iframe>
 </div>
-<div id="exercise-1" class="section level2">
-<h2>Exercise 1</h2>
-<p>Perform the following tasks (independently). You make speak with your
-neighbors for advice, but we will be using this folder for the rest of
-the lecture so please set up your own folder.</p>
+<div id="examples" class="section level2">
+<h2>Examples</h2>
+<div id="example-1-creating-a-new-project" class="section level3">
+<h3>Example 1: creating a new project</h3>
+<p>In this exercise we will create a new project that will be used
+throughout the rest of this course. I highly encourage you to follow
+along with me.</p>
 <ol style="list-style-type: decimal">
 <li>Use <code>projectr::proj_start()</code> to initiate a new project
-called <code>20240722_YOURNAME_sismid</code>. Use the argument
-<code>data_dir = NULL</code>. Where is your data being stored?</li>
-<li>Using the terminal, set up a symbolic link for where you will store
-data for this course that points to
-<code>20240722_YOURNAME_sismid/data</code>.</li>
-<li>Download the <a href="scripts/01_data_download.R">data processing
-script</a> and save it in the <code>source</code> folder of your new
-project directory as <code>01_data_download.R</code>.</li>
-<li>Make an Rmarkdown document that knits to html called
-<code>build_analysis.Rmd</code> and put it in the <code>analysis</code>
-folder of your project directory.</li>
+called <code>20240722_sismid_repro</code>. Set up a directory in a
+separate location using the argument <code>data_dir</code>. I typically
+store my data on OneDrive, but the idea is to put it in a secure
+location.</li>
 </ol>
-<button type="button" class="collapsible">
-View solution
-</button>
-<div class="content">
-<p>Set up the project directory structure.</p>
-<pre class="r"><code>## set up a new project
-# devtools::install_github(&quot;julia-wrobel/projectr&quot;)
-library(projectr)
-
-
-# Setting up a folder without a symbolic link to the data subfolder
-projectr::proj_start(proj_dir = &quot;~/icloud/Documents/projects/2024/202407_wrobel_sismid&quot;, 
-                     data_dir = NULL) 
-</code></pre>
-<p>Set a symbolic link by opening a Terminal window and executing code
-like the following. Note that I am storing my data in a folder on
-OneDrive and you may want to store yours elsewhere.</p>
-<pre class="bash"><code>ln -s &quot;~/onedrive/Data/2024/202407_wrobel_sismid&quot;  &quot;~/projects/2024/202407_wrobel_sismid/data&quot; </code></pre>
-<p>Note that if you use the <code>data_dir</code> argument of
-<code>projectr::proj_start()</code> you can set up the symbolic link
-automatically:</p>
+<p><strong>Run the following code in R</strong></p>
 <pre class="r"><code>
 # Setting up a folder WITH a symbolic link to the data subfolder
-projectr::proj_start(proj_dir = &quot;~/icloud/Documents/projects/2024/202407_wrobel_sismid&quot;, 
-                     data_dir = &quot;~/onedrive/Data/2024/202407_wrobel_sismid&quot;) </code></pre>
+projectr::proj_start(proj_dir = &quot;~/icloud/Documents/projects/2024/20240722_sismid_repro&quot;, 
+                     data_dir = &quot;~/onedrive/Data/2024/20240722_sismid_repro&quot;) </code></pre>
 <p>Next, open the new project by double clicking the <code>.Rproj</code>
 icon. This will open up a new Rstudio session with the working director
 set to that project folder. It will also set the working directory of
 the terminal tab to that folder.</p>
+<ol start="2" style="list-style-type: decimal">
+<li>Download the <a href="scripts/01_data_download.R">data download
+script</a> and save it in the <code>source</code> folder of your new
+project directory as <code>01_data_download.R</code>.</li>
+</ol>
 <p>It would be fine to copy/paste the code for
 <code>01_data_download.R</code> and saving it via point and click, but
 you can also do this using tools from the command line module by
@@ -401,6 +381,105 @@ counties &lt;- read.socrata(
 
 ## save intermediate data object and data data was accessed
 save(covid, counties, file = here::here(&quot;data&quot;, &quot;raw.Rdata&quot;))&#39; &gt; source/01_data_download.R</code></pre>
+<p>Check that you have saved this script in the <code>source</code>
+folder.</p>
+<ol start="4" style="list-style-type: decimal">
+<li>Make an Rmarkdown document that knits to html called
+<code>build_analysis.Rmd</code> and put it in the <code>analysis</code>
+folder of your project directory.</li>
+</ol>
+<p><img src="slides/figures/template.png" style="width:50%"></p>
+<p>We will come back to the <code>build_analysis.Rmd</code> document
+later in the lecture.</p>
+</div>
+<div id="example-2-adding-.renviron-variables" class="section level3">
+<h3>Example 2: adding <code>.Renviron</code> variables</h3>
+<ol style="list-style-type: decimal">
+<li>Add a <code>.Renviron</code> file to the root directory of your
+<code>20240722_sismid_repro</code> project folder.</li>
+</ol>
+<p>Open the terminal. I will use the terminal tab of the
+<code>20240722_sismid_repro</code> project. First, check that your
+working directory is <code>20240722_sismid_repro</code>.</p>
+<pre class="bash"><code>pwd</code></pre>
+<p>If you are not in the correct directory use the <code>cd</code>
+command to move into <code>~\20240722_sismid_repro</code>. Next, create
+and open the <code>.Renviron</code> file.</p>
+<pre class="bash"><code>touch .Renviron
+open .Renviron</code></pre>
+<ol start="2" style="list-style-type: decimal">
+<li>Edit the <code>.Renviron</code> file by defining variables called
+TOKEN, EMAIL, an PASSWORD that contain your app token, and email and
+password used to obtain your app token.</li>
+</ol>
+<p>Your edited <code>.Renviron</code> file should look something like
+this:</p>
+<pre class="r"><code>PASSWORD=&quot;password333&quot;
+EMAIL=&quot;julia.wrobel@emory.edu&quot;
+TOKEN=&quot;K1MVpmwDDeefZ0vPuYk2wRN&quot;</code></pre>
+<p>Close your R session and then reopen it by double-clicking
+<code>20240722_sismid_repro</code>. Your environment variables defined
+through <code>.Renviron</code> should now be defined.</p>
+<p>You can check by typing the following into the R console:</p>
+<pre class="r"><code>Sys.getenv(&quot;EMAIL&quot;)
+## [1] &quot;julia.wrobel@emory.edu&quot;</code></pre>
+<p>This should print out your email address.</p>
+<ol start="3" style="list-style-type: decimal">
+<li>Add the <code>.Renviron</code> file to your <code>.gitignore</code>
+file.</li>
+</ol>
+<p>This is not necessary for accessing the environment variables you
+just defined, but will be important for later in the course when we
+start using git and GitHub. <strong>You do not want to accidentally put
+your .Renviron on GitHub</strong>, and by adding the file to
+<code>.gitignore</code> we can avoid this mistake.</p>
+<p>To do this, go to your terminal and execute the following two lines
+of code:</p>
+<pre class="bash"><code>echo &quot;&quot; &gt;&gt; .gitignore # ensures you are writing on a new line
+echo &quot;.Renviron&quot; &gt;&gt; .gitignore</code></pre>
+<p>Alternatively, you can just open the .gitignore file and add
+<code>.Renviron</code> on a new line. Sometimes I find this to be
+simpler.</p>
+<ol start="4" style="list-style-type: decimal">
+<li>Check that the code in your <code>01_data_download.R</code> file
+will run.</li>
+</ol>
+<p>Let’s do a sanity check to make sure that the environment variables
+are set up correctly. Open up the <code>01_data_download.R</code> file,
+and try running the code. If it works, you are all set!</p>
+</div>
+</div>
+<div id="breakout-exercises" class="section level2">
+<h2>Breakout exercises</h2>
+<div id="exercise-1" class="section level3">
+<h3>Exercise 1</h3>
+<ol style="list-style-type: decimal">
+<li>Use <code>projectr::proj_start()</code> to initiate a new project
+called <code>20240722_YOURNAME_sismid</code>. Use the argument
+<code>data_dir = NULL</code>. Where is your data being stored?</li>
+<li>Using the terminal, set up a symbolic link for where you will store
+data for this course that points to
+<code>20240722_YOURNAME_sismid/data</code>.</li>
+</ol>
+<button type="button" class="collapsible">
+View solution
+</button>
+<div class="content">
+<p>Set up the project directory structure.</p>
+<pre class="r"><code>## set up a new project
+# devtools::install_github(&quot;julia-wrobel/projectr&quot;)
+library(projectr)
+
+
+# Setting up a folder without a symbolic link to the data subfolder
+projectr::proj_start(proj_dir = &quot;~/icloud/Documents/projects/2024/202407_wrobel_sismid&quot;, 
+                     data_dir = NULL) 
+</code></pre>
+<p>Set a symbolic link by opening a Terminal window and executing code
+like the following. Note that I am storing my data in a folder on
+OneDrive and you may want to store yours elsewhere.</p>
+<pre class="bash"><code>ln -s &quot;~/onedrive/Data/2024/202407_wrobel_sismid&quot;  &quot;~/projects/2024/202407_wrobel_sismid/data&quot; </code></pre>
+</div>
 </div>
 </div>
 <div id="additional-reading" class="section level2">
