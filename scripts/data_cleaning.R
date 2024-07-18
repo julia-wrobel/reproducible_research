@@ -1,15 +1,15 @@
 load(here::here("Data", "raw.Rdata"))
 
-# grab only observations from Georgia
-# per CDC website first column is actually 4 columns, split back into 4 columns
+# set up a variable to define which state you want to analyze
+state = "ga"
+
+# grab only observations from the specified state
 covid = covid %>%
-  filter(grepl("ga", key_plot_id)) #%>%
-  #separate(key_plot_id, into = c("wwtp_jurisdiction", "wwtp_id", "wwtp_id", "sample_location", "sample_matrix"), sep = "_")
+  filter(grepl("ga", key_plot_id))
 
 
 # only include columns from counties dataset we are interested in
 # wwtp_id is wastewater treatment plant id
-# https://data.cdc.gov/Public-Health-Surveillance/NWSS-Public-SARS-CoV-2-Wastewater-Metric-Data/2ew6-ywp6/about_data
 # county_fips is FIPS code for all counties served by this site
 counties = counties %>%
   select(key_plot_id, wwtp_id, county = county_names, county_fips, population_served) %>%

@@ -151,6 +151,7 @@ Let's do a sanity check to make sure that the environment variables are set up c
 
 ### Example 3
 
+https://data.cdc.gov/Public-Health-Surveillance/NWSS-Public-SARS-CoV-2-Wastewater-Metric-Data/2ew6-ywp6/about_data
 
 ## Breakout exercises
 

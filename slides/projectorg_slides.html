@@ -625,8 +625,12 @@ The relative path is better, but still not reproducible across different OS. I w
 `here` works, regardless of where the associated source file lives inside your project
 * If you have an `.Rproj` file in your root directory of your project, here will set the location of the `.Rproj` to be the top-level directory 
   * This is the behavior we want!
+* These paths will “just work” during interactive development, without incessant fiddling with the working directory of your IDE’s R process.    
 * I am oversimplifying the heuristics, feel free to [read more](https://github.com/jennybc/here_here?tab=readme-ov-file).
 
+
+???
+Raise your hand if you've ever gotten frustrated while interactively coding and the working directory is different from where your Rmarkdown lives... here has changed my life so much that I forgot that can even happen.
 ---
 
 ### The `here` package
@@ -675,6 +679,98 @@ here::i_am('R/my_analysis.R')
 
 ---
 
+### Starting a new analysis
+
+Once I've received data and decided to start an analysis, I'll typically follow these steps first:
+
+1. .gray[Set up a new project directory using `projectr::proj_start()`]
+2. .green[Open and do very basic exploration of the raw data]
+  * How many rows and columns do I have?
+  * Is the data in the format I need for analysis?
+3. .green[Make sure I understand the columns in my data.]
+  * If a data dictionary doesn't exist, I create one
+4. .green[Make a data cleaning file that reads in the raw data and outputs a tidied dataset]
+  * Typically reduces data to only information necessary for the planned analysis
+
+
+
+---
+
+### Analysis of Covid WW concentration data
+
+We are interesting in analyzing wastewater concentration of SARS-CoV-2 over time at the county level. We will start with only counties in Georgia.
+
+Longitudinal data contains concentrations over time, and cross-sectional data contains information about county each data collection site is located in.
+* We will need to merge these two datasets
+* We also want to subset to collection sites in Georgia only
+
+
+???
+We will do a very simple analysis.
+---
+
+### Data cleaning
+
+The `01_data_download.R` script should look like this:
+
+
+``` r
+library("RSocrata")
+library(tidyverse)
+
+# download longitudinal Covid WW concentration data from API
+covid &lt;- read.socrata(
+  "https://data.cdc.gov/resource/g653-rqe2.json",
+  app_token = Sys.getenv("TOKEN"),
+  email     = Sys.getenv("EMAIL"),
+  password  = Sys.getenv("PASSWORD")
+) %&gt;%
+  mutate(date_downloaded = Sys.Date())
+
+# download cross-sectional Covid WW concentration data from API, which will be used to get county names
+counties &lt;- read.socrata(
+  "https://data.cdc.gov/resource/2ew6-ywp6.json",
+  app_token = Sys.getenv("TOKEN"),
+  email     = Sys.getenv("EMAIL"),
+  password  = Sys.getenv("PASSWORD")
+)
+
+## save intermediate data object and data data was accessed
+save(covid, counties, file = here::here("data", "raw.Rdata"))
+```
+
+---
+
+
+### Exercise
+
+Data cleaning and EDA. Add code that will make it easier to parameterize report later. Showcase use of the here package, through both a .R and a .Rmd file.
+
+---
+
+### Data analysis
+
+---
+
+
+
+### Data visualization
+
+---
+
+
+### Pulling it all together
+
+
+Very briefly reference make, add resources to end of RMd document.
+---
+
+
+### Parameterized reports
+
+
+
+---
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
