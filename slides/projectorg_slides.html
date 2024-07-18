@@ -505,9 +505,6 @@ counties &lt;- read.socrata(
   email     = Sys.getenv("EMAIL"),
   password  = Sys.getenv("PASSWORD")
 )
-
-## save intermediate data object and data data was accessed
-save(covid, counties, file = here::here("data", "raw.Rdata"))
 ```
 
 
@@ -535,6 +532,8 @@ counties &lt;- read.socrata(
 
 ???
 By using a .Renviron file, you can keep sensitive information and configuration settings out of your scripts, making your code more secure and easier to manage.
+
+Also, apparently the second most popular password people use is their social security number. No!!
 ---
 
 ### .gitignore files
@@ -709,44 +708,17 @@ Longitudinal data contains concentrations over time, and cross-sectional data co
 We will do a very simple analysis.
 ---
 
-### Data cleaning
 
-The `01_data_download.R` script should look like this:
+### Exercise 3
 
+We will walk through this together as well, using the `20240722_sismid_repro` project we set up already.
 
-``` r
-library("RSocrata")
-library(tidyverse)
-
-# download longitudinal Covid WW concentration data from API
-covid &lt;- read.socrata(
-  "https://data.cdc.gov/resource/g653-rqe2.json",
-  app_token = Sys.getenv("TOKEN"),
-  email     = Sys.getenv("EMAIL"),
-  password  = Sys.getenv("PASSWORD")
-) %&gt;%
-  mutate(date_downloaded = Sys.Date())
-
-# download cross-sectional Covid WW concentration data from API, which will be used to get county names
-counties &lt;- read.socrata(
-  "https://data.cdc.gov/resource/2ew6-ywp6.json",
-  app_token = Sys.getenv("TOKEN"),
-  email     = Sys.getenv("EMAIL"),
-  password  = Sys.getenv("PASSWORD")
-)
-
-## save intermediate data object and data data was accessed
-save(covid, counties, file = here::here("data", "raw.Rdata"))
-```
+1. Using the `projectr` template, make an Rmarkdown document called `exploratory_analysis.Rmd` and put it in the `analysis` folder of your project directory. Load and explore the data. Take notes on what you learn. Add in brief descriptions of the key variables.
+2. Download the [data cleaning script](scripts/01_data_cleaning.R) and save it in the `source` folder of your new project directory as `02_data_cleaning.R`.
+3. Open your `build_analysis.Rmd` document and source the data loading and data cleaning files.
 
 ---
 
-
-### Exercise
-
-Data cleaning and EDA. Add code that will make it easier to parameterize report later. Showcase use of the here package, through both a .R and a .Rmd file.
-
----
 
 ### Data analysis
 
