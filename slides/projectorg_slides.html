@@ -477,7 +477,7 @@ We will walk through the following tasks together. We will be using this folder 
 
 1. Use `projectr::proj_start()` to initiate a new project called `20240722_sismid_repro`.   Set up a directory in a separate location using the argument `data_dir`.
 2. Download the [data download script](scripts/01_data_download.R) and save it in the `source` folder of your new project directory as `01_data_download.R`.
-3. Make an Rmarkdown document that knits to html called `build_analysis.Rmd` and put it in the `analysis` folder of your project directory.
+3. Make an Rmarkdown document that knits to html called `final_report.Rmd` and put it in the `analysis` folder of your project directory.
 ---
 
 ### Exercise 1 cont'd
@@ -708,19 +708,24 @@ Longitudinal data contains concentrations over time, and cross-sectional data co
 We will do a very simple analysis.
 ---
 
-
-### Exercise 3
-
-We will walk through this together as well, using the `20240722_sismid_repro` project we set up already.
-
-1. Using the `projectr` template, make an Rmarkdown document called `exploratory_analysis.Rmd` and put it in the `analysis` folder of your project directory. Load and explore the data. Take notes on what you learn. Add in brief descriptions of the key variables.
-2. Download the [data cleaning script](scripts/01_data_cleaning.R) and save it in the `source` folder of your new project directory as `02_data_cleaning.R`.
-3. Open your `build_analysis.Rmd` document and source the data loading and data cleaning files.
-
----
-
-
 ### Data analysis
+
+Using our cleaned data, we will calculate the median and interquartile range of the WW SARS-CoV-2 concentration by county.
+
+
+``` r
+library(tidyverse)
+
+covid %&gt;%
+  group_by(county) %&gt;%
+  summarize(median = median(concentration),
+            q25 = quantile(concentration, probs = .25),
+            q75 = quantile(concentration, probs = .75),
+            population_served = median(population_served)) %&gt;%
+  ungroup() %&gt;%
+  arrange(median)
+```
+
 
 ---
 
@@ -728,21 +733,124 @@ We will walk through this together as well, using the `20240722_sismid_repro` pr
 
 ### Data visualization
 
+Using our cleaned data, we will visualize the concentration by county and over time.
+
+&lt;img src="figures/figure1-1.png" style="width:95%"&gt;
+
 ---
+
+### Exercise 3
+
+We will walk through this together as well, using the `20240722_sismid_repro` project we set up already.
+
+1. Using the `projectr` template, make an Rmarkdown document called `exploratory_analysis.Rmd` and put it in the `analysis` folder of your project directory. Load and explore the data. Take notes on what you learn. Add in brief descriptions of the key variables.
+2. Download the [data cleaning script](scripts/02_data_cleaning.R) and save it in the `source` folder of your new project directory as `02_data_cleaning.R`.
+3. Download the [data analysis script](scripts/03_data_analysis.R) and save it in the `source` folder of your new project directory as `03_data_analysis.R`.
+4. Download the [data visualization script](scripts/04_data_visualization.R) and save it in the `source` folder of your new project directory as `04_data_visualization.R`.
+5. Open your `final_report.Rmd` document and source each of the scripts. Add comments to explain the document! 
+---
+
 
 
 ### Pulling it all together
 
+Knitting `final_report.Rmd` will ensure that if one step of the data analysis gets updated, it will be carried through the rest of the pipeline.
+* Critical for reproducibility because a common error is to edit one piece of the code but not have changes follow through to the end of analysis
 
-Very briefly reference make, add resources to end of RMd document.
+
+__make__: an alternative option, a command-line tool that automatically builds and compiles code by following instructions in a __Makefile__.
+
+
+???
+David uses make, and it's cool! A little beyond the scope of what we are going to talk about since it involves new syntax but I have included a tutorial in the extra materials.
 ---
 
 
 ### Parameterized reports
 
+So far we have focused on analysis of counties in Georgia. What if we wanted to reproduce this analysis for any state in the US?
 
+__Parameterized reports__ in R markdown allow you to create a report template that can be reused across multiple similar scenarios. Examples include:
+* Running a report that covers a specific time period
+* Showing results for a specific geographic location
 
 ---
+
+### Declaring parameters
+
+Parameters are specified using the `params` field within the YAML header of the R Markdown document. We can specify one or more parameters with each item on a new line:
+
+
+``` rmd
+---
+title: My Document
+output: html_document
+params:
+  year: 2024
+  state: "ga"
+  printcode: TRUE
+---
+```
+
+It's worth noting that all standard R types that can be parsed by `yaml::yaml.load()` can be included as parameters, including `character`, `numeric`, `integer`, and `logical` types.
+---
+
+
+### Using parameters
+
+You can access the parameters within the knitting environment and the R console
+* The values are contained within a list called `params`:
+  * `params$year`
+  * `params$state`
+
+Parameters can also be used to control the behavior of `knitr`:
+
+
+&lt;img src="figures/params_example.png" style="width:75%"&gt;
+
+---
+
+
+### Knitting with parameters
+
+There are a few ways in which a parameterized report can be knitted:
+
+1. Using the `knit` button in R Studio. The default values listed in the YAML will be used.
+2. `rmarkdown::render()` with the `params` argument. Allows you to override the default values listed in the YAML.
+
+
+``` r
+rmarkdown::render("MyDocument.Rmd", params = list(
+  year = 2022,
+  state = "nj",
+  printcode = FALSE,
+))
+```
+
+You don't have to explicitly state all parameters in the `params` argument. Any parameters not specified will default to the values in the YAML header.
+
+???
+Option 1 doesn't do much for us, since we'll still have to edit the master document to get a report for a different state.
+---
+
+
+### Rendering parameterized reports
+
+You can even integrate these into a function that can be used to create an output file with a different filename for each combination of parameters!
+
+
+``` r
+render_report = function(state, year) {
+  rmarkdown::render(
+    "MyDocument.Rmd", params = list(
+      region = region,
+      year = year
+    ),
+    output_file = paste0("Report-", region, "-", year, ".html")
+  )
+}
+```
+
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>

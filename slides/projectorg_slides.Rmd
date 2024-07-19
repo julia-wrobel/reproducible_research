@@ -707,11 +707,31 @@ We will do a very simple analysis.
 
 ### Data analysis
 
+Using our cleaned data, we will calculate the median and interquartile range of the WW SARS-CoV-2 concentration by county.
+
+```{r, eval = FALSE}
+library(tidyverse)
+
+covid %>%
+  group_by(county) %>%
+  summarize(median = median(concentration),
+            q25 = quantile(concentration, probs = .25),
+            q75 = quantile(concentration, probs = .75),
+            population_served = median(population_served)) %>%
+  ungroup() %>%
+  arrange(median)
+```
+
+
 ---
 
 
 
 ### Data visualization
+
+Using our cleaned data, we will visualize the concentration by county and over time.
+
+<img src="figures/figure1-1.png" style="width:95%">
 
 ---
 
@@ -722,7 +742,7 @@ We will walk through this together as well, using the `20240722_sismid_repro` pr
 1. Using the `projectr` template, make an Rmarkdown document called `exploratory_analysis.Rmd` and put it in the `analysis` folder of your project directory. Load and explore the data. Take notes on what you learn. Add in brief descriptions of the key variables.
 2. Download the [data cleaning script](scripts/02_data_cleaning.R) and save it in the `source` folder of your new project directory as `02_data_cleaning.R`.
 3. Download the [data analysis script](scripts/03_data_analysis.R) and save it in the `source` folder of your new project directory as `03_data_analysis.R`.
-4. Download the [data vizualization script](scripts/04_data_vizualization.R) and save it in the `source` folder of your new project directory as `04_data_vizualization.R`.
+4. Download the [data visualization script](scripts/04_data_visualization.R) and save it in the `source` folder of your new project directory as `04_data_visualization.R`.
 5. Open your `final_report.Rmd` document and source each of the scripts. Add comments to explain the document! 
 ---
 
@@ -730,13 +750,97 @@ We will walk through this together as well, using the `20240722_sismid_repro` pr
 
 ### Pulling it all together
 
-Explain here that you can run this file by knitting it, pulling everything together. Can also do this directly in BASH.
-Very briefly reference make, add resources to end of Rmd document.
+Knitting `final_report.Rmd` will ensure that if one step of the data analysis gets updated, it will be carried through the rest of the pipeline.
+* Critical for reproducibility because a common error is to edit one piece of the code but not have changes follow through to the end of analysis
+
+
+__make__: an alternative option, a command-line tool that automatically builds and compiles code by following instructions in a __Makefile__.
+
+
+???
+David uses make, and it's cool! A little beyond the scope of what we are going to talk about since it involves new syntax but I have included a tutorial in the extra materials.
 ---
 
 
 ### Parameterized reports
 
+So far we have focused on analysis of counties in Georgia. What if we wanted to reproduce this analysis for any state in the US?
 
+__Parameterized reports__ in R markdown allow you to create a report template that can be reused across multiple similar scenarios. Examples include:
+* Running a report that covers a specific time period
+* Showing results for a specific geographic location
 
 ---
+
+### Declaring parameters
+
+Parameters are specified using the `params` field within the YAML header of the R Markdown document. We can specify one or more parameters with each item on a new line:
+
+```{Rmd, eval = FALSE}
+---
+title: My Document
+output: html_document
+params:
+  year: 2024
+  state: "ga"
+  printcode: TRUE
+---
+```
+
+It's worth noting that all standard R types that can be parsed by `yaml::yaml.load()` can be included as parameters, including `character`, `numeric`, `integer`, and `logical` types.
+---
+
+
+### Using parameters
+
+You can access the parameters within the knitting environment and the R console
+* The values are contained within a list called `params`:
+  * `params$year`
+  * `params$state`
+
+Parameters can also be used to control the behavior of `knitr`:
+
+
+<img src="figures/params_example.png" style="width:75%">
+
+---
+
+
+### Knitting with parameters
+
+There are a few ways in which a parameterized report can be knitted:
+
+1. Using the `knit` button in R Studio. The default values listed in the YAML will be used.
+2. `rmarkdown::render()` with the `params` argument. Allows you to override the default values listed in the YAML.
+
+```{r, eval = FALSE}
+rmarkdown::render("MyDocument.Rmd", params = list(
+  year = 2022,
+  state = "nj",
+  printcode = FALSE,
+))
+```
+
+You don't have to explicitly state all parameters in the `params` argument. Any parameters not specified will default to the values in the YAML header.
+
+???
+Option 1 doesn't do much for us, since we'll still have to edit the master document to get a report for a different state.
+---
+
+
+### Rendering parameterized reports
+
+You can even integrate these into a function that can be used to create an output file with a different filename for each combination of parameters!
+
+```{r, eval = FALSE}
+render_report = function(state, year) {
+  rmarkdown::render(
+    "MyDocument.Rmd", params = list(
+      region = region,
+      year = year
+    ),
+    output_file = paste0("Report-", region, "-", year, ".html")
+  )
+}
+```
+

@@ -1,4 +1,3 @@
-
 # install.packages("RSocrata")
 library("RSocrata")
 library(tidyverse)
@@ -21,6 +20,5 @@ counties <- read.socrata(
   password  = Sys.getenv("PASSWORD")
 )
 
-
-## save intermediate data object and data data was accessed
+# save raw datra
 save(covid, counties, file = here::here("data", "raw.Rdata"))

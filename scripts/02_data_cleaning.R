@@ -1,8 +1,8 @@
-# set up a variable to define which state you want to analyze
-state = "ga"
 
-# download raw data
-source(here::here("source", "01_data_download.R"))
+
+# load raw data
+#source(here::here("source", "01_data_download.R"))
+load(here::here("data", "raw.Rdata"))
 
 # grab only observations from the specified state
 covid = covid %>%
@@ -25,6 +25,6 @@ covid = left_join(covid, counties, by = "key_plot_id") %>%
          population_served = as.numeric(population_served)) %>%
   rename(concentration = pcr_conc_lin)
 
-
-## save intermediate data object and data data was accessed
+rm(counties)
+## save tidied data object and date data was accessed
 save(covid, file = here::here("data", "clean.Rdata"))

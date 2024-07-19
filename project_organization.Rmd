@@ -197,8 +197,10 @@ save(covid, file = here::here("data", "clean.Rdata"))
 
 3. Download the [data analysis script](scripts/03_data_analysis.R) and save it in the `source` folder of your new project directory as `03_data_analysis.R`.
 
-4. Download the [data vizualization script](scripts/04_data_vizualization.R) and save it in the `source` folder of your new project directory as `04_data_vizualization.R`.
+4. Download the [data visualization script](scripts/04_data_visualization.R) and save it in the `source` folder of your new project directory as `04_data_visualization.R`.
 
+
+5. Open your `final_report.Rmd` document and source each of the scripts. Add comments to explain the document. 
 
 ## Breakout exercises
 
@@ -244,6 +246,8 @@ ln -s "~/onedrive/Data/2024/202407_wrobel_sismid"  "~/projects/2024/202407_wrobe
 * [Jenny Bryan and James Hester's chapter on project-oriented workflow](https://rstats.wtf/project-oriented-workflow.html)
 * [Hadley Wickham on R Projects](https://r4ds.had.co.nz/workflow-projects.html)
 * [My version of projectr package on Github](https://github.com/julia-wrobel/projectr)
-
+* [A MakeFile tutorial](https://makefiletutorial.com/)
+* [Another MakeFile tutorial](https://www.cs.colby.edu/maxwell/courses/tutorials/maketutor/)
+* [Yihui Xie on Parameterized Reports](https://bookdown.org/yihui/rmarkdown/parameterized-reports.html)
 
 <script language="JavaScript" src="custom_js.js"></script>
