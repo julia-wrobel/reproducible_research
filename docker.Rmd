@@ -1,0 +1,113 @@
+---
+title: "Git and GitHub"
+output:
+  html_document: 
+    toc: true
+    toc_float: true
+    css: custom_test.css
+---   
+
+```{r, echo = FALSE, message = FALSE}
+library(ggplot2)
+
+
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  fig.width = 6,
+  fig.asp = .6,
+  message = FALSE,
+  out.width = "90%"
+)
+
+theme_set(theme_bw() + theme(legend.position = "bottom"))
+```
+
+
+
+
+## Slide Deck
+
+<iframe class="speakerdeck-iframe" frameborder="0" src="https://speakerdeck.com/player/3710e7390c4842afb3f85c22e729ecde" title="MI_fda" allowfullscreen="true" style="border: 0px; background: padding-box padding-box rgba(0, 0, 0, 0.1); margin: 0px; padding: 0px; border-radius: 6px; box-shadow: rgba(0, 0, 0, 0.2) 0px 5px 40px; width: 100%; height: auto; aspect-ratio: 560 / 314;" data-ratio="1.78343949044586"></iframe>
+
+## Exercises
+
+### Interactive look at Docker container
+
+In this exercise, we will:
+
+* run a container based on the `rocker/rstudio:4.4.1` image
+* explore the file system of the container
+* take note of the `rstudio/home` directory
+* open R
+* exit the container
+
+Before you start, make sure that your terminal emulator is in your project's root directory by using `pwd`. If you are not in the correct folder, use `cd` to navigate to the root directory of your folder.
+
+At the command line, execute the following command.
+
+```{bash, eval = FALSE}
+docker run -it rocker/rstudio:4.4.1 bash
+```
+
+When you execute this command, docker will check for the existence of the image on your computer. The first time you run this command, you likely will not have downloaded the `rocker/rstudio:4.4.1` image from docker hub. As a result, the command will automatically download the image for you. While the image downloads you will see various status updates that look like this:
+
+````
+Unable to find image 'rocker/tidyverse:4.4.1' locally
+4.4.1: Pulling from rocker/tidyverse
+7646c8da3324: Pull complete 
+2a532d0e6beb: Pull complete
+````
+
+After the image has finished downloading, you will notice that your command prompt has changed to look something like this:
+
+````
+root@1d09e8db1e4d:/#
+````
+
+You have opened a terminal emulator inside a running container!
+
+The first thing we will do is explore the file system. You should see that when you run `pwd` your working directory is `/`, i.e., the root directory.
+
+If you use `ls` to list the contents of `/` you will see:
+
+````
+bin   etc   lib    libexec  mnt   rocker_scripts  sbin  tmp
+boot  home  lib32  libx32   opt   root            srv   usr
+dev   init  lib64  media    proc  run             sys   var
+````
+
+This is the file system for the container. I.e., none of these directories are permanently stored in your computer's file system. They only exist for as long as the container is running.
+
+We will care about one directory in particular for future exercises: the `/home/rstudio` directory. Confirm that you can navigate to this directory by executing:
+
+```{bash, eval = FALSE}
+cd /home/rstudio
+```
+
+Use `ls -a` 
+
+<button type="button" class="collapsible">View solution</button>
+<div class="content">
+ 
+Answer
+
+</div>
+
+
+
+<script>
+  var coll = document.getElementsByClassName("collapsible");
+var i;
+
+for (i = 0; i < coll.length; i++) {
+  coll[i].addEventListener("click", function() {
+    this.classList.toggle("active");
+    var content = this.nextElementSibling;
+    if (content.style.display === "block") {
+      content.style.display = "none";
+    } else {
+      content.style.display = "block";
+    }
+  });
+}
+</script>

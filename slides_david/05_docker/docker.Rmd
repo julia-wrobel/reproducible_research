@@ -1,0 +1,502 @@
+---
+title: "Docker for Reproducible Research"
+author: "Hitchhiker's Guide to Reproducible Research <br> <span style = 'font-size: 75%;'> Julia Wrobel and David Benkeser  </span>"
+date: '<br> `r icons::icon_style(icons::fontawesome("link"), fill = '#ffffff')` [.white[Course Website]](https://bit.ly/sismid_hitchhikers)'
+output:
+  xaringan::moon_reader:
+    css: xaringan-themer.css
+    nature:
+      titleSlideClass: ["left", "middle", "inverse"]
+---
+
+```{r xaringan-themer, include=FALSE, warning=FALSE}
+library(xaringanthemer)
+
+extra_css <- list(
+  ".clearbox" = list(
+    display = "inline-block", 
+    width = "100%",
+    padding = "5px",
+    border = "1px solid #012169",
+    `background-color` = "#d9d9d6",
+    `align-items` = "left",
+    `vertical-align` = "middle"
+  ),
+  ".small" =  list(`font-size` = "80%"),
+  ".large" =  list(`font-size` = "150%"),
+  ".huge" =  list(`font-size` = "400%"),
+  "ul li" = list(`margin-bottom` = "10px"),
+  ".red" = list(color = "#da291c",
+                `font-weight` = "600"),
+  ".green" = list(color = "#348338",
+                `font-weight` = "600"),
+  ".remark-code-line-highlighted" = list(border = "2px solid #f2a900",
+                                         `background-color` = "#002451"),
+  ".code-box" = list(display = "inline-block", 
+    width = "95%",
+    `line-height` = "1.25em",
+    padding = "5px",
+    `font-size` = "80%",
+    `background-color` = "#f6f6f6",
+    `align-items` = "left",
+    `font-family` = "Courier Prime",
+    border = "1px solid black"),
+  "a" = list(color = "#007dba"),
+  "a:hover" = list("text-decoration" = "underline")
+)
+
+style_mono_accent(
+  base_color = "#012169",
+  header_font_google = google_font("DM Sans"),
+  text_font_google   = google_font("DM Sans", "400", "400i"),
+  code_font_google   = google_font("Courier Prime"),
+  extra_css = extra_css
+)
+```
+
+<style type="text/css">
+.remark-slide-content {
+    font-size: 22px
+}
+</style>
+
+## The problem
+
+Trying to run someone else's code.
+
+.code-box[
+\> library(ggplot2) <br>
+.red[Error in library(ggplot2) : there is no package called ‘ggplot2’] <br>
+\> install.packages("ggplot2") <br>
+.red[configure: error: no acceptable C compiler found in $PATH] <br> 
+]
+
+...so you Google the error, install `gcc`, re-install the package. 😕
+
+.code-box[
+\> library(xgboost) <br>
+.red[Error in library(xgboost) : there is no package called ‘xgboost’] <br>
+\> install.packages("xgboost") <br> 
+.red[package ‘xgboost’ is not available (for R version 3.2.0)]
+]
+
+...so you update `R`. 😠
+
+---
+
+## The problem
+
+.code-box[
+\> install.packages("xgboost") <br>
+.red[make: *** [xgboost.so] Error 127] <br> 
+.red[ERROR: compilation failed for package 'xgboost']
+]
+
+...so you google this compilation error, fix and install package. 😡
+
+.code-box[
+\> library(ggplot2) <br>
+.red[Error in library(ggplot2) : there is no package called ‘ggplot2’] <br>
+]
+
+.center[.huge[🤬]]
+
+???
+
+Is this really reproducible if the barrier to reproducing is so high?
+
+---
+
+## Docker
+
+.large[Key principle: .red[Software is code!]]
+
+We have talked only about making *our* __code reproducible__. 
+* Running our code requires software. 
+* That software is built from code. 
+
+We want a way to package up all __analysis code AND software__. 
+* Reproduce the analysis in its entirety.
+  * On Windows, on Mac, in cloud, ...
+* No 🤬 required. 
+
+__Containerization__ gives us a way to do this. 
+* __Docker__ is a popular containerization program. 
+
+
+---
+
+## Docker
+
+Think of a Docker container as a __virtual machine__:
+* Has its own (Unix) operating system
+* Has its own file system 
+* Has its own software applications
+
+```{r inception, echo = FALSE, out.width = "518px", fig.align="center"}
+knitr::include_graphics("inception2.gif")
+```
+
+???
+
+But it's actually much smarter, more lightweight than a virtual machine.
+
+---
+
+## Images vs. containers
+
+__Docker image__
+* source code, libraries, dependencies, tools, and other files needed to `run` a container.
+* a __blueprint__ for the environment in which you will execute your analysis.
+* we `build` docker images.
+
+__Docker container__
+* created when we `run` an image. 
+* construct a run-time environment to execute your code.
+* or provide an interactive way to execute code.
+* we `run` docker images to create containers.
+
+---
+
+## Docker
+
+How does it work?
+* Docker is an installed program.
+* Write `Dockerfile`, plain text that tells Docker what to put in image.
+* `build` the image. 
+* `run` the image (creating container) to execute code.
+
+```{r zoolander, echo = FALSE, out.width = "518px", fig.align="center"}
+knitr::include_graphics("zoolander_short.gif")
+```
+
+---
+
+## DockerHub
+
+We will start off by running pre-built images hosted on [DockerHub](https://hub.docker.com/_/ubuntu?tab=tags)
+* GitHub for images!
+
+Many images. Many free, some not.
+* [R/Rstudio](https://hub.docker.com/u/rocker/)
+* [Ubuntu](https://hub.docker.com/_/ubuntu)
+* [nginx](https://hub.docker.com/_/nginx)
+* [many others](https://hub.docker.com/search?q=&type=image)
+
+[Sign up](https://hub.docker.com/) for an account.
+
+---
+
+## rocker images
+
+[R/Rstudio](https://hub.docker.com/u/rocker/) images are available from `rocker`
+* [`rocker/tidyverse`](https://hub.docker.com/r/rocker/tidyverse)
+  * R + R Studio server + `tidyverse` packages
+  * what we will use in this class
+* [`rocker/rstudio`](https://hub.docker.com/r/rocker/rstudio)
+  * R Studio server version
+* [`rocker/r-ubuntu`](https://hub.docker.com/r/rocker/r-ubuntu)
+  * only `R` installed with Ubuntu OS
+* [`rocker/tidyverse`](https://hub.docker.com/r/rocker/tidyverse) 
+  * `rstudio` + `devtools` and `tidyverse` packages
+
+---
+
+class: title-slide, center, inverse, middle
+background-color: #487f84
+
+.large[
+`r fontawesome::fa("desktop", fill = "#ffffff")` .white[Interactive look at Docker container]
+]
+
+???
+
+* run `rocker/rstudio:4.4.1` interactively
+* explore file system
+* find `home` directory
+* open R
+
+---
+
+## rocker images
+
+The `rocker/tidyverse` image has an [Ubuntu operating system](https://hub.docker.com/_/ubuntu)
+* popular Linux operating system
+
+The container has its own file system
+* we made note of the existence of an empty directory `/home/rstudio`
+
+R can be opened from the command line by typing `R` and pressing Enter
+
+---
+
+class: title-slide, center, inverse, middle
+background-color: #487f84
+
+.large[
+`r fontawesome::fa("desktop", fill = "#ffffff")` .white[Running R Studio in a container]
+]
+
+???
+
+* run `rocker/rstudio:4.4.1` with password set
+* open browser and navigate to `localhost:8787`
+* sign in to R Studio
+* check working directory
+
+---
+
+## R Studio images
+
+To use R Studio inside a container we run the following command
+
+.code-box[
+davidbenkeser$ docker run -e PASSWORD="SECRET123" -p 8787:8787 rocker/rstudio:4.4.1<br>
+...<br>
+[services.d] done.
+]
+
+Open web browser and go to http://localhost:8787.
+* Username: rstudio
+* Password: `SECRET123`
+
+Notice that the default working directory is `/home/rstudio`
+
+When finished, use `ctrl + c` to stop the container
+
+---
+
+## Mounting directories
+
+How can we get code and data into container?
+
+How can we get results out of the container?
+
+One solution is to mount a local directory to a directory inside a container.
+* A directory on our local file system that is viewable inside the container
+
+In the next exercise, we will mount our project directory to `/home/rstudio` inside the container.
+
+---
+
+class: title-slide, center, inverse, middle
+background-color: #487f84
+
+.large[
+`r fontawesome::fa("desktop", fill = "#ffffff")` .white[Mounting project directory]
+]
+
+???
+
+* confirm working directory is in project root directory
+* run `rocker/rstudio:4.4.1` with password set
+* include `-v $(pwd):/home/rstudio`
+* open browser and navigate to `localhost:8787`
+* view files in file finder in container
+* try to run code
+* note that packages are not installed
+* install packages, run code
+* exit container, repeat
+* note that packages are not installed again
+
+---
+
+## `Dockerfile`
+
+How can we get software/code/other stuff into an image?
+* That way we do not need to e.g., install R packages every time!
+
+We can build our own image using a `Dockerfile`.
+* A plain text file with all commands needed to build image.
+* Have their own (reasonably straightforward) syntax.
+
+If you can install it from the command line, you can install it in a container!
+
+---
+
+## `Dockerfile`
+
+.code-box[
+FROM rocker/rstudio:4.4.1<br><br>
+\# install R package from command line <br>
+RUN Rscript -e "install.packages('RSocrata')<br><br>
+]
+
+* Save contents in plain text file named `Dockerfile`. 
+* `cd` to directory containing `Dockerfile`.
+
+.code-box[
+davidbenkeser$ docker build -t rstudio-plus . <br>
+... <br>
+Successfully built 3f3def993815 <br>
+Successfully tagged rstudio-plus:latest
+]
+
+Now we can use `docker run <options> rstudio-plus` to create a container with packages installed.
+
+???
+
+The `-t` option to `docker build` sets a "tag". That is, how we will reference the container in the future.
+
+The argument to `docker build` is either:
+* a path to a folder that contains a file called `Dockerfile`
+* or a path to a `Dockerfile` with a different name.
+  * e.g., `docker build -t foo ./bar.Dockerfile`
+
+---
+
+## `Dockerfile`
+
+Common `Dockerfile` instructions
+
+| `INSTRUCTION` | Action                                 |
+|---------------|----------------------------------------|
+| [`FROM`](https://docs.docker.com/engine/reference/builder/#from)        | the parent image for your build        |
+| [`RUN`](https://docs.docker.com/engine/reference/builder/#run)         | run a command in a shell               |
+| [`COPY`](https://docs.docker.com/engine/reference/builder/#copy)        | copy file from a local folder to image |
+| [`ENV`](https://docs.docker.com/engine/reference/builder/#env)         | set an environment variable            |
+| [`WORKDIR`](https://docs.docker.com/engine/reference/builder/#workdir)     | set working directory for `RUN` commands|
+| [`CMD`](https://docs.docker.com/engine/reference/builder/#cmd)         | container "entry point"                |
+
+
+???
+
+Full details [here](https://docs.docker.com/engine/reference/builder/).
+
+There's actually no need to have `INSTRUCTION` be uppercase, but it's convention and makes for nicer formatting. 
+
+---
+
+class: title-slide, center, inverse, middle
+background-color: #487f84
+
+.large[
+`r fontawesome::fa("desktop", fill = "#ffffff")` .white[Building your own image]
+]
+
+???
+
+* confirm working directory is in project root directory
+* create a Dockerfile that installs all needed packages
+* user `docker build` to build the image
+* use `docker run` to run the image
+  * include `-v $(pwd):/home/rstudio`
+  * open browser and navigate to `localhost:8787`
+* run code
+
+---
+
+## Pushing images to DockerHub
+
+Share your images by building locally and using `docker push`.
+* On the build, use `-t <dockerhub.uname>/<repo.name>:<tag>`
+
+For example, my dockerhub user name is `dbenkeser`.
+
+.code-box[
+davidbenkeser$ docker build -t dbenkeser/rstudio-plus .<br>
+...<br>
+davidbenkeser$ docker push dbenkeser/rstudio-plus <br>
+]
+
+If you do not specify a `tag`, default is `latest`.
+
+---
+
+## Installing other software
+
+Sometimes R packages require compilation using other software.
+* E.g., `gfortran`, `gcc`, ...
+
+You may see an error like this:
+
+.code-box[
+------------------------- ANTICONF ERROR ---------------------------<br>
+Configuration failed because libcurl was not found. Try installing:<br>
+ \* deb: libcurl4-openssl-dev (Debian, Ubuntu, etc)<br>
+ \* rpm: libcurl-devel (Fedora, CentOS, RHEL)<br>
+ \* csw: libcurl_dev (Solaris)<br><br>
+If libcurl is already installed, check that 'pkg-config' is in your<br>
+PATH and PKG_CONFIG_PATH contains a libcurl.pc file. If pkg-config<br>
+is unavailable you can set INCLUDE_DIR and LIB_DIR manually via:<br>
+R CMD INSTALL --configure-vars='INCLUDE_DIR=... LIB_DIR=...'<br>
+\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-
+]
+
+---
+
+## Installing other software
+
+The key line is here:
+
+.code-box[
+Configuration failed because libcurl was not found. Try installing:<br>
+ \* deb: libcurl4-openssl-dev (Debian, Ubuntu, etc)
+]
+
+We need to install a separate piece of software called `libcurl`.
+
+This software is available in the `libcurl4-openssl-dev` package.
+* Not an R package!
+
+---
+
+## Installing other software
+
+To install this software, include the following in your `Dockerfile` __before__ your `RUN` command that installs the password.
+
+.code-box[
+RUN apt-get update && apt-get install -y libcurl4-openssl-dev
+]
+
+It can sometimes also be helpful to include the following command prior to the calls to `apt-get install`
+
+.code-box[
+ARG DEBIAN_FRONTEND=noninteractive
+]
+
+???
+
+`apt` is a software repository for Debian-based Linux systems (of which Ubuntu is one example). 
+
+The call to `update` gets the most recent indexes of packages available in the `apt` repository.
+
+The call to `install` actually installs the required software.
+
+Adding `-y` option says "answer yes" if the install process asks any questions.
+
+Setting `DEBIAN_FRONTEND` variable says "try to install without asking me any questions at all"
+
+---
+
+## Viewing/removing containers/images
+
+`docker container ps`
+* list running containers
+* add `-a` option to see __all__ recently run containers
+
+`docker images`
+* list all downloaded images
+
+`docker image rm [id]`
+* replace `[id]` with code from `IMAGE ID` column of `docker images`
+
+`docker system prune`
+* remove all unused images and containers
+* add `-a` to remove everything
+
+???
+
+You definitely want to `prune` from time to time; images can start to take up quite a bit of your computer's memory. But just be aware that removing images and containers, future builds may take longer (because you will have to re-install the image for your build). 
+
+---
+
+## Other Docker uses
+
+Docker can be used for many purposes:
+
+* customizing R-based workflows using `ENV` variables
+* sharing data with fully reproducible code
+* deploying [shiny apps](https://hub.docker.com/r/rocker/shiny)
+* deploying other web apps
+* ...

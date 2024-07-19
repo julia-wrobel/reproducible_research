@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Docker for Reproducible Research</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Hitchhiker’s Guide to Reproducible Research    Julia Wrobel and David Benkeser " />
+    <script src="docker_files/header-attrs-2.19/header-attrs.js"></script>
+    <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: left, middle, inverse, title-slide
+
+.title[
+# Docker for Reproducible Research
+]
+.author[
+### Hitchhiker’s Guide to Reproducible Research <br> <span style="font-size: 75%;"> Julia Wrobel and David Benkeser </span>
+]
+.date[
+### <br> <svg viewBox="0 0 512 512" style="height:1em;position:relative;display:inline-block;top:.1em;fill:#ffffff;" xmlns="http://www.w3.org/2000/svg"> <path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"></path></svg> <a href="https://bit.ly/sismid_hitchhikers">.white[Course Website]</a>
+]
+
+---
+
+
+
+
+&lt;style type="text/css"&gt;
+.remark-slide-content {
+    font-size: 22px
+}
+&lt;/style&gt;
+
+## The problem
+
+Trying to run someone else's code.
+
+.code-box[
+\&gt; library(ggplot2) &lt;br&gt;
+.red[Error in library(ggplot2) : there is no package called ‘ggplot2’] &lt;br&gt;
+\&gt; install.packages("ggplot2") &lt;br&gt;
+.red[configure: error: no acceptable C compiler found in $PATH] &lt;br&gt; 
+]
+
+...so you Google the error, install `gcc`, re-install the package. 😕
+
+.code-box[
+\&gt; library(xgboost) &lt;br&gt;
+.red[Error in library(xgboost) : there is no package called ‘xgboost’] &lt;br&gt;
+\&gt; install.packages("xgboost") &lt;br&gt; 
+.red[package ‘xgboost’ is not available (for R version 3.2.0)]
+]
+
+...so you update `R`. 😠
+
+---
+
+## The problem
+
+.code-box[
+\&gt; install.packages("xgboost") &lt;br&gt;
+.red[make: *** [xgboost.so] Error 127] &lt;br&gt; 
+.red[ERROR: compilation failed for package 'xgboost']
+]
+
+...so you google this compilation error, fix and install package. 😡
+
+.code-box[
+\&gt; library(ggplot2) &lt;br&gt;
+.red[Error in library(ggplot2) : there is no package called ‘ggplot2’] &lt;br&gt;
+]
+
+.center[.huge[🤬]]
+
+???
+
+Is this really reproducible if the barrier to reproducing is so high?
+
+---
+
+## Docker
+
+.large[Key principle: .red[Software is code!]]
+
+We have talked only about making *our* __code reproducible__. 
+* Running our code requires software. 
+* That software is built from code. 
+
+We want a way to package up all __analysis code AND software__. 
+* Reproduce the analysis in its entirety.
+  * On Windows, on Mac, in cloud, ...
+* No 🤬 required. 
+
+__Containerization__ gives us a way to do this. 
+* __Docker__ is a popular containerization program. 
+
+
+---
+
+## Docker
+
+Think of a Docker container as a __virtual machine__:
+* Has its own (Unix) operating system
+* Has its own file system 
+* Has its own software applications
+
+&lt;img src="inception2.gif" width="518px" style="display: block; margin: auto;" /&gt;
+
+???
+
+But it's actually much smarter, more lightweight than a virtual machine.
+
+---
+
+## Images vs. containers
+
+__Docker image__
+* source code, libraries, dependencies, tools, and other files needed to `run` a container.
+* a __blueprint__ for the environment in which you will execute your analysis.
+* we `build` docker images.
+
+__Docker container__
+* created when we `run` an image. 
+* construct a run-time environment to execute your code.
+* or provide an interactive way to execute code.
+* we `run` docker images to create containers.
+
+---
+
+## Docker
+
+How does it work?
+* Docker is an installed program.
+* Write `Dockerfile`, plain text that tells Docker what to put in image.
+* `build` the image. 
+* `run` the image (creating container) to execute code.
+
+&lt;img src="zoolander_short.gif" width="518px" style="display: block; margin: auto;" /&gt;
+
+---
+
+## DockerHub
+
+We will start off by running pre-built images hosted on [DockerHub](https://hub.docker.com/_/ubuntu?tab=tags)
+* GitHub for images!
+
+Many images. Many free, some not.
+* [R/Rstudio](https://hub.docker.com/u/rocker/)
+* [Ubuntu](https://hub.docker.com/_/ubuntu)
+* [nginx](https://hub.docker.com/_/nginx)
+* [many others](https://hub.docker.com/search?q=&amp;type=image)
+
+[Sign up](https://hub.docker.com/) for an account.
+
+---
+
+## rocker images
+
+[R/Rstudio](https://hub.docker.com/u/rocker/) images are available from `rocker`
+* [`rocker/tidyverse`](https://hub.docker.com/r/rocker/tidyverse)
+  * R + R Studio server + `tidyverse` packages
+  * what we will use in this class
+* [`rocker/rstudio`](https://hub.docker.com/r/rocker/rstudio)
+  * R Studio server version
+* [`rocker/r-ubuntu`](https://hub.docker.com/r/rocker/r-ubuntu)
+  * only `R` installed with Ubuntu OS
+* [`rocker/tidyverse`](https://hub.docker.com/r/rocker/tidyverse) 
+  * `rstudio` + `devtools` and `tidyverse` packages
+
+---
+
+class: title-slide, center, inverse, middle
+background-color: #487f84
+
+.large[
+<svg aria-hidden="true" role="img" viewBox="0 0 576 512" style="height:1em;width:1.12em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:#ffffff;overflow:visible;position:relative;"><path d="M64 0C28.7 0 0 28.7 0 64V352c0 35.3 28.7 64 64 64H240l-10.7 32H160c-17.7 0-32 14.3-32 32s14.3 32 32 32H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H346.7L336 416H512c35.3 0 64-28.7 64-64V64c0-35.3-28.7-64-64-64H64zM512 64V288H64V64H512z"/></svg> .white[Interactive look at Docker image]
+]
+
+???
+
+* run `rocker/rstudio:4.4.1` interactively
+* explore file system
+* find `home` directory
+* open R
+
+---
+
+## rocker images
+
+The `rocker/tidyverse` image has an [Ubuntu operating system](https://hub.docker.com/_/ubuntu)
+* popular Linux operating system
+
+The container has its own file system
+* we made note of the existence of an empty directory `/home/rstudio`
+
+R can be opened from the command line by typing `R` and pressing Enter
+
+---
+
+class: title-slide, center, inverse, middle
+background-color: #487f84
+
+.large[
+<svg aria-hidden="true" role="img" viewBox="0 0 576 512" style="height:1em;width:1.12em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:#ffffff;overflow:visible;position:relative;"><path d="M64 0C28.7 0 0 28.7 0 64V352c0 35.3 28.7 64 64 64H240l-10.7 32H160c-17.7 0-32 14.3-32 32s14.3 32 32 32H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H346.7L336 416H512c35.3 0 64-28.7 64-64V64c0-35.3-28.7-64-64-64H64zM512 64V288H64V64H512z"/></svg> .white[Running R Studio in a container]
+]
+
+???
+
+* run `rocker/rstudio:4.4.1` with password set
+* open browser and navigate to `localhost:8787`
+* sign in to R Studio
+* check working directory
+
+---
+
+## R Studio images
+
+To use R Studio inside a container we run the following command
+
+.code-box[
+davidbenkeser$ docker run -e PASSWORD="SECRET123" -p 8787:8787 rocker/rstudio:4.4.1&lt;br&gt;
+...&lt;br&gt;
+[services.d] done.
+]
+
+Open web browser and go to http://localhost:8787.
+* Username: rstudio
+* Password: `SECRET123`
+
+Notice that the default working directory is `/home/rstudio`
+
+When finished, use `ctrl + c` to stop the container
+
+---
+
+## Mounting directories
+
+How can we get code and data into container?
+
+How can we get results out of the container?
+
+One solution is to mount a local directory to a directory inside a container.
+* A directory on our local file system that is viewable inside the container
+
+In the next exercise, we will mount our project directory to `/home/rstudio` inside the container.
+
+---
+
+class: title-slide, center, inverse, middle
+background-color: #487f84
+
+.large[
+<svg aria-hidden="true" role="img" viewBox="0 0 576 512" style="height:1em;width:1.12em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:#ffffff;overflow:visible;position:relative;"><path d="M64 0C28.7 0 0 28.7 0 64V352c0 35.3 28.7 64 64 64H240l-10.7 32H160c-17.7 0-32 14.3-32 32s14.3 32 32 32H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H346.7L336 416H512c35.3 0 64-28.7 64-64V64c0-35.3-28.7-64-64-64H64zM512 64V288H64V64H512z"/></svg> .white[Mounting project directory]
+]
+
+???
+
+* confirm working directory is in project root directory
+* run `rocker/rstudio:4.4.1` with password set
+* include `-v $(pwd):/home/rstudio`
+* open browser and navigate to `localhost:8787`
+* view files in file finder in container
+* try to run code
+* note that packages are not installed
+* install packages, run code
+* exit container, repeat
+* note that packages are not installed again
+
+---
+
+## `Dockerfile`
+
+How can we get software/code/other stuff into an image?
+* That way we do not need to e.g., install R packages every time!
+
+We can build our own image using a `Dockerfile`.
+* A plain text file with all commands needed to build image.
+* Have their own (reasonably straightforward) syntax.
+
+If you can install it from the command line, you can install it in a container!
+
+---
+
+## `Dockerfile`
+
+.code-box[
+FROM rocker/rstudio:4.4.1&lt;br&gt;&lt;br&gt;
+\# install R package from command line &lt;br&gt;
+RUN Rscript -e "install.packages('RSocrata')&lt;br&gt;&lt;br&gt;
+]
+
+* Save contents in plain text file named `Dockerfile`. 
+* `cd` to directory containing `Dockerfile`.
+
+.code-box[
+davidbenkeser$ docker build -t rstudio-plus . &lt;br&gt;
+... &lt;br&gt;
+Successfully built 3f3def993815 &lt;br&gt;
+Successfully tagged rstudio-plus:latest
+]
+
+Now we can use `docker run &lt;options&gt; rstudio-plus` to create a container with packages installed.
+
+???
+
+The `-t` option to `docker build` sets a "tag". That is, how we will reference the container in the future.
+
+The argument to `docker build` is either:
+* a path to a folder that contains a file called `Dockerfile`
+* or a path to a `Dockerfile` with a different name.
+  * e.g., `docker build -t foo ./bar.Dockerfile`
+
+---
+
+## `Dockerfile`
+
+Common `Dockerfile` instructions
+
+| `INSTRUCTION` | Action                                 |
+|---------------|----------------------------------------|
+| [`FROM`](https://docs.docker.com/engine/reference/builder/#from)        | the parent image for your build        |
+| [`RUN`](https://docs.docker.com/engine/reference/builder/#run)         | run a command in a shell               |
+| [`COPY`](https://docs.docker.com/engine/reference/builder/#copy)        | copy file from a local folder to image |
+| [`ENV`](https://docs.docker.com/engine/reference/builder/#env)         | set an environment variable            |
+| [`WORKDIR`](https://docs.docker.com/engine/reference/builder/#workdir)     | set working directory for `RUN` commands|
+| [`CMD`](https://docs.docker.com/engine/reference/builder/#cmd)         | container "entry point"                |
+
+
+???
+
+Full details [here](https://docs.docker.com/engine/reference/builder/).
+
+There's actually no need to have `INSTRUCTION` be uppercase, but it's convention and makes for nicer formatting. 
+
+---
+
+class: title-slide, center, inverse, middle
+background-color: #487f84
+
+.large[
+<svg aria-hidden="true" role="img" viewBox="0 0 576 512" style="height:1em;width:1.12em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:#ffffff;overflow:visible;position:relative;"><path d="M64 0C28.7 0 0 28.7 0 64V352c0 35.3 28.7 64 64 64H240l-10.7 32H160c-17.7 0-32 14.3-32 32s14.3 32 32 32H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H346.7L336 416H512c35.3 0 64-28.7 64-64V64c0-35.3-28.7-64-64-64H64zM512 64V288H64V64H512z"/></svg> .white[Building your own image]
+]
+
+???
+
+* confirm working directory is in project root directory
+* create a Dockerfile that installs all needed packages
+* user `docker build` to build the image
+* use `docker run` to run the image
+  * include `-v $(pwd):/home/rstudio`
+  * open browser and navigate to `localhost:8787`
+* run code
+
+---
+
+## Pushing images to DockerHub
+
+Share your images by building locally and using `docker push`.
+* On the build, use `-t &lt;dockerhub.uname&gt;/&lt;repo.name&gt;:&lt;tag&gt;`
+
+For example, my dockerhub user name is `dbenkeser`.
+
+.code-box[
+davidbenkeser$ docker build -t dbenkeser/rstudio-plus .&lt;br&gt;
+...&lt;br&gt;
+davidbenkeser$ docker push dbenkeser/rstudio-plus &lt;br&gt;
+]
+
+If you do not specify a `tag`, default is `latest`.
+
+---
+
+## Installing other software
+
+Sometimes R packages require compilation using other software.
+* E.g., `gfortran`, `gcc`, ...
+
+You may see an error like this:
+
+.code-box[
+------------------------- ANTICONF ERROR ---------------------------&lt;br&gt;
+Configuration failed because libcurl was not found. Try installing:&lt;br&gt;
+ \* deb: libcurl4-openssl-dev (Debian, Ubuntu, etc)&lt;br&gt;
+ \* rpm: libcurl-devel (Fedora, CentOS, RHEL)&lt;br&gt;
+ \* csw: libcurl_dev (Solaris)&lt;br&gt;&lt;br&gt;
+If libcurl is already installed, check that 'pkg-config' is in your&lt;br&gt;
+PATH and PKG_CONFIG_PATH contains a libcurl.pc file. If pkg-config&lt;br&gt;
+is unavailable you can set INCLUDE_DIR and LIB_DIR manually via:&lt;br&gt;
+R CMD INSTALL --configure-vars='INCLUDE_DIR=... LIB_DIR=...'&lt;br&gt;
+\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-
+]
+
+---
+
+## Installing other software
+
+The key line is here:
+
+.code-box[
+Configuration failed because libcurl was not found. Try installing:&lt;br&gt;
+ \* deb: libcurl4-openssl-dev (Debian, Ubuntu, etc)
+]
+
+We need to install a separate piece of software called `libcurl`.
+
+This software is available in the `libcurl4-openssl-dev` package.
+* Not an R package!
+
+---
+
+## Installing other software
+
+To install this software, include the following in your `Dockerfile` __before__ your `RUN` command that installs the password.
+
+.code-box[
+RUN apt-get update &amp;&amp; apt-get install -y libcurl4-openssl-dev
+]
+
+It can sometimes also be helpful to include the following command prior to the calls to `apt-get install`
+
+.code-box[
+ARG DEBIAN_FRONTEND=noninteractive
+]
+
+???
+
+`apt` is a software repository for Debian-based Linux systems (of which Ubuntu is one example). 
+
+The call to `update` gets the most recent indexes of packages available in the `apt` repository.
+
+The call to `install` actually installs the required software.
+
+Adding `-y` option says "answer yes" if the install process asks any questions.
+
+Setting `DEBIAN_FRONTEND` variable says "try to install without asking me any questions at all"
+
+---
+
+## Viewing/removing containers/images
+
+`docker container ps`
+* list running containers
+* add `-a` option to see __all__ recently run containers
+
+`docker images`
+* list all downloaded images
+
+`docker image rm [id]`
+* replace `[id]` with code from `IMAGE ID` column of `docker images`
+
+`docker system prune`
+* remove all unused images and containers
+* add `-a` to remove everything
+
+???
+
+You definitely want to `prune` from time to time; images can start to take up quite a bit of your computer's memory. But just be aware that removing images and containers, future builds may take longer (because you will have to re-install the image for your build). 
+
+---
+
+## Other Docker uses
+
+Docker can be used for many purposes:
+
+* customizing R-based workflows using `ENV` variables
+* sharing data with fully reproducible code
+* deploying [shiny apps](https://hub.docker.com/r/rocker/shiny)
+* deploying other web apps
+* ...
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create();
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+// add `data-at-shortcutkeys` attribute to <body> to resolve conflicts with JAWS
+// screen reader (see PR #262)
+(function(d) {
+  let res = {};
+  d.querySelectorAll('.remark-help-content table tr').forEach(tr => {
+    const t = tr.querySelector('td:nth-child(2)').innerText;
+    tr.querySelectorAll('td:first-child .key').forEach(key => {
+      const k = key.innerText;
+      if (/^[a-z]$/.test(k)) res[k] = t;  // must be a single letter (key)
+    });
+  });
+  d.body.setAttribute('data-at-shortcutkeys', JSON.stringify(res));
+})(document);
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
