@@ -1,5 +1,5 @@
 ---
-title: "Coding style"
+title: "Course data"
 output:
   html_document: 
     css: custom_test.css

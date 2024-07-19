@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="" xml:lang="">
   <head>
-    <title>Accessing course data</title>
+    <title>Course data &amp; APIs</title>
     <meta charset="utf-8" />
     <meta name="author" content="Hitchhiker’s Guide to Reproducible Research    Julia Wrobel and David Benkeser " />
     <script src="data_slides_files/header-attrs-2.27/header-attrs.js"></script>
@@ -12,7 +12,7 @@
 class: left, middle, inverse, title-slide
 
 .title[
-# Accessing course data
+# Course data &amp; APIs
 ]
 .author[
 ### Hitchhiker’s Guide to Reproducible Research <br> <span style="font-size: 75%;"> Julia Wrobel and David Benkeser </span>
@@ -34,7 +34,7 @@ class: left, middle, inverse, title-slide
 ## CDC open data
 
 The CDC has [1331](https://data.cdc.gov/browse) open-source datasets available at [data.cdc.gov](https://data.cdc.gov).
-* Diverse topic areas injury &amp; violence, smoking, pregnancy, and chronic disease.
+* Topic areas include injury &amp; violence, vaccination, smoking, pregnancy, chronic disease, and disease surveillance
 * Great source of Covid surveillance data
 
 
@@ -59,7 +59,7 @@ __Longitudinal data__
 
 __Cross-sectional data__
 * Current concentrations and other summaries
-* 16 columns, including State, County
+* 16 columns, including state, county
 
 ---
 
@@ -89,7 +89,7 @@ You can just click this button to export the data as a CSV file. Why might this 
 
 ## APIs
 
-Luckily, this data (and all data through Socrata) can be accessed reproducibly using an **API**.
+Luckily, this data can be accessed reproducibly using an **API**.
 
 __API__: Application Programming Interface
 * Essentially, a set of rules and tools that allows different software programs to communicate with each other. Think of it as a waiter in a restaurant: you tell the waiter what you want (make a request), and the waiter brings you what you asked for (the response). In the same way, an API lets one program request data or services from another program, and then delivers that data back. This makes it easier for different software systems to work together.
@@ -105,7 +105,7 @@ What does "Application Programming Interface" actually mean? I asked ChatGPT. Le
 What does this mean for us?
 
 * We can download CDC data using a script rather than point-and-click
-* R interface for Socrata means this can be done directly in RStudio!
+* R interface for Socrata (`RSocrata` package) means this can be done directly in RStudio
 * Leads to more reproducible workflows
 
 [Let's take a look...](https://data.cdc.gov/Public-Health-Surveillance/NWSS-Public-SARS-CoV-2-Concentration-in-Wastewater/g653-rqe2/about_data)
@@ -119,6 +119,22 @@ Plan to navigate around the website for this data and show them what to look at.
 
 ``` r
 library(tidyverse)
+```
+
+```
+## ── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+## ✔ dplyr     1.1.4     ✔ readr     2.1.5
+## ✔ forcats   1.0.0     ✔ stringr   1.5.1
+## ✔ ggplot2   3.5.1     ✔ tibble    3.2.1
+## ✔ lubridate 1.9.3     ✔ tidyr     1.3.1
+## ✔ purrr     1.0.2     
+## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+## ✖ dplyr::filter() masks stats::filter()
+## ✖ dplyr::lag()    masks stats::lag()
+## ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors
+```
+
+``` r
 library("RSocrata")
 
 df = read.socrata(url = "https://data.cdc.gov/resource/g653-rqe2.json")
@@ -127,20 +143,20 @@ tibble::as_tibble(df)
 ```
 
 ```
-## # A tibble: 202,242 × 4
-##    key_plot_id                                       date       pcr_conc_lin       normalization  
-##    &lt;chr&gt;                                             &lt;chr&gt;      &lt;chr&gt;              &lt;chr&gt;          
-##  1 CDC_VERILY_ak_1491_Treatment plant_raw wastewater 2024-07-09 261075460.60484985 flow-population
-##  2 CDC_VERILY_ak_1491_Treatment plant_raw wastewater 2024-07-02 75762462.6298236   flow-population
-##  3 CDC_VERILY_ak_1491_Treatment plant_raw wastewater 2024-06-27 200986510.59238467 flow-population
-##  4 CDC_VERILY_ak_1491_Treatment plant_raw wastewater 2024-06-25 203876334.5366082  flow-population
-##  5 CDC_VERILY_ak_1491_Treatment plant_raw wastewater 2024-06-20 266107548.69799742 flow-population
-##  6 CDC_VERILY_ak_1491_Treatment plant_raw wastewater 2024-06-18 143488128.93269265 flow-population
-##  7 CDC_VERILY_ak_1491_Treatment plant_raw wastewater 2024-06-13 87356382.31291056  flow-population
-##  8 CDC_VERILY_ak_1491_Treatment plant_raw wastewater 2024-06-11 192885705.01687986 flow-population
-##  9 CDC_VERILY_ak_1491_Treatment plant_raw wastewater 2024-06-06 172078700.71095642 flow-population
-## 10 CDC_VERILY_ak_1491_Treatment plant_raw wastewater 2024-06-04 133819845.56312422 flow-population
-## # ℹ 202,232 more rows
+## # A tibble: 206,129 × 4
+##    key_plot_id                                  date  pcr_conc_lin normalization
+##    &lt;chr&gt;                                        &lt;chr&gt; &lt;chr&gt;        &lt;chr&gt;        
+##  1 CDC_VERILY_al_2629_Treatment plant_post gri… 2024… 53341336.07… flow-populat…
+##  2 CDC_VERILY_al_2629_Treatment plant_post gri… 2024… 29775880.15… flow-populat…
+##  3 CDC_VERILY_al_2629_Treatment plant_post gri… 2024… 26287234.47… flow-populat…
+##  4 CDC_VERILY_al_2629_Treatment plant_post gri… 2024… 24661042.67… flow-populat…
+##  5 CDC_VERILY_al_2629_Treatment plant_post gri… 2024… 9430423.449… flow-populat…
+##  6 CDC_VERILY_al_2629_Treatment plant_post gri… 2024… 17756635.49… flow-populat…
+##  7 CDC_VERILY_al_2629_Treatment plant_post gri… 2024… 33539612.33… flow-populat…
+##  8 CDC_VERILY_al_2629_Treatment plant_post gri… 2024… 4128208.259… flow-populat…
+##  9 CDC_VERILY_al_2629_Treatment plant_post gri… 2024… 17413479.61… flow-populat…
+## 10 CDC_VERILY_al_2629_Treatment plant_post gri… 2024… 3404537.142… flow-populat…
+## # ℹ 206,119 more rows
 ```
 
 ---
@@ -203,18 +219,18 @@ tibble::as_tibble(df)
 
 ```
 ## # A tibble: 1,006 × 4
-##    key_plot_id                                 date       pcr_conc_lin       normalization  
-##    &lt;chr&gt;                                       &lt;chr&gt;      &lt;chr&gt;              &lt;chr&gt;          
-##  1 NWSS_wv_2558_Treatment plant_raw wastewater 2024-06-16 100976425.36819908 flow-population
-##  2 NWSS_wv_2558_Treatment plant_raw wastewater 2024-06-15 36693803.39821172  flow-population
-##  3 NWSS_wv_2558_Treatment plant_raw wastewater 2024-06-14 72412878.28520662  flow-population
-##  4 NWSS_wv_2558_Treatment plant_raw wastewater 2024-06-12 58113474.08466649  flow-population
-##  5 NWSS_wv_2558_Treatment plant_raw wastewater 2024-06-11 46608112.37511601  flow-population
-##  6 NWSS_wv_2558_Treatment plant_raw wastewater 2024-06-10 65282077.04464546  flow-population
-##  7 NWSS_wv_2558_Treatment plant_raw wastewater 2024-06-09 83258938.74251425  flow-population
-##  8 NWSS_wv_2558_Treatment plant_raw wastewater 2024-06-08 29597111.695857204 flow-population
-##  9 NWSS_wv_2558_Treatment plant_raw wastewater 2024-06-05 49155438.039434046 flow-population
-## 10 NWSS_wv_2558_Treatment plant_raw wastewater 2024-06-04 961584.6527892718  flow-population
+##    key_plot_id                                 date   pcr_conc_lin normalization
+##    &lt;chr&gt;                                       &lt;chr&gt;  &lt;chr&gt;        &lt;chr&gt;        
+##  1 NWSS_wv_2558_Treatment plant_raw wastewater 2024-… 100976425.3… flow-populat…
+##  2 NWSS_wv_2558_Treatment plant_raw wastewater 2024-… 36693803.39… flow-populat…
+##  3 NWSS_wv_2558_Treatment plant_raw wastewater 2024-… 72412878.28… flow-populat…
+##  4 NWSS_wv_2558_Treatment plant_raw wastewater 2024-… 58113474.08… flow-populat…
+##  5 NWSS_wv_2558_Treatment plant_raw wastewater 2024-… 46608112.37… flow-populat…
+##  6 NWSS_wv_2558_Treatment plant_raw wastewater 2024-… 65282077.04… flow-populat…
+##  7 NWSS_wv_2558_Treatment plant_raw wastewater 2024-… 83258938.74… flow-populat…
+##  8 NWSS_wv_2558_Treatment plant_raw wastewater 2024-… 29597111.69… flow-populat…
+##  9 NWSS_wv_2558_Treatment plant_raw wastewater 2024-… 49155438.03… flow-populat…
+## 10 NWSS_wv_2558_Treatment plant_raw wastewater 2024-… 961584.6527… flow-populat…
 ## # ℹ 996 more rows
 ```
 
@@ -238,20 +254,20 @@ as_tibble(df) %&gt;%
 ```
 
 ```
-## # A tibble: 65,173 × 4
-##    key_plot_id                                          date       pcr_conc_lin       normalization  
-##    &lt;chr&gt;                                                &lt;chr&gt;      &lt;chr&gt;              &lt;chr&gt;          
-##  1 CDC_VERILY_nh_2519_Treatment plant_post grit removal 2024-01-01 86786699.10745762  flow-population
-##  2 CDC_VERILY_nv_2592_Treatment plant_post grit removal 2024-01-01 33368854.856204804 flow-population
-##  3 CDC_VERILY_tn_2514_Treatment plant_post grit removal 2024-01-01 119797769.43506595 flow-population
-##  4 NWSS_az_1382_Treatment plant_raw wastewater          2024-01-01 153059025.90843776 flow-population
-##  5 NWSS_az_1383_Treatment plant_raw wastewater          2024-01-01 2558925.440979074  flow-population
-##  6 NWSS_ca_215_Treatment plant_raw wastewater           2024-01-01 182463665.31539977 flow-population
-##  7 NWSS_de_1186_Treatment plant_raw wastewater          2024-01-01 729260669.1919992  flow-population
-##  8 NWSS_de_1191_Treatment plant_raw wastewater          2024-01-01 38983573.45440007  flow-population
-##  9 NWSS_ga_2708_Treatment plant_raw wastewater          2024-01-01 211667128.65656376 flow-population
-## 10 NWSS_ga_2716_Treatment plant_raw wastewater          2024-01-01 93216122.39722809  flow-population
-## # ℹ 65,163 more rows
+## # A tibble: 67,360 × 4
+##    key_plot_id                                  date  pcr_conc_lin normalization
+##    &lt;chr&gt;                                        &lt;chr&gt; &lt;chr&gt;        &lt;chr&gt;        
+##  1 CDC_VERILY_ks_2670_Treatment plant_raw wast… 2024… 73375611.46… flow-populat…
+##  2 CDC_VERILY_tx_1140_Treatment plant_post gri… 2024… 75936785.57… flow-populat…
+##  3 NWSS_az_1271_Treatment plant_raw wastewater  2024… 5286836.011… flow-populat…
+##  4 NWSS_ca_211_Treatment plant_raw wastewater   2024… 100115253.8… flow-populat…
+##  5 NWSS_ca_2330_Treatment plant_raw wastewater  2024… 1155987303.… flow-populat…
+##  6 NWSS_co_122_Treatment plant_raw wastewater   2024… 48564123.71… flow-populat…
+##  7 NWSS_de_1187_Treatment plant_raw wastewater  2024… 194741518.0… flow-populat…
+##  8 NWSS_de_1194_Treatment plant_raw wastewater  2024… 145042261.4… flow-populat…
+##  9 NWSS_ga_2697_Treatment plant_raw wastewater  2024… 156565896.2… flow-populat…
+## 10 NWSS_in_1619_Treatment plant_raw wastewater  2024… 123362442.2… flow-populat…
+## # ℹ 67,350 more rows
 ```
 
 

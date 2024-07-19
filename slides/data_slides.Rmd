@@ -1,5 +1,5 @@
 ---
-title: "Accessing course data"
+title: "Course data & APIs"
 author: "Hitchhiker's Guide to Reproducible Research <br> <span style = 'font-size: 75%;'> Julia Wrobel and David Benkeser  </span>"
 date: '<br> `r icons::icon_style(icons::fontawesome("link"), fill = '#ffffff')` [.white[Course Website]](https://bit.ly/sismid_hitchhikers)'
 output:
@@ -40,7 +40,7 @@ style_mono_accent(
 ## CDC open data
 
 The CDC has [1331](https://data.cdc.gov/browse) open-source datasets available at [data.cdc.gov](https://data.cdc.gov).
-* Diverse topic areas injury & violence, smoking, pregnancy, and chronic disease.
+* Topic areas include injury & violence, vaccination, smoking, pregnancy, chronic disease, and disease surveillance
 * Great source of Covid surveillance data
 
 
@@ -65,7 +65,7 @@ __Longitudinal data__
 
 __Cross-sectional data__
 * Current concentrations and other summaries
-* 16 columns, including State, County
+* 16 columns, including state, county
 
 ---
 
@@ -95,7 +95,7 @@ You can just click this button to export the data as a CSV file. Why might this 
 
 ## APIs
 
-Luckily, this data (and all data through Socrata) can be accessed reproducibly using an **API**.
+Luckily, this data can be accessed reproducibly using an **API**.
 
 __API__: Application Programming Interface
 * Essentially, a set of rules and tools that allows different software programs to communicate with each other. Think of it as a waiter in a restaurant: you tell the waiter what you want (make a request), and the waiter brings you what you asked for (the response). In the same way, an API lets one program request data or services from another program, and then delivers that data back. This makes it easier for different software systems to work together.
@@ -111,7 +111,7 @@ What does "Application Programming Interface" actually mean? I asked ChatGPT. Le
 What does this mean for us?
 
 * We can download CDC data using a script rather than point-and-click
-* R interface for Socrata means this can be done directly in RStudio!
+* R interface for Socrata (`RSocrata` package) means this can be done directly in RStudio
 * Leads to more reproducible workflows
 
 [Let's take a look...](https://data.cdc.gov/Public-Health-Surveillance/NWSS-Public-SARS-CoV-2-Concentration-in-Wastewater/g653-rqe2/about_data)
