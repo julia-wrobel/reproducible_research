@@ -29,6 +29,8 @@ theme_set(theme_bw() + theme(legend.position = "bottom"))
 
 <iframe class="speakerdeck-iframe" frameborder="0" src="https://speakerdeck.com/player/3710e7390c4842afb3f85c22e729ecde" title="MI_fda" allowfullscreen="true" style="border: 0px; background: padding-box padding-box rgba(0, 0, 0, 0.1); margin: 0px; padding: 0px; border-radius: 6px; box-shadow: rgba(0, 0, 0, 0.2) 0px 5px 40px; width: 100%; height: auto; aspect-ratio: 560 / 314;" data-ratio="1.78343949044586"></iframe>
 
+<br>
+
 ## Exercises
 
 ### Interactive look at Docker container
@@ -48,6 +50,9 @@ At the command line, execute the following command.
 ```{bash, eval = FALSE}
 docker run -it rocker/rstudio:4.4.1 bash
 ```
+
+* `-it` means we want to run an interactive container
+* `bash` at the end means we want to open a bash terminal in the container (see below)
 
 When you execute this command, docker will check for the existence of the image on your computer. The first time you run this command, you likely will not have downloaded the `rocker/rstudio:4.4.1` image from docker hub. As a result, the command will automatically download the image for you. While the image downloads you will see various status updates that look like this:
 
@@ -84,23 +89,181 @@ We will care about one directory in particular for future exercises: the `/home/
 cd /home/rstudio
 ```
 
-Use `ls -a` 
+Use `ls -a` to confirm that the directory is empty.
+
+Run the following command to create a file named `foo` in the `/home/rstudio` directory.
+
+```{bash, eval = FALSE}
+touch /home/rstudio/foo
+```
+
+Confirm that the file was created using `ls` again. Once you have confirmed the existence of the file, exit the container by typing `exit` and pressing Enter.
+
+__Execise__: Start a new container using exactly the same syntax as above:
+
+```{bash, eval = FALSE}
+docker run -it rocker/rstudio:4.4.1 bash
+```
+
+Check for the existence of the file you created above, `/home/rstudio/foo`. Can you find the file?
 
 <button type="button" class="collapsible">View solution</button>
 <div class="content">
  
-Answer
+The file will not be findable!
+
+A container's file system is destroyed whenever the container is stopped. Thus, if we would like to run analyses in containers, we need a strategy for retrieving our results before we exit the container!
 
 </div>
 
+<br>
+
 ###  Running R Studio in a container
 
+In this exercise, we will see how to 
+
+* run R Studio server inside an image
+* set a password for login using the `-e` option
+* open a port so we can view R Studio using the `-p` option
+* sign into an R Studio session in container
+* check working directory of R Studio
+
+To run an interactive R Studio session, run the following command:
+
+```{bash, eval = FALSE}
+docker run -e PASSWORD="SECRET123" -p 8787:8787 rocker/rstudio:4.4.1
+```
+
+You will see some printed messages. You will know that your container is successfully running if you see:
+
+````
+[services.d] done.
+````
+
+Before opening R Studio, let's pause to describe the options that we included in the `docker run` call:
+
+* `-e PASSWORD="SECRET123` specifies a password that we will need to login to our session of R Studio in the container
+  * you can choose any alpha-numeric password you want here (beware special characters)
+  * read more on [setting environment variables at run time](https://docs.docker.com/reference/cli/docker/container/run/#env)
+* `-p 8787:8787` opens a port on the container, which will allow us to connect to R Studio running inside the container
+
+To log into R Studio open web browser and go to http://localhost:8787.
+
+When prompted, your user name is `rstudio` and your password is `SECRET123` (or whatever you passed to the `-e` option).
+
+Once you log-in, you should see a normal R Studio session.
+
+In the R console, type `getwd()` to see what the "default working directory" is for R Studio in the container.
+
+When you are finished, return to your terminal emulator and press `ctrl + c` to close the container.
+
+<br>
 
 ###  Mounting project directory
 
+In this exercise, we will:
+
+* run a container with a mounted directory
+* attempt to build our report in the container
+* install R packages in a container
+
+Before we start confirm that your working directory is in project root directory, using `pwd` and `cd`, as needed. 
+
+Once you have confirmed your working directory is your project directory, then you can execute:
+
+```{bash, eval = FALSE}
+docker run -e PASSWORD="SECRET123" \
+-p 8787:8787 \
+-v $(pwd):/home/rstudio \
+rocker/rstudio:4.4.1
+```
+
+There are two new things about this command:
+
+* we are using `\` (i.e., an *escape character*) to break the command over multiple lines (so it's easier for you to see on the website)
+* we added the `-v` option
+
+The `-v` option makes the `/home/rstudio` directory exactly the same as our current working direction, i.e., our project directory. In this way all our project files will be available immediately in R Studio!
+
+* If you care about the details, `$(pwd)` is using [bash command substitution](https://www.gnu.org/software/bash/manual/html_node/Command-Substitution.html), which means that the expression `pwd` is evaluated prior to the `docker run` command and is replaced by its evaluation (i.e., your current working directory).
+
+__Exercise__: Sign in via your browser to the R Studio session that is running. Confirm that you can see project related files. Open the report document and attempt to knit the report. What happens?
+
+<button type="button" class="collapsible">View solution</button>
+<div class="content">
+
+To log into R Studio open web browser and go to http://localhost:8787.
+
+When prompted, your user name is `rstudio` and your password is `SECRET123` (or whatever you passed to the `-e` option).
+
+Once R Studio is open, click on the Folder in the upper left corner to browse files. You should see all project related files now.
+
+Open the R Markdown file used to create the analysis report and attempt to knit the file.
+
+You should see an error related to packages not being installed.
+
+At this point, you could use `install.packages` to install the appropriate packages. However, this is not a great solution as these packages will disappear as soon as you exit the container. After all, R packages are just files downloaded on your computer and are therefore destroyed along with the container.
+
+At this point you can close the container by returning to your terminal emulator and pushing `ctrl + c`.
+
+See the next section for a better solution!
+
+</div>
+
+<br>
 
 ###  Building your own image
 
+To build a new image that includes the required R packages, we can create a `Dockerfile`.
+
+Open a new text file in R Studio: Select File: New: Text file. Save the file with name `Dockerfile` by clicking File: Save As.
+
+Add the following contents to this file:
+
+````
+FROM rocker/rstudio:4.4.1
+
+# install R package from command line
+RUN Rscript -e "install.packages('RSocrata')
+# add additional R packages required here
+````
+
+When you are finished use the following command to build the image:
+
+```{bash, eval = FALSE}
+docker build -t rstudio-plus .
+```
+
+Here, we have given the image a "tag" (i.e., name) with the `-t` option. We can now run this image using:
+
+```{bash, eval = FALSE}
+docker run -e PASSWORD="SECRET123" \
+-p 8787:8787 \
+-v $(pwd):/home/rstudio \
+rstudio-plus
+```
+
+Note that this is the same syntax above, except we have changed the name of the image that we are using to `rstudio-plus`.
+
+__Exercise__: Log into the R Studio session and attempt to build the report. If the attempt does not work, modify the `Dockerfile`, rebuild the image and try again until it works.
+
+<button type="button" class="collapsible">View solution</button>
+<div class="content">
+
+A working `Dockerfile` should look roughly like this:
+
+````
+FROM rocker/rstudio:4.4.1
+
+# install R package from command line
+RUN Rscript -e "install.packages('RSocrata')
+# add additional R packages required here
+[TODO]
+````
+
+Once the report is successfully built, note that the final report is accessible even after the container has stopped due to the use of directory mounting (`-v` option).
+
+</div>
 
 
 <script>

@@ -4,6 +4,7 @@ all_pages: index.html \
   command_line.html \
   construction.html \
   git.html \
+  docker.html \
   intro.html \
   motivations.html \
   preread-installs.html \
