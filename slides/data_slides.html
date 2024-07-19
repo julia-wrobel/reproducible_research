@@ -44,52 +44,223 @@ FYI, under the OPEN Government Data Act (2018), government data is required to b
 ---
 
 
-## Some terminology
+## Covid19 wastewater data
 
-__Shell__
-* user interface for interacting with a computer
-* the "outermost" layer of the operating system
+Throughout this course, we will work with the National Wastewater Surveillance System (NWSS) Public SARS-CoV-2 Concentration in Wastewater Data.
+* SARS-CoV-2 concentration at different sampling locations
+* Updated daily
 
-__Graphical user interface__ (GUI)
-* visual interface (icons, menus, etc...) for interacting with computer
-* Don't touch that mouse!
 
-__Command line interface__ (CLI)
-* text-based interface for interacting with computer
-* e.g., `bash`, `sh`, `tcsh`, `zsh`, ...
+__Longitudinal data__
+* Provides concentrations over time 
+* 4 columns
 
-???
 
-As I'll say many times, I am not a computer scientist, so I may say
-something stupid here. Please correct me if you know better!
 
-GUIs are pretty and user-friendly because anyone who can read and operate
-a mouse can interact with them, even with very little about computers. 
-However, they are antithetical to our endeavor for reproducible research.
-
-We will instead rely on the CLI to run all our programs. We will focus on 
-`bash`, mostly because it's all that I know. People also seem to like `zsh`. 
+__Cross-sectional data__
+* Current concentrations and other summaries
+* 16 columns, including State, County
 
 ---
 
-## Some terminology
 
-__Shell script__
-* plain text file designed to be run by the shell
+## Covid19 wastewater data
 
-__Terminal__
-* "terminal emulator"
-* a program that lets you interact with the shell
+We will merge these datasets and analyze concentration over time in different counties. 
+* Data can be downloaded from [Socrata](https://dev.socrata.com/foundry/data.cdc.gov/g653-rqe2)
+  * Socrata is a cloud-based platform used by many local/state/federal governments for data-sharing
 
-__Important principle:__ Everything scripted!
+* Goal will be to produce end-to-end reproducible workflows with this data
+
 
 ???
-
-Scripts are the ultimate "paper trail". We can scrutinize the script
-to see exactly what the computer was told to do. We are working toward
-scripting all aspects of data cleaning, analysis, and report generation. 
+The goal here is not to do a really complicated analysis, but to show a reproducible workflow using real open-source infectious disease data.
 
 ---
+
+## Covid19 wastewater data
+
+&lt;img src="figures/CDC_download.png" alt="download" width="550" /&gt;
+
+???
+You can just click this button to export the data as a CSV file. Why might this not be a great idea?
+---
+
+
+## APIs
+
+Luckily, this data (and all data through Socrata) can be accessed reproducibly using an **API**.
+
+__API__: Application Programming Interface
+* Essentially, a set of rules and tools that allows different software programs to communicate with each other. Think of it as a waiter in a restaurant: you tell the waiter what you want (make a request), and the waiter brings you what you asked for (the response). In the same way, an API lets one program request data or services from another program, and then delivers that data back. This makes it easier for different software systems to work together.
+* A way to extract and share data within and across organizations. You are using an API every time you use a rideshare app, send a mobile payment, or use Google Maps. 
+* APIs have protocols that are standardized across apps and websites
+
+???
+What does "Application Programming Interface" actually mean? I asked ChatGPT. Let's break this down. Just imagine if every time you wanted to do something someone had to point and click the intermediate steps... would this be reproducible?  I am not an expert in APIs and you don't have to be for these to be useful. 
+---
+
+## APIs
+
+What does this mean for us?
+
+* We can download CDC data using a script rather than point-and-click
+* R interface for Socrata means this can be done directly in RStudio!
+* Leads to more reproducible workflows
+
+[Let's take a look...](https://data.cdc.gov/Public-Health-Surveillance/NWSS-Public-SARS-CoV-2-Concentration-in-Wastewater/g653-rqe2/about_data)
+
+???
+Plan to navigate around the website for this data and show them what to look at.
+---
+
+## Accessing data through RSocrata
+
+
+``` r
+library(tidyverse)
+library("RSocrata")
+
+df = read.socrata(url = "https://data.cdc.gov/resource/g653-rqe2.json")
+
+tibble::as_tibble(df)
+```
+
+```
+## # A tibble: 202,242 × 4
+##    key_plot_id                                       date       pcr_conc_lin       normalization  
+##    &lt;chr&gt;                                             &lt;chr&gt;      &lt;chr&gt;              &lt;chr&gt;          
+##  1 CDC_VERILY_ak_1491_Treatment plant_raw wastewater 2024-07-09 261075460.60484985 flow-population
+##  2 CDC_VERILY_ak_1491_Treatment plant_raw wastewater 2024-07-02 75762462.6298236   flow-population
+##  3 CDC_VERILY_ak_1491_Treatment plant_raw wastewater 2024-06-27 200986510.59238467 flow-population
+##  4 CDC_VERILY_ak_1491_Treatment plant_raw wastewater 2024-06-25 203876334.5366082  flow-population
+##  5 CDC_VERILY_ak_1491_Treatment plant_raw wastewater 2024-06-20 266107548.69799742 flow-population
+##  6 CDC_VERILY_ak_1491_Treatment plant_raw wastewater 2024-06-18 143488128.93269265 flow-population
+##  7 CDC_VERILY_ak_1491_Treatment plant_raw wastewater 2024-06-13 87356382.31291056  flow-population
+##  8 CDC_VERILY_ak_1491_Treatment plant_raw wastewater 2024-06-11 192885705.01687986 flow-population
+##  9 CDC_VERILY_ak_1491_Treatment plant_raw wastewater 2024-06-06 172078700.71095642 flow-population
+## 10 CDC_VERILY_ak_1491_Treatment plant_raw wastewater 2024-06-04 133819845.56312422 flow-population
+## # ℹ 202,232 more rows
+```
+
+---
+
+
+## Accessing data through RSocrata
+
+
+
+``` r
+?read.socrata
+```
+
+&lt;img src = "figures/readsocrata_help.png" alt="download" width="300" /&gt;
+
+---
+
+## Terminology
+
+__App Token__
+
+* A unique passcode of letters and numbers that grants access to an API
+* Each user signs up for their own token [here](https://data.cdc.gov/profile/edit/developer_settings)
+* "A limited number of requests can be made without an app token, but they are subject to much lower throttling limits than request that do include one."
+
+
+__Fields__
+
+* Correspond to columns in the dataset (`key_plot_id` is 1st field in our Covid dataset) 
+* Can use SoQL __queries__ for each field to filter what is returned by each API request
+
+???
+SoQL stands for Socrata Query Language and is similar to SQL, if you're familiar with it.  I have provided resources for specific SoQL queries if you want to get fancy.
+---
+
+## App token
+
+
+``` r
+df &lt;- read.socrata(
+  "https://data.cdc.gov/resource/g653-rqe2.json",
+  app_token = "YOURAPPTOKENHERE",
+  email     = "user@example.com",
+  password  = "fakepassword"
+)
+```
+
+---
+
+## Example query
+
+
+``` r
+df = read.socrata(
+      "https://data.cdc.gov/resource/g653-rqe2.json?key_plot_id=NWSS_wv_2558_Treatment plant_raw wastewater"
+                  )
+
+tibble::as_tibble(df)
+```
+
+```
+## # A tibble: 1,006 × 4
+##    key_plot_id                                 date       pcr_conc_lin       normalization  
+##    &lt;chr&gt;                                       &lt;chr&gt;      &lt;chr&gt;              &lt;chr&gt;          
+##  1 NWSS_wv_2558_Treatment plant_raw wastewater 2024-06-16 100976425.36819908 flow-population
+##  2 NWSS_wv_2558_Treatment plant_raw wastewater 2024-06-15 36693803.39821172  flow-population
+##  3 NWSS_wv_2558_Treatment plant_raw wastewater 2024-06-14 72412878.28520662  flow-population
+##  4 NWSS_wv_2558_Treatment plant_raw wastewater 2024-06-12 58113474.08466649  flow-population
+##  5 NWSS_wv_2558_Treatment plant_raw wastewater 2024-06-11 46608112.37511601  flow-population
+##  6 NWSS_wv_2558_Treatment plant_raw wastewater 2024-06-10 65282077.04464546  flow-population
+##  7 NWSS_wv_2558_Treatment plant_raw wastewater 2024-06-09 83258938.74251425  flow-population
+##  8 NWSS_wv_2558_Treatment plant_raw wastewater 2024-06-08 29597111.695857204 flow-population
+##  9 NWSS_wv_2558_Treatment plant_raw wastewater 2024-06-05 49155438.039434046 flow-population
+## 10 NWSS_wv_2558_Treatment plant_raw wastewater 2024-06-04 961584.6527892718  flow-population
+## # ℹ 996 more rows
+```
+
+
+???
+The query goes after the '?', and the field is `key_plot_id`
+---
+
+
+## Another example query
+
+
+``` r
+df = read.socrata(
+    "https://data.cdc.gov/resource/g653-rqe2.json?$where=date&gt;'2023-12-31'"
+                  )
+
+
+as_tibble(df) %&gt;%
+  arrange(date)
+```
+
+```
+## # A tibble: 65,173 × 4
+##    key_plot_id                                          date       pcr_conc_lin       normalization  
+##    &lt;chr&gt;                                                &lt;chr&gt;      &lt;chr&gt;              &lt;chr&gt;          
+##  1 CDC_VERILY_nh_2519_Treatment plant_post grit removal 2024-01-01 86786699.10745762  flow-population
+##  2 CDC_VERILY_nv_2592_Treatment plant_post grit removal 2024-01-01 33368854.856204804 flow-population
+##  3 CDC_VERILY_tn_2514_Treatment plant_post grit removal 2024-01-01 119797769.43506595 flow-population
+##  4 NWSS_az_1382_Treatment plant_raw wastewater          2024-01-01 153059025.90843776 flow-population
+##  5 NWSS_az_1383_Treatment plant_raw wastewater          2024-01-01 2558925.440979074  flow-population
+##  6 NWSS_ca_215_Treatment plant_raw wastewater           2024-01-01 182463665.31539977 flow-population
+##  7 NWSS_de_1186_Treatment plant_raw wastewater          2024-01-01 729260669.1919992  flow-population
+##  8 NWSS_de_1191_Treatment plant_raw wastewater          2024-01-01 38983573.45440007  flow-population
+##  9 NWSS_ga_2708_Treatment plant_raw wastewater          2024-01-01 211667128.65656376 flow-population
+## 10 NWSS_ga_2716_Treatment plant_raw wastewater          2024-01-01 93216122.39722809  flow-population
+## # ℹ 65,163 more rows
+```
+
+
+???
+This one is slightly more complex. If not directly calling the name of the field and instead using a search term like "where", need to add "$"
+---
+
+
+
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>

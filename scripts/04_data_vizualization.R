@@ -4,7 +4,7 @@ library(tidyverse)
 library(forcats)
 
 
-cov %>%
+covid %>%
   mutate(county = factor(county),
          county = fct_reorder(county, concentration)) %>%
   ggplot(aes(county, concentration, group = county, fill = county)) +
@@ -15,7 +15,7 @@ cov %>%
 
 ## gonna do something here with the dates to make this prettier.
 ## weird that the scales are so different across sites
-cov %>%
+covid %>%
   ggplot(aes(date, concentration, group = interaction(county, wwtp_id))) +
   geom_line() +
   facet_wrap(~county, scales = "free")

@@ -2,11 +2,10 @@ load(here::here("Data", "clean.Rdata"))
 
 
 library(tidyverse)
-library(gtsummary)
 
 # make table of the median/IQR covid concentration by county
 # I will make this prettier
-cov %>%
+covid %>%
   group_by(county) %>%
   summarize(median = median(concentration),
             q25 = quantile(concentration, probs = .25),

@@ -2,8 +2,7 @@
 title: "Coding style"
 output:
   html_document: 
-    toc: true
-    toc_float: true
+    css: custom_test.css
 ---
 
 
@@ -28,12 +27,90 @@ knitr::opts_chunk$set(
 
 
 
-## Exercises
+## Exercise 1
+
+
+Sign up for an API token and write code to download the longitudinal and cross-sectional Covid19 wastewater datasets using your token.
+
+* [get your API token here](https://data.cdc.gov/profile/edit/developer_settings)
+  * Save the value of your token somewhere, along with the email and password you used to sign up for the token! We will be using these later.
+* [longitudinal data info page](https://data.cdc.gov/Public-Health-Surveillance/NWSS-Public-SARS-CoV-2-Concentration-in-Wastewater/g653-rqe2/about_data)
+* [cross-sectional data info page](https://data.cdc.gov/Public-Health-Surveillance/NWSS-Public-SARS-CoV-2-Wastewater-Metric-Data/2ew6-ywp6/about_data)
+
+
+<button type="button" class="collapsible">View solution</button>
+<div class="content">
+
+Download the longitudinal data, which we are storing as "covid".
+
+```{r, eval = FALSE}
+covid <- read.socrata(
+  "https://data.cdc.gov/resource/g653-rqe2.json",
+  app_token = "YOURAPPTOKENHERE",
+  email     = "user@example.com",
+  password  = "fakepassword"
+)
+```
+
+
+Download the cross-sectional data, which we are storing as "counties".
+
+```{r, eval = FALSE}
+counties <- read.socrata(
+  "https://data.cdc.gov/resource/2ew6-ywp6.json",
+  app_token = "YOURAPPTOKENHERE",
+  email     = "user@example.com",
+  password  = "fakepassword"
+)
+```
+
+
+</div>
+
+## Exercise 2
+
+For the cross-sectional data, use a query on the field `wwtp_jurisdiction` to only select rows labeled "Georgia". How many rows are returned? 
+
+
+
+<button type="button" class="collapsible">View solution</button>
+<div class="content">
+
+```{r, eval = FALSE}
+counties <- read.socrata(
+  "https://data.cdc.gov/resource/2ew6-ywp6.json?wwtp_jurisdiction='Georgia'",
+  app_token = "YOURAPPTOKENHERE",
+  email     = "user@example.com",
+  password  = "fakepassword"
+)
+```
+
+Another equivalent way of writing this query is given below:
+
+```{r, eval = FALSE}
+counties <- read.socrata(
+  "https://data.cdc.gov/resource/2ew6-ywp6.json?$where=wwtp_jurisdiction in('Georgia')",
+  app_token = "YOURAPPTOKENHERE",
+  email     = "user@example.com",
+  password  = "fakepassword"
+)
+```
+
+
+</div>
+
+
+
+
+
 
 
 ## Additional resources
 
 
+* [Using SoQL queries in data pulls](https://dev.socrata.com/docs/queries/)
 * [OPEN Government data act](https://data.gov/open-gov/#:~:text=The%20OPEN%20Government%20Data%20Act%20makes%20Data.gov%20a%20requirement,in%20the%20Data.gov%20catalog.)
 * [Data.gov open source data](https://data.gov/)
+
+<script language="JavaScript" src="custom_js.js"></script>
 

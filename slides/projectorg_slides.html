@@ -3,7 +3,7 @@
   <head>
     <title>Project organization</title>
     <meta charset="utf-8" />
-    <meta name="author" content="Julia Wrobel and David Benkeser" />
+    <meta name="author" content="Hitchhiker’s Guide to Reproducible Research    Julia Wrobel and David Benkeser " />
     <script src="projectorg_slides_files/header-attrs-2.27/header-attrs.js"></script>
     <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
   </head>
@@ -15,22 +15,22 @@ class: left, middle, inverse, title-slide
 # Project organization
 ]
 .author[
-### Julia Wrobel and David Benkeser
+### Hitchhiker’s Guide to Reproducible Research <br> <span style="font-size: 75%;"> Julia Wrobel and David Benkeser </span>
 ]
-.institute[
-### Emory University
+.date[
+### <br> <svg viewBox="0 0 512 512" style="height:1em;position:relative;display:inline-block;top:.1em;fill:#ffffff;" xmlns="http://www.w3.org/2000/svg"> <path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"></path></svg> <a href="https://bit.ly/sismid_hitchhikers">.white[Course Website]</a>
 ]
 
 ---
 
 
 
-
 &lt;style type="text/css"&gt;
 .remark-slide-content {
-    font-size: 22px
+    font-size: 24px
 }
 &lt;/style&gt;
+
 
 
 ### Basic principles
@@ -38,7 +38,7 @@ class: left, middle, inverse, title-slide
 * .red[Put everything in one version-controlled directory.]
 * Develop your own system. 
 * Be consistent, but look for ways to improve.
-  * naming conventions, file structure, `make` structure
+  * naming conventions, file structure
 * Raw data are sacred. Keep them separate from everything else. 
 * Separate code and data.
 * Use `make` files and/or READMEs to document dependencies.
@@ -46,7 +46,7 @@ class: left, middle, inverse, title-slide
 * Use meaningful file names.
 * Use YYYY-MM-DD date formatting.
 * .red[No absolute paths.]
-* .red[Use a package management system.]
+
 
 ???
 
@@ -68,6 +68,8 @@ class: title-slide, center, inverse, middle
 
 This is as much for preserving your own sanity as it is about being reproducible (though it is about that too). There's a (big) upfront cost here, but in the end it is worth it. 
 
+Have sympathy for your future self!
+
 ---
 
 ### What to organize?
@@ -85,7 +87,7 @@ The systems should adhere to the same general principles, but different requirem
 
 Thinking about project organization from the outset is the most important thing. Map out (e.g., as comments in a README) how you see the project developing. Even if things change over time, it's good to have a structure in place from the beginning. 
 
-This pertains to project directories in particular, but also to your hard drive in general. I made the mistake of organizing projects by institution (UW, Berkeley, Emory), but am now regretting that. What about projects that weren't finished when I got to Emory? What about projects that I continued developing once I got here. It's a mess. Don't be like me. 
+This pertains to project directories in particular, but also to your hard drive in general. What about projects that weren't finished when I got to Emory? What about projects that I continued developing once I got here. It's a mess. Don't be like me. 
 
 ---
 
@@ -115,7 +117,69 @@ If working on a shared GitHub repo, keep open lines of communication, e.g., shor
 
 ---
 
-### Example data analysis project
+
+### Example data analysis project (Julia)
+
+.code-box[
+YYYY_MM_PI_topic/ &lt;br&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp; data/ &lt;br&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; data/raw_data.csv &lt;br&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; data/tidied_data.csv &lt;br&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp; analysis/ &lt;br&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; analysis/exploratory_data_analysis.Rmd &lt;br&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; analysis/modeling.Rmd &lt;br&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; analysis/manuscript_figures.Rmd &lt;br&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; analysis/report.Rmd &lt;br&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp; source/ &lt;br&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; source/clean_raw_data.R &lt;br&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; source/modeling_functions.R &lt;br&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp; results/ &lt;br&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp; literature/ &lt;br&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp; README.md &lt;br&gt;
+]
+
+???
+This is MY process. You'll see on the next slide David's process. We are different, were trained differently. There are some things from David's process that I have learned from putting these slides together that I like, and will adopt in the future.
+
+Goal is to find a workflow that will be AS EASY AS POSSIBLE FOR YOU TO ADOPT AND MAINTAIN IN THE LONG TERM.
+
+Also, the files I need for a methods project versus a more applied project may be very different
+
+Some notes:
+* separate raw data and processed data
+* separate folder for figures (could possible move R code for figures there)
+* `sandbox` is where I like to keep messy stuff that I'm trying out but never want to see the light of day
+* informative file names for `R` scripts broken down into logical steps of a workflow
+* `.gitignore` would include
+  * definitely: `figs/*`, `ref_papers/*`
+  * possibly: `raw_data`/`data` (if sensitive), `sandbox` (if informal)
+
+The `00`, `01`, ... number system is something that many people use because it helps create a sortable file system. It generally works, but some workflows don't really logically follow this sort of convention (e.g., things can happen in parallel).  
+
+---
+
+### Example data analysis project, cont'd (Julia)
+
+I typically have other ancillary files in my root directory as well. These are files I don't (often) modify but are important for workflow or reproducibility:
+
+.code-box[
+YYYY_MM_PI_topic/ &lt;br&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp; YYYY_MM_PI_topic.Rproj &lt;br&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp; .git &lt;br&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp; .gitignore &lt;br&gt;
+]
+
+???
+
+* `.gitignore` would include
+  * definitely: `figs/*`, `ref_papers/*`
+  * possibly: `raw_data`/`data` (if sensitive), `sandbox` (if informal)
+  
+  
+---
+
+
+### Example data analysis project (David)
 
 .code-box[
 analysis/ &lt;br&gt;
@@ -166,10 +230,8 @@ paper/ &lt;br&gt;
 &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; sim/helper_functions.R &lt;br&gt;
 &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; sim/sim_script.R &lt;br&gt;
 &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; sim/run_sim_script.sh &lt;br&gt;
-&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; sim/sandbox &lt;br&gt;
 &amp;nbsp;&amp;nbsp;&amp;nbsp; figs/ &lt;br&gt;
 &amp;nbsp;&amp;nbsp;&amp;nbsp; notes/ &lt;br&gt;
-&amp;nbsp;&amp;nbsp;&amp;nbsp; ref_papers/ &lt;br&gt;
 &amp;nbsp;&amp;nbsp;&amp;nbsp; submitted/ &lt;br&gt;
 &amp;nbsp;&amp;nbsp;&amp;nbsp; revision/ &lt;br&gt;
 &amp;nbsp;&amp;nbsp;&amp;nbsp; final/ &lt;br&gt;
@@ -190,6 +252,8 @@ Some notes:
 * `submitted` might include the compiled pdf that was submitted to the journal and a README that indicates which commit contained the submitted version of the repo. Similar story for `revision` and `final`. 
 * LaTeX produces lots of ugly files when it compiles documents (`.aux`, `.bbl`), in your `make paper` statement, remove those at the end.
 
+
+I don't always have a separate paper repo, but you can.
 --- 
 
 ### Example talk organization
@@ -214,11 +278,6 @@ Depending on how often you give a talk, you might consider:
 
 ---
 
-### Example class organization
-
-See the [class GitHub repository](https://github.com/benkeser/info550)!
-
----
 
 ### Organizing data
 
@@ -237,6 +296,7 @@ The generation of the raw data may be the one thing out of your control in an an
 
 This can be painful. For many projects, 90% of time might be devoted to wrangling raw data into a format that is usable. Save yourself from the danger of having to re-do all those painful bits when (not if) the data change.
 
+You should be able to get a new version of the data and easily re-run your analysis. Urge your collaborators to not mess with the structure of the data in between versions.
 ---
 
 ### Organizing data
@@ -256,11 +316,6 @@ Hadley Wickham [defined the notion of tidy data](https://doi.org/10.18637/jss.v0
 | 3    | 1   | 34  | 0    | 0   |
 | 3    | 2   | 34  | -    | 1   |
 ]
-
-???
-
-I am asking you to read this paper for homework. It's a worthwhile read. Hadley's packages like `dplyr` are very useful if you want to take the time to learn them. I probably should do that myself one day...
-
 ---
 
 ### Exploring data
@@ -283,6 +338,7 @@ You want to avoid situations like:
 * need to recreate a plot that you made "by hand" and saved "by hand";
 * figuring out why you removed certain observations;
 * trying to remember what variables had an interesting relationship that you wanted to follow up on later.
+---
 
 ### Exploring data
 
@@ -304,14 +360,196 @@ From the outset, stop and think about what you want to do. Start filling in deta
 ### Exploring data
 
 Other helpful ideas for formalizing exploratory data analysis:
-* `.Rhistory` files
-  * all the commands used in an R session
 * Informal `.Rmd` documents. 
   * easy way to organize code/comments into readable format
+* `.Rhistory` files
+  * all the commands used in an R session
 * `save` intermediate objects and workspaces
   * and document what they contain! 
 * `knitr::spin` 
   * writing `.R` scripts with rendered-able comments 
+
+---
+
+
+### Automated project initiation using `projectr` 
+
+The `projectr` package sets my preferred directory structure for a new project.
+* Borrowed *heavily* from `jeff-goldsmith/projectr`.
+  
+
+``` r
+devtools::install_github("julia-wrobel/projectr")
+
+projectr::proj_start(proj_dir = "~/projects/2024/202407_PERSON_PROJECT", 
+                     data_dir = "~/Data/202407_data")
+```
+
+
+
+__proj_dir__: where on your computer you want the project to live
+* *~Documents/projects/2024/* is where I store new projects
+* Whatever you decide, be consistent!
+
+__data_dir__: where the data to live, if not within your project folder
+* Sets up a symbolic link from the project directory to this folder
+
+???
+Talk about choosing where your main file and your data files should live. This should lead us to symbolic links
+
+---
+
+
+### Symbolic links
+
+There are great reasons NOT to put your raw data in the project folder
+* iOS uploads many folders automatically to the cloud
+* if you want to put the project on GitHub, you might want to exclude the data
+* maybe data is stored on OneDrive/Box/AWS and you don't want to download a local copy
+
+&lt;img src="figures/projectr_example.png" style="width:105%"&gt;
+
+???
+A symbolic link is basically just the Unix name for a shortcut. It allows the data to be accessed through the project directory data subfolder, even if the data is actually stored somewhere else.
+
+---
+
+### Setting up a symbolic link in the terminal
+
+Pseudo code for setting up a symbolic link:
+
+
+``` bash
+ln -s /path/to/target /path/to/symlink
+```
+
+
+
+???
+Knowing how to use the terminal will already come in handy! I've needed to set these up by hand a couple of times. For example, if I change the location of my data or if I get a new computer with a different username, which breaks the symbolic link
+---
+
+### Built-in `projectr` Rmd template
+
+
+In Rstudio, click `File &gt; New File &gt; Rmarkdown`                               
+
+
+&lt;img src="figures/template.png" style="width:65%"&gt;
+
+---
+
+### .Rproj files
+
+You may have noticed a file with the extension `.Rproj` in the productTesting folder
+* These are called `R projects` 
+* `projectr::proj_start()` automatically sets up an `.Rproj`.
+&lt;img src="figures/Rproj_example.png" style="width:105%"&gt;
+
+I'm going to try to convince you that these are the best.
+
+---
+
+
+### Benefits of using R projects
+
+__Project organization__: 
+* Relative file paths: ensures file paths are relative to the project directory, making scripts portable and easier to share.
+* Separate workspaces: prevents conflicts between variables and packages across different projects.
+
+
+__Reproducibility__
+* Can hand off entire directory to someone else and have them rerun your analysis
+* Works great with the `here` package
+
+Double clicking the `202405_sarah_productTesting.Rproj` opens up an R Studio session and automatically sets your working directory to the `202405_sarah_productTesting` folder.
+
+
+???
+We will get to the here package in a bit.
+
+For now, show off the use of R projects!
+---
+
+### Exercise 1
+
+We will walk through the following tasks together. We will be using this folder for the rest of the course so please set up your own folder as we go, and ask questions if you get lost!
+
+1. Use `projectr::proj_start()` to initiate a new project called `20240722_sismid_repro`.   Set up a directory in a separate location using the argument `data_dir`.
+2. Download the [data download script](scripts/01_data_download.R) and save it in the `source` folder of your new project directory as `01_data_download.R`.
+3. Make an Rmarkdown document that knits to html called `build_analysis.Rmd` and put it in the `analysis` folder of your project directory.
+---
+
+### Exercise 1 cont'd
+
+The `01_data_download.R` script should look like this:
+
+
+``` r
+library("RSocrata")
+library(tidyverse)
+
+# download longitudinal Covid WW concentration data from API
+covid &lt;- read.socrata(
+  "https://data.cdc.gov/resource/g653-rqe2.json",
+  app_token = Sys.getenv("TOKEN"),
+  email     = Sys.getenv("EMAIL"),
+  password  = Sys.getenv("PASSWORD")
+) %&gt;%
+  mutate(date_downloaded = Sys.Date())
+
+# download cross-sectional Covid WW concentration data from API, which will be used to get county names
+counties &lt;- read.socrata(
+  "https://data.cdc.gov/resource/2ew6-ywp6.json",
+  app_token = Sys.getenv("TOKEN"),
+  email     = Sys.getenv("EMAIL"),
+  password  = Sys.getenv("PASSWORD")
+)
+```
+
+
+---
+
+
+### .Renviron files
+
+In the previous slide you may have noticed code you may not be familiar with:
+
+
+``` r
+counties &lt;- read.socrata(
+  "https://data.cdc.gov/resource/2ew6-ywp6.json",
+  app_token = Sys.getenv("TOKEN"),
+  email     = Sys.getenv("EMAIL"),
+  password  = Sys.getenv("PASSWORD")
+)
+```
+
+.Renviron files set environment variables in R that you might not want to hard code into your scripts (e.g. API keys, passwords).
+* Store in root directory of your project
+* Syntax is `variable_name = "variable value"`, e.g. `TOKEN = "12345abc"`.
+  * Access this variable using `Sys.getenv("TOKEN")`.
+
+???
+By using a .Renviron file, you can keep sensitive information and configuration settings out of your scripts, making your code more secure and easier to manage.
+
+Also, apparently the second most popular password people use is their social security number. No!!
+---
+
+### .gitignore files
+
+A `.gitignore` file in Git is used to specify which files and directories should be ignored by Git when you make changes to a repository. This helps prevent unnecessary or sensitive files from being tracked and committed.
+* `projectr::proj_start()` automatically creates a `.gitignore` file and puts it in your root directory
+* ALWAYS put `.Renviron` in the `.gitignore` file if you want your API token and password to stay private!
+
+
+David will go over `.gitignore` files in more detail later when he talks about __git__ and __GitHub__.
+
+---
+
+### Try it!
+
+Let's walk through `Example 2`, which adds an .Renviron file.
 
 ---
 
@@ -323,7 +561,7 @@ Other helpful ideas for formalizing exploratory data analysis:
 For `R` projects, the [`here`](https://here.r-lib.org/) package provides a simple way to use relative file paths.
 * Read [Jenny Bryan and James Hester's chapter](https://rstats.wtf/project-oriented-workflow.html) on project-oriented work-flows.
 
-The use of `here` is dead-simple and best illustrated by example.
+The use of `here` is simple and best illustrated by example.
 
 ---
 
@@ -333,6 +571,7 @@ Consider this simple project structure.
 
 .code-box[
 my_project/ &lt;br&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp; my_project.Rproj &lt;br&gt;
 &amp;nbsp;&amp;nbsp;&amp;nbsp; data/ &lt;br&gt;
 &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; my_data.csv &lt;br&gt;
 &amp;nbsp;&amp;nbsp;&amp;nbsp; output/ &lt;br&gt;
@@ -343,12 +582,85 @@ my_project/ &lt;br&gt;
 ]
 
 Here, the folder `my_project` is the __root directory__.
-* Where `.git` lives
+* Where `.Rproj` lives
 * All file paths should be .green[relative] to `my_project`!
 
 ---
 
 ### The `here` package
+
+Makes it easy to load data using a relative file path that works across different operating systems: 
+
+
+``` rm
+library(here)
+my_data = read.csv(here("data", "file_i_want.csv"))
+```
+
+In contrast to:
+
+
+``` r
+# absolute path
+ugly_path = "/Users/JWROB/projects/my_project/data/file_i_want.csv"
+my_data = read.csv(ugly_path)
+```
+
+In contrast to:
+
+
+``` r
+relative_path = "./data/file_i_want.csv"
+my_data = read.csv(relative_path)
+```
+
+
+???
+The relative path is better, but still not reproducible across different OS. I want to be able to hand you my project folder and have you run it without having to change a single thing.
+---
+
+### The `here` package
+
+`here` works, regardless of where the associated source file lives inside your project
+* If you have an `.Rproj` file in your root directory of your project, here will set the location of the `.Rproj` to be the top-level directory 
+  * This is the behavior we want!
+* These paths will “just work” during interactive development, without incessant fiddling with the working directory of your IDE’s R process.    
+* I am oversimplifying the heuristics, feel free to [read more](https://github.com/jennybc/here_here?tab=readme-ov-file).
+
+
+???
+Raise your hand if you've ever gotten frustrated while interactively coding and the working directory is different from where your Rmarkdown lives... here has changed my life so much that I forgot that can even happen.
+---
+
+### The `here` package
+
+What if I want to load data in a document that lives in a subfolder such as `my_project/analysis/code.Rmd`?
+* Doesn't matter! You can use the same code within the `.Rmd` document to load the data
+
+``` r
+library(here)
+path_to_data = here("data", "file_i_want.csv")
+my_data = read.csv(path_to_data)
+```
+
+
+What if my data I want to access is nested in a subfolder of data, such as `my_project\data\raw_data\raw_file.csv`?
+
+
+``` r
+library(here)
+path_to_data = here("data", "raw_data", "raw_file.csv")
+my_data = read.csv(path_to_data)
+```
+
+???
+It's not only data you can access this way, but this is the most common use case.
+---
+
+### The `here` package
+
+If for some reason you don't use R projects (even though you should), you can still benefit from the `here` package.
+
 
 Each `R` script or `Rmd` report, should contain a call to `here::i_am('path/to/this/file')` at the top.
 * `path/to/this/file` should be replaced with the path .green[relative] to the project's __root directory__.
@@ -356,48 +668,85 @@ Each `R` script or `Rmd` report, should contain a call to `here::i_am('path/to/t
 
 For example, the file `R/my_analysis.R` might look like this.
 
-````
+
+``` r
 # include at top of script
 here::i_am('R/my_analysis.R')
 
 # now add all your great R code...
-````
-
----
-
-### The `here` package
-
-`Rmd/my_report.Rmd` should include an `R` chunk that calls `i_am`.
-
-````
----
-output: html_document
----
-
-```{r}
-here::i_am('Rmd/my_report.Rmd')
 ```
 
-&lt;!-- Now the rest of your Rmd code --&gt;
-````
+---
+
+### Starting a new analysis
+
+Once I've received data and decided to start an analysis, I'll typically follow these steps first:
+
+1. .gray[Set up a new project directory using `projectr::proj_start()`]
+2. .green[Open and do very basic exploration of the raw data]
+  * How many rows and columns do I have?
+  * Is the data in the format I need for analysis?
+3. .green[Make sure I understand the columns in my data.]
+  * If a data dictionary doesn't exist, I create one
+4. .green[Make a data cleaning file that reads in the raw data and outputs a tidied dataset]
+  * Typically reduces data to only information necessary for the planned analysis
+
+
 
 ---
 
-### The `here` package
+### Analysis of Covid WW concentration data
 
-The call to `i_am` establishes the __root directory__.
-* Subsequent file paths can be made using the `here` function.
+We are interesting in analyzing wastewater concentration of SARS-CoV-2 over time at the county level. We will start with only counties in Georgia.
 
-For example, `my_analysis.R` might look like this.
+Longitudinal data contains concentrations over time, and cross-sectional data contains information about county each data collection site is located in.
+* We will need to merge these two datasets
+* We also want to subset to collection sites in Georgia only
 
-````
+
+???
+We will do a very simple analysis.
+---
+
+
+### Exercise 3
+
+We will walk through this together as well, using the `20240722_sismid_repro` project we set up already.
+
+1. Using the `projectr` template, make an Rmarkdown document called `exploratory_analysis.Rmd` and put it in the `analysis` folder of your project directory. Load and explore the data. Take notes on what you learn. Add in brief descriptions of the key variables.
+2. Download the [data cleaning script](scripts/01_data_cleaning.R) and save it in the `source` folder of your new project directory as `02_data_cleaning.R`.
+3. Open your `build_analysis.Rmd` document and source the data loading and data cleaning files.
+
+---
+
+
+### Data analysis
+
+---
+
+
+
+### Data visualization
+
+---
+
+
+### Pulling it all together
+
+
+Very briefly reference make, add resources to end of RMd document.
+---
+
+
+### Parameterized reports
+
+
+
+---
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
-<script>var slideshow = remark.create({
-"highlightStyle": "tomorrow-night-blue",
-"highlightLanguage": "bash"
-});
+<script>var slideshow = remark.create();
 if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
   window.dispatchEvent(new Event('resize'));
 });
