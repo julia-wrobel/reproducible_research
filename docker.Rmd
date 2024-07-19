@@ -93,6 +93,14 @@ Answer
 
 </div>
 
+###  Running R Studio in a container
+
+
+###  Mounting project directory
+
+
+###  Building your own image
+
 
 
 <script>

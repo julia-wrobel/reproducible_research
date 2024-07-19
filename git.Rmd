@@ -410,6 +410,102 @@ In this exercise, we will:
 * create ssh credentials to allow us to push to GitHub
 * use `git push` to push files to GitHub
 
+Follow these instructions to create an __empty__ GitHub repository:
+
+* From GitHub dashboard, click on the `+` symbol in the upper right-hand corner and select New repository
+* Give the repository a name
+* __DO NOT__ check the `Add README file` box
+* __DO NOT__ add a `.gitignore`
+* __DO NOT__ choose a license
+* Click Create repository
+
+Now go back to your R Studio terminal emulator and run the following command to add the GitHub repository as a remote named `origin` to your local repository:
+
+```{bash, eval = FALSE}
+git remote add origin git@github.com:<github_user>/<repo_name>
+```
+
+* `<github_user>` = your GitHub username
+* `<repo_name>` = the name of your GitHub repository
+
+Confirm that the remote was added as expected by listing the remotes for your repository:
+
+```{bash, eval = FALSE}
+git remote –v
+```
+
+Now we are ready to push, except that we need to prove to GitHub that we have permission to push to a repository that we own. To do this we will use [private/public keys](https://crypto.stackexchange.com/questions/30462/private-and-public-keys).
+
+First, check if any keys exist already:
+
+```{bash, eval = FALSE}
+ls -al ~/.ssh
+```
+
+Look for files named
+
+* `id_rsa.pub`
+* `id_ecdsa.pub`
+* `id_ed25519.pub`
+
+If you do not have these files or if the `.ssh` directory does not exist, then you need to create a key pair.
+
+To create a key pair, run the following command:
+
+```{bash, eval = FALSE}
+ssh-keygen -t ed25519 -C "<github_account@email.com>"
+```
+
+Be sure to replace `<github_account@email.com>` with the email address you used to create your GitHub account.
+
+When prompted to `"Enter a file in which to save the key"`, press `Enter` to accept the default file location.
+
+For simplicity, when prompted to enter a passphrase, just press `Enter` twice to use no passphrase. If you would like the additional security of a password, read more about [configuring authentication agents](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/working-with-ssh-key-passphrases).
+
+Re-run the `ls --al ~/.ssh` command to confirm the key was created successfully. You should see a file with `.pub` ending displayed.
+
+Now head back to your web browser and GitHub. Navigate to the GitHub dashboard (i.e., your landing page once you sign in). 
+
+* Click on the icon in the top right corner of the page (this will be your picture, if you've uploaded one to your profile, otherwise it will be a pixelated image). 
+
+* Select Settings from the dropdown menu.
+
+* When the settings menu opens, on the left side of the screen, click "SSH and GPG keys".
+
+* Click the green button "New SSH Key"
+
+* Give the key a title (can be arbitrary)
+
+* Open the file `~/.ssh/id_<something>.pub` in R Studio.
+  * Recall that `~` means your `HOME` directory. To remind yourself of what this directory is you can run `echo $HOME` in the terminal.
+  * You may need to ensure that hidden files are shown in your file finder to see this file in order to open in in R Studio.
+
+* Copy the contents of the file to the Key box on GitHub
+
+* Click Add SSH key
+
+* Test your connection by executing ssh -T git@github.com
+
+You should see a message that reads:
+
+````
+Hi <user>! You've successfully authenticated, but GitHub does not provide shell access.
+````
+
+Now we are finally ready to push to GitHub. Use the command: 
+
+```{bash, eval = FALSE}
+git push origin main
+```
+
+If you get an error about `no branch named main`, then try:
+
+```{bash, eval = FALSE}
+git push origin master
+```
+
+Once you have pushed, refresh your browser on your GitHub repository. You should be able to see your code!
+
 <br>
 
 ### Practicing add/commit/push
@@ -419,24 +515,153 @@ In this exercise, we will:
 * write a `README.md` file for your GitHub repository
 * add, commit, and push `README.md` to your GitHub repository
 
-<!--
-Exercise: Instead of writing README.md by hand, use a .Rmd file to create it.
--->
+__Exercise__: Create a file called `README.md` using R Studio. Put the following contents into the file:
 
-<!--
-Exercise: Include a code chunk in the .Rmd file to show that it is easier to show demo code when creating with .Rmd
--->
+````
+# COVID-19 Wastewater Analysis
+
+This repo houses test code from the SISMID 2024 course Hitchhikers Guide to reproducibility.
+````
+
+Make a new commit that includes the `README.md` and then push the commit to GitHub.
+
+<button type="button" class="collapsible">View solution</button>
+<div class="content">
+
+To add and commit the file:
+
+```{bash, eval = FALSE}
+git add README.md
+git commit -m "Add README to repo"
+```
+
+To push to GitHub:
+
+```{bash, eval = FALSE}
+# replace main with master as appropriate
+git push origin main
+```
+
+</div>
+
+<br> 
+
+__Exercise__: Instead of creating a markdown file directly, we will instead use R Markdown to create the file. 
+
+Create a new file called `README.Rmd`. In the `yaml` header, include `output_type: github_document`. Write a new `README` file using R Markdown syntax. Feel free to include code chunks or whatever. This is your opportunity to tell people how your code works!
+
+Knit the document, outputting a modified version of `README.md`. Create a commit that includes both the source code `README.Rmd` and the updated `README.md` file.
+
+<button type="button" class="collapsible">View solution</button>
+<div class="content">
+
+In the `README.Rmd` file, we might include the following contents.
+
+````
+---
+title: COVID-19 Wastewater analysis
+output_type: github_document
+---
+
+This repo houses test code from the SISMID 2024 course Hitchhikers Guide to reproducibility.
+
+I am including some R code just to demonstrate that R Markdown helps with nice README formatting.
+
+`r ''````{r}
+a <- 10
+b <- 10
+a + b
+```
+````
+
+Please be sure to include the line `This repo houses test code from the SISMID 2024 course Hitchhikers Guide to reproducibility.` It is referenced in another exercise below.
+`
+Knit the document to create README.md. Then create a commit and push it using:
+
+```{bash, eval = FALSE}
+git add README.Rmd README.md
+git commit -m "Update README using R Markdown"
+git push origin main
+```
+
+Refresh your GitHub repository to see the changes to your `README`.
+
+</div>
 
 <br>
 
 ### Creating and merging branches
 
-In this exercise, we will:
+In this series of exercises, we will:
 
 * create a new branch
 * make a commit on the new branch
 * merge the new branch with `main`
 * delete the new branch
+
+__Exercise__: Create a branch named `plot`. Checkout this branch and begin to make minor modifications to the figure generated by `[TODO]/[TODO].R`. Create a commit with the new changes.
+
+<button type="button" class="collapsible">View solution</button>
+<div class="content">
+
+To create a new branch we run:
+
+```{bash, eval = FALSE}
+git branch plot
+```
+
+To move the `HEAD` pointer to the new branch we run:
+
+```{bash, eval = FALSE}
+git checkout plot
+```
+
+Note that there is an option that can be used as a shortcut to do both of these steps at the same time! 
+
+```{bash, eval = FALSE}
+git checkout -b plot
+```
+
+Now you can modify the plotting file as you please. E.g., you might change the axis labels. Save the file when you are done.
+
+Make a commit on the `plot` branch:
+
+```{bash, eval = FALSE}
+git add [TODO]/[TODO.R]
+git commit -m "Update plotting code"
+```
+
+Use `git log --oneline` to confirm that `plot` branch is now 1 commit ahead of `main`.
+
+</div>
+
+Now that we have made a commit on the `plot` branch, let's pause to see how we would view the older version of the code that is still on the `main` branch.
+
+To do this, we simply move the `HEAD` pointer by checking out `main`.
+
+```{bash, eval = FALSE}
+git checkout main
+```
+
+View the contents of `[TODO]/[TODO.R]` in R Studio. You should see the older version of the code.
+
+
+__Exercise__: Merge `plot` into `main`.
+
+<button type="button" class="collapsible">View solution</button>
+<div class="content">
+
+Be sure that you have `main` checked out. If you are not sure, use `git branch` to see. The branch with the asterisk is your current branch. If you are not on `main`, use `git checkout main` to switch branches.
+
+Once you are satisfied that you are on the `main` branch run:
+
+```{bash, eval = FALSE}
+git merge plot
+```
+
+Check `git log --oneline` to confirm that that `main` pointer has appropriately moved. 
+
+</div>
 
 <br>
 
@@ -451,42 +676,258 @@ In this exercise, we will:
 * attempt to merge when conflicts are present
 * resolve conflicts and complete the merge
 
+We are going to create a new branch specifically to work on our `README` again. Let's call the branch `readme`:
+
+```{bash, eval = FALSE}
+git branch readme
+git checkout readme
+```
+
+Open `README.Rmd` in R Studio. Modify the line:
+
+````
+This repo houses test code from the SISMID 2024 course Hitchhikers Guide to reproducibility.
+````
+
+to read
+
+````
+This repo houses test code from the *FANTASTIC* SISMID 2024 course Hitchhikers Guide to reproducibility.
+````
+
+Save the file, knit it, and commit the changes:
+
+```{bash, eval = FALSE}
+# use pattern matching to add both files
+git add README*
+git commit -m "Update READMEs with thoughts on course."
+```
+
+Now checkout the `main` branch. When you open `README.Rmd` you should see that the text has reverted to
+
+````
+This repo houses test code from the SISMID 2024 course Hitchhikers Guide to reproducibility.
+````
+
+Change it to
+
+````
+This repo houses test code from the *absolutely miserable* SISMID 2024 course Hitchhikers Guide to reproducibility.
+````
+
+Save the file, knit it, and commit the changes:
+
+```{bash, eval = FALSE}
+# use pattern matching to add both files
+git add README*
+git commit -m "Update READMEs with new thoughts on course."
+```
+
+__Exercise__: Attempt to merge `readme` into `main`. Identify the merge conflicts by selecting your true feelings for this course. Commit the result.
+
+<button type="button" class="collapsible">View solution</button>
+<div class="content">
+
+There will be conflicts in `README.Rmd` and `README.md`. In both files you should see something like this:
+
+````
+<<<<<<< HEAD
+This repo houses test code from the *absolutely miserable* SISMID 2024 course Hitchhikers Guide to reproducibility.
+=======
+This repo houses test code from the *FANTASTIC* SISMID 2024 course Hitchhikers Guide to reproducibility.
+>>>>>>> readme
+````
+
+Remember that we are on the `main` branch so `HEAD` is currently point to `main`. Thus, the text that appears first is that from the `main` branch; the text on the bottom is from `readme`.
+
+Express your true feelings by removing the text that you do not want to keep (and the extra symbols). Save the file and commit the result:
+
+```{bash, eval = FALSE}
+git add README*
+git commit -m "Resolve my conflict(ed feelings)"
+```
+
+</div>
+
 <br>
 
 ### Pull requests and upstream tracking
 
-In this exercise, we will work in pairs. Designate a partner as User A and User B.
+This is a longer exercising involving a partner. Designate one partner as User A and the other as User B.
 
-First, User A will:
+First, User B will:
 
-* fork an existing repository
+* fork User A's existing repository
 * `clone` the repository to create a local repository
 * make changes to the local repository
 * `push` changes to GitHub
 * submit a pull request
 
-Next, User B will:
+Next, User A will:
 
-* add User A's repository as a remote
-* `fetch` User A's repository
-* merge User A's changes to their local repository
+* add User B's repository as a remote
+* `fetch` User B's repository
+* merge User B's changes to their local repository
 * push their changes to GitHub
 
-Then, we will use `upstream` tracking by User A of User B's repository. User B will:
+Then, we will use `upstream` tracking by User B of User A's repository. User A will:
 
 * make changes to their local repository
 * `push` those changes to GitHub
 
-Finally, User A will:
+Finally, User B will:
 
-* add User B's repository as an `upstream` remote
-* `fetch` User B's repository
-* merge User B's changes into their local repository
+* add User A's repository as an `upstream` remote
+* `fetch` User A's repository
+* merge User A's changes into their local repository
 * push their changes to GitHub
 
-If you have time, switch roles and repeat the exercise!
+Specific instructions are given in the subheadings below.
+
+#### User A: Confirm GitHub repository is accessible
+
+*User A* should have a GitHub repository created associated with the exercises above. Share your GitHub user name and your GitHub repository name with *User A*.
+
+#### User B: Fork and clone the repository
+
+*User B* should now fork and clone *User A*'s repository on GitHub using the following steps.
+
+To do this, *User B* should navigate to `https://github.com/<user_a_name>/<user_a_repo>` and click "Fork" to create a fork of *User A*'s repository.
+
+* replace `<user_a_name>` with *User A*'s GitHub user name
+* replace `<user_a_repo>` with *User A*'s GitHub repository name
+
+Recall that this creates a copy of *User A*'s GitHub repository on *User B*'s GitHub. This repository is now viewable at `https://github.com/<user_b_name>/<user_b_repo>`.
+
+*User B* is now going to clone __their copy__ (not User A's copy!) of the GitHub repository.
+
+To do this, *User B* should use `cd` in their terminal to navigate to a directory where they wish to download *User A*'s repository.
+
+*User B* should execute 
+
+```{bash, eval = FALSE}
+# make sure this is User B's repo
+# and NOT User A's!!!
+git clone git@github.com:<user_b_name>/<user_b_repo>` 
+```
+
+* this will clone *User B*'s fork of the repository
+* be sure to use the `git@github.com:<user_b_name>/<user_b_repo>` syntax and __not__ `https://github.com/<user_b_name>/<user_b_repo>` syntax.
+  * You can confirm what web address was used to add the remote by executing `git remote -v`.
+
+If the output of `git remote -v` shows that you accidentally used `https://` syntax in your `git clone` command then *User B* should remove the origin `remote` using `git remote remove origin` and then re-add the remote using "ssh"-style syntax: `git remote add origin git@github.com:<user_b_name>/<user_b_repo>`.
+
+*User B* should confirm that a folder called `<user_b_repo>` was added to the current working directory of their terminal.
+
+#### User B: Update the repository and submit a pull request
+
+*User B* will now make a new branch and make updates to *User A*'s repo on that branch. *User B* should complete the following steps:
+
+* Create and checkout a new branch called `feature` by executing `git checkout -b feature`
+  * recall that this simultaneously creates and checks out a new branch called `feature`
+  * confirm that *User B* has switched to the new branch by executing `git branch`. You should see a star next to `feature`
+
+* Modify something about the `[TODO]/[TODO.R]` script. E.g., [TODO]
+
+* After completing changes, appropriately use `git add` and `git commit` to make a new commit along the `feature` branch
+
+* Push the `feature` branch to GitHub.
+
+```{bash, eval = FALSE}
+git push origin feature
+```
+
+* Submit a pull request to *User A*'s repository.
+  * the pull request should request that *User B*'s `feature` branch be merged into *User A*'s `main` branch.
+
+#### User A: test out pull request code
+
+*User A* will now `fetch` the code submitted by *User B*, test it out, and eventually merge it into their `main` branch, thereby closing the pull request. To do this *User A* should 
+
+* Add *User B*'s repository as a remote named `userb`.
+  
+```{bash, eval = FALSE}
+git remote add userb git@github.com:<user_b_name>/<user_b_repo>`
+```
+    * replace `<user_b_name>` with *User B*'s GitHub user name
+    * replace `<user_b_repo>` with *User B*'s GitHub repository name
+
+* `fetch` from *User B*'s repository.
+
+```{bash, eval = FALSE}
+git fetch <user_b_remote_name>
+```
+
+  * Recall that this command downloads the contents of *User B*'s repository and creates a remote tracking branch called `userb/feature`.
+
+* *User A* should checkout the remote tracking branch to try out the new code
+
+```{bash, eval = FALSE}
+git checkout userb/feature 
+``` 
+  
+* *User A* should test out the code on the `feature` branch.
+  - E.g., confirm that the report builds properly with the updated code
+
+* When *User A* is satisfied that the code works as expected, they should merge the `userb/feature` branch into `main`.
+```{bash, eval = FALSE}
+git checkout main
+git merge userb/feature
+```
+
+* *User A* should push the updated `main` branch to GitHub.
+
+```{bash, eval = FALSE}
+git push origin main
+```
+Both users should now see *User B*'s pull request as "merged" on GitHub.
+
+#### User A: New commits
+
+*User A* will now create new commits on `main` that *User B* will need to track in order to keep up with the current state of the repository.
+
+* *User A* should add some additional (trivial) code to the code base.
+  * If you can't think of anything interesting to do, just add a comment to an R script.
+
+* *User A* should appropriately `add` and `commit` this changes.
+
+* *User A* should appropriately `push` these changes to their GitHub repository.
 
 
+#### User B update local repository
+
+Now *User B* wishes to merge the changes made by *User A* into their `main` branch, so that their repository stays up to date with *User A*'s. 
+
+* *User B* should add a remote called `upstream` that points to *User A*'s GitHub repository.
+
+```{bash, eval = FALSE}
+git remote add upstream git@github.com <user_a_name>/<user_a_repo>`
+```
+
+User B* should now `fetch` from the `upstream` remote and merge `upstream/main` into `main`
+
+* To download the current contents of *User A*'s repository (i.e., the `upstream` remote) to *User B*'s computer use:
+
+```{bash, eval = FALSE}
+git fetch upstream
+```
+
+* *User B* should ensure that they are on their own `main` branch by checking `git branch`. If they are not on `main`, use  `git checkout main`
+
+* Merge *User A*'s changes into *User B*'s `main` branch.
+
+```{bash, eval = FALSE}
+git merge upstream/main
+```
+* Confirm that *User B*'s local files on the `main` branch now look like *User A*'s files from GitHub.
+
+* Finally, *User B* should `push` their `main` branch to their GitHub fork to make sure the fork is up to date as well:
+
+```{bash, eval = FALSE}
+git push origin main
+```
+
+If you have time, reverse roles of User A and B and repeat the exercise. 
 
 
 <script>
