@@ -14,17 +14,17 @@ navbar:
     - text: "Course materials"
       menu:
         - text: "Introduction"
-          href: construction.html
+          href: intro.html
         - text: "Motivations"
-          href: construction.html
+          href: motivations.html
         - text: "Course data"
-          href: construction.html
+          href: course_data.html
         - text: "Using the command line"
-          href: construction.html
+          href: command_line.html
         - text: "Project organization"
           href: construction.html
         - text: "Coding style"
-          href: construction.html
+          href: coding_style.html
         - text: "Git and GitHub"
           href: construction.html
         - text: "Docker"
