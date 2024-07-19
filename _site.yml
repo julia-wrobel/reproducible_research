@@ -19,7 +19,7 @@ navbar:
           href: motivations.html
         - text: "Course data"
           href: course_data.html
-        - text: "Using the command line"
+        - text: "Command line"
           href: command_line.html
         - text: "Project organization"
           href: construction.html
