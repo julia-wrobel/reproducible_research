@@ -121,7 +121,7 @@ esc # gets out of text writing mode
 </div>
 
 
-## Additional resources
+## Additional readings
 
 * [Learn enough command line to be dangerous](https://www.learnenough.com/command-line-tutorial): this tutorial is more or less an expanded version of what I talked about today.
 * [List of more tutorials](http://www.tutorialspoint.com/unix/): tons of resources exist if you want to get more advanced!

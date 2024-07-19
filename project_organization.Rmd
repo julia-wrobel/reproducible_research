@@ -241,7 +241,7 @@ ln -s "~/onedrive/Data/2024/202407_wrobel_sismid"  "~/projects/2024/202407_wrobe
 </div>
 
 
-## Additional reading
+## Additional readings
 
 * [Jenny Bryan and James Hester's chapter on project-oriented workflow](https://rstats.wtf/project-oriented-workflow.html)
 * [Hadley Wickham on R Projects](https://r4ds.had.co.nz/workflow-projects.html)

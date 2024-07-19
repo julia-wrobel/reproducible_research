@@ -105,7 +105,7 @@ counties <- read.socrata(
 
 
 
-## Additional resources
+## Additional readings
 
 
 * [Using SoQL queries in data pulls](https://dev.socrata.com/docs/queries/)
