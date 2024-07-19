@@ -1,7 +1,7 @@
-name: "The HitchHikers Guide to Reproducible Research"
+name: "Hitchhikers Guide to Reproducible Research"
 output_dir: "."
 navbar:
-  title: "The HitchHikers Guide to Reproducible Research"
+  title: "Hitchhikers Guide to Reproducible Research"
   right:
     - text: "About"
       href: about.html

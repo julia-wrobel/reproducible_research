@@ -2,33 +2,8 @@
 title: "About This Website"
 ---
 
-This is an [R Markdown website](http://rmarkdown.rstudio.com/rmarkdown_websites.html) for a reproducible research workshop at SISMID 2024.
+This is an [R Markdown website](http://rmarkdown.rstudio.com/rmarkdown_websites.html) for the course Hitchhikers Guide to Reproducible Research taught at the [Emory University Summer Institute in Statistics and Modeling in Infectious Diseases (SISMID)](https://sph.emory.edu/SISMID/index.html).
 
-In the short course, we'll use several packages which are listed below. Code to install the packages follows, and version information about each of these packages and their dependencies is at the bottom of this page.
+The 2.5 day course is taught by by [David Benkeser](https://davidbphd.com/) and [Julia Wrobel](http://juliawrobel.com/).
 
-Installing packages from CRAN
-
-```{r, eval=FALSE}
-# main packages
-install.packages(c("tidyverse"))
-
-# additional packages used for visualization
-install.packages(c("viridis", "patchwork"))
-```
-
-Installing packages from GitHub
-
-```{r, eval = FALSE}
-# install projectr from GitHub
-install.packages("devtools")
-devtools::install_github("julia-wrobel/projectr")
-```
-
-
-
-Versions of key packages:
-
-```{r}
-devtools::session_info(c("tidyverse"))
-```
-
+Source code for the website can be found [on GitHub](https://github.com/julia-wrobel/reproducible_research).

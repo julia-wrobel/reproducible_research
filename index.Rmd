@@ -1,9 +1,17 @@
 ---
-title: "The HitchHikers Guide to Reproducible Research"
+title: "The Hitchhikers Guide to Reproducible Research"
 ---
 
 
-This page contains materials by [David Benkeser](https://davidbphd.com/) and [Julia Wrobel](http://juliawrobel.com/) for the short course titled "The HitchHikers Guide to Reproducible Research", developed for the 2024 Summer Institute in Statistics and Modeling in Infections Diseases (SISMID). 
+This page contains materials by [David Benkeser](https://davidbphd.com/) and [Julia Wrobel](http://juliawrobel.com/) for the short course titled "Hitchhikers Guide to Reproducible Research", developed for the 2024 Summer Institute in Statistics and Modeling in Infections Diseases (SISMID).
+
+Lecture material is available via the navigation bar above. Each section has its own devoted web page. These pages include downloadable slides and in some cases, practice exercises and solutions.
+
+Prior to starting the lecture material, students should download and install certain software packages. Please see the [software installations page](http://juliawrobel.com/reproducible_research/preread-installs.html) for more details.
+
+Students enrolling in this course are expected to have some familiarity with R and R Markdown. Students who are unfamiliar with these areas can brush up using the [pre-read material](http://juliawrobel.com/reproducible_research/preread-rstudio-review.html).
+
+
 
 
 
