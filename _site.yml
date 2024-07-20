@@ -26,9 +26,9 @@ navbar:
         - text: "Coding style"
           href: coding_style.html
         - text: "Git and GitHub"
-          href: construction.html
+          href: git.html
         - text: "Docker"
-          href: construction.html
+          href: docker.html
     - icon: fa-github fa-lg
       href: https://github.com/julia-wrobel/reproducible_research
 output:

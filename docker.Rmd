@@ -39,7 +39,7 @@ theme_set(theme_bw() + theme(legend.position = "bottom"))
 
 In this exercise, we will:
 
-* run a container based on the `rocker/rstudio:4.4.1` image
+* run a container based on the `rocker/tidyverse:4.4.1` image
 * explore the file system of the container
 * take note of the `rstudio/home` directory
 * open R
@@ -50,13 +50,13 @@ Before you start, make sure that your terminal emulator is in your project's roo
 At the command line, execute the following command.
 
 ```{bash, eval = FALSE}
-docker run -it rocker/rstudio:4.4.1 bash
+docker run -it rocker/tidyverse:4.4.1 bash
 ```
 
 * `-it` means we want to run an interactive container
 * `bash` at the end means we want to open a bash terminal in the container (see below)
 
-When you execute this command, docker will check for the existence of the image on your computer. The first time you run this command, you likely will not have downloaded the `rocker/rstudio:4.4.1` image from docker hub. As a result, the command will automatically download the image for you. While the image downloads you will see various status updates that look like this:
+When you execute this command, docker will check for the existence of the image on your computer. The first time you run this command, you likely will not have downloaded the `rocker/tidyverse:4.4.1` image from docker hub. As a result, the command will automatically download the image for you. While the image downloads you will see various status updates that look like this:
 
 ````
 Unable to find image 'rocker/tidyverse:4.4.1' locally
@@ -104,7 +104,7 @@ Confirm that the file was created using `ls` again. Once you have confirmed the 
 __Execise__: Start a new container using exactly the same syntax as above:
 
 ```{bash, eval = FALSE}
-docker run -it rocker/rstudio:4.4.1 bash
+docker run -it rocker/tidyverse:4.4.1 bash
 ```
 
 Check for the existence of the file you created above, `/home/rstudio/foo`. Can you find the file?
@@ -133,7 +133,7 @@ In this exercise, we will see how to
 To run an interactive R Studio session, run the following command:
 
 ```{bash, eval = FALSE}
-docker run -e PASSWORD="SECRET123" -p 8787:8787 rocker/rstudio:4.4.1
+docker run -e PASSWORD="SECRET123" -p 8787:8787 rocker/tidyverse:4.4.1
 ```
 
 You will see some printed messages. You will know that your container is successfully running if you see:
@@ -177,7 +177,7 @@ Once you have confirmed your working directory is your project directory, then y
 docker run -e PASSWORD="SECRET123" \
 -p 8787:8787 \
 -v $(pwd):/home/rstudio \
-rocker/rstudio:4.4.1
+rocker/tidyverse:4.4.1
 ```
 
 There are two new things about this command:
@@ -189,7 +189,7 @@ The `-v` option makes the `/home/rstudio` directory exactly the same as our curr
 
 * If you care about the details, `$(pwd)` is using [bash command substitution](https://www.gnu.org/software/bash/manual/html_node/Command-Substitution.html), which means that the expression `pwd` is evaluated prior to the `docker run` command and is replaced by its evaluation (i.e., your current working directory).
 
-__Exercise__: Sign in via your browser to the R Studio session that is running. Confirm that you can see project related files. Open the report document and attempt to knit the report. What happens?
+__Exercise__: Sign in via your browser to the R Studio session that is running. Confirm that you can see project related files and attempt to knit the report. What happens?
 
 <button type="button" class="collapsible">View solution</button>
 <div class="content">
@@ -223,10 +223,12 @@ Open a new text file in R Studio: Select File: New: Text file. Save the file wit
 Add the following contents to this file:
 
 ````
-FROM rocker/rstudio:4.4.1
+FROM rocker/tidyverse:4.4.1
 
 # install R package from command line
+RUN Rscript -e "install.packages('here')
 RUN Rscript -e "install.packages('RSocrata')
+RUN Rscript -e "install.packages('forcats')
 # add additional R packages required here
 ````
 
@@ -255,12 +257,11 @@ __Exercise__: Log into the R Studio session and attempt to build the report. If 
 A working `Dockerfile` should look roughly like this:
 
 ````
-FROM rocker/rstudio:4.4.1
+FROM rocker/tidyverse
 
 # install R package from command line
 RUN Rscript -e "install.packages('RSocrata')
-# add additional R packages required here
-[TODO]
+
 ````
 
 Once the report is successfully built, note that the final report is accessible even after the container has stopped due to the use of directory mounting (`-v` option).

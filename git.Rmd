@@ -27,12 +27,9 @@ theme_set(theme_bw() + theme(legend.position = "bottom"))
 
 ## Slide Deck
 
-<div class="container" style="position: relative; overflow: hidden; width: 100%; padding-top: 100%;">
+<div class="container" style="position: relative; overflow: hidden; width: 100%; padding-top: 60%;">
 <iframe class="responsive-iframe" style="position: absolute; top: 0; left: 0; right: 0; width: 100%; height: auto; aspect-ratio: 560 / 314" title="Git notes" src="https://www.dropbox.com/scl/fi/ogqcsc7qr131vj85zutln/git.pdf?rlkey=vkdsp89q96cpui0zf5zs8ckzo&raw=1"></iframe>
 </div>
-
-
-<br>
 
 ## Exercises
 
@@ -99,7 +96,16 @@ git status
 The output will look something like this:
 
 ````
-[TODO]
+On branch main
+
+No commits yet
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+  .Renviron
+  .Rhistory
+  ...
+  ...
 ````
 
 Note that git is telling you that there are files in this directory that are not being tracked.
@@ -110,17 +116,7 @@ To make a new commit, we generally use the command
 git add <file_name1> <file_name2> <...>
 ```
 
-Use this command to stage all of the R scripts in the project for commit.
-
-* [TODO]
-* [TODO]
-
-__DO NOT__ stage any of the following files (yet).
-
-* [TODO]
-* [TODO]
-
-__Exercise__: What is an efficient way to use pattern matching to add all R scripts with minimal effort?
+__Exercise__: Use this command to stage all of the R scripts in the project for commit. 
 
 <button type="button" class="collapsible">View solution</button>
 <div class="content">
@@ -133,10 +129,10 @@ git add *.R
 
 If this command is executed from the projects root directory, then it will add all files with the `.R` extension included in your project.
 
-Or if all your R scripts are contained in a directory, e.g., named `code`, you could add the folder.
+Or if all your R scripts are contained in a directory, e.g., named `source`, you could add the folder.
 
 ```{bash, eval = FALSE}
-git add code
+git add source
 ```
 
 Pattern matches can be useful for adding multiple files, but keep two things in mind:
@@ -159,13 +155,19 @@ git add --all
 
 </div>
 
-Once you have confirmed that you have staged the appropriate files for commit, make the commit using the following command:
+Before committing, stage the analysis directory for commit as well.
+
+```{bash, eval = FALSE}
+git add analysis
+```
+
+Then make the commit using the following command:
 
 ```{bash, eval = FALSE}
 git commit -m "<add-your-message-here>"
 ```
 
-Add an informative message!
+Be sure to replace `<add-your-message-here>` with an informative message!
 
 Take a final look at `git status`. What has changed?
 
@@ -186,10 +188,17 @@ In this exercise, we will:
 * commit a new version of the file
 * use `git log` to look at the history of a project
 
-Open [TODO] script in the R studio editor. Modify line [TODO] to read as follows:
+Open the `source/04_data_visualization.R` script in the R studio editor. Change something about the plot code. For example, you could add a different theme to a plot
 
 ```{r, eval = FALSE}
-[TODO]
+plot1 = covid %>%
+  mutate(county = factor(county),
+         county = fct_reorder(county, concentration)) %>%
+  ggplot(aes(county, log(concentration), group = county, fill = county)) +
+  geom_boxplot() +
+  theme(legend.position = "none",
+        axis.text.x = element_text(angle = 45, hjust = 1)) + 
+  theme_bw()
 ```
 
 Save the file in R Studio. Confirm that the file has saved by ensuring that the name of the file has changed from red to black. (You would be surprised how much confusion can be caused by forgetting to save files)
@@ -199,7 +208,7 @@ Take a look at `git status`. What does it have to say about the modified file?
 Use the following command to view the difference between the new version of the file and the version on the current commit.
 
 ```{bash, eval = FALSE}
-git diff [TODO]
+git diff source/04_data_visualization.R
 ```
 
 If all of the changes fit on one screen, the differences will simply print to the console.
@@ -209,7 +218,7 @@ If there are A LOT of changes, then you can scroll through the differences eithe
 Next, stage the file for commit:
 
 ```{bash, eval = FALSE}
-git add [TODO]
+git add source/04_data_visualization.R
 ```
 
 __Exercise__: We are now going to do something a little bit scary. We are going to run the `git commit` command but forget to include a message 😱
@@ -280,19 +289,19 @@ In this exercise, we will:
 * demonstrate renaming files using `git mv` in a new commit
 * delete a file using `git rm` in a new commit
 
-In R Studio, open a new file, add whatever you want to the file, and save it in the [TODO] directory. Name the file `foo.R`.
+In R Studio, open a new file, add whatever you want to the file, and save it in the `source` directory. Name the file `foo.R`.
 
 Use the following commands to commit this new file:
 
 ```{bash, eval = FALSE}
-git add [TODO]/foo.R
+git add source/foo.R
 git commit -m "Add temporary file to demonstrate renaming and removing"
 ``` 
 
 To rename the file use:
 
 ```{bash, eval = FALSE}
-git mv [TODO]/foo.R [TODO]/bar.R
+git mv source/foo.R source/bar.R
 ``` 
 
 Check `git status` to see what git thinks about this change! To commit, run:
@@ -304,7 +313,7 @@ git commit -m "Rename temporary file"
 To remove the file use:
 
 ```{bash, eval = FALSE}
-git rm [TODO]/bar.R
+git rm source/bar.R
 ```
 
 Check `git status` to see what git thinks about this change! To commit, run:
@@ -313,10 +322,10 @@ Check `git status` to see what git thinks about this change! To commit, run:
 git commit -m "Remove temporary file"
 ```
 
-__Exercise__: Repeat the above process of creating a new file in the `[TODO]` directory named `foo.R`. Add it to a new commit using `git add` and `git commit`. Now suppose you forget to use `git mv` to rename the file and instead use plain old `mv`:
+__Exercise__: Repeat the above process of creating a new file in the `source` directory named `foo.R`. Add it to a new commit using `git add` and `git commit`. Now suppose you forget to use `git mv` to rename the file and instead use plain old `mv`:
 
 ```{bash, eval = FALSE}
-mv [TODO]/foo.R [TODO]/bar.R
+mv source/foo.R source/bar.R
 ```
 
 Check `git status` to see what git thinks has happened. What do you need to do to complete the process of committing the renamed file? 
@@ -324,13 +333,13 @@ Check `git status` to see what git thinks has happened. What do you need to do t
 <button type="button" class="collapsible">View solution</button>
 <div class="content">
 
-Notice that `git status` should show `[TODO/foo.R]` as being deleted and show `[TODO/bar.R]` as an Untracked file.
+Notice that `git status` should show `source/foo.R` as being deleted and show `source/bar.R` as an Untracked file.
 
 To complete the commit we need to run:
 
 ```{bash, eval = FALSE}
-git add [TODO/bar.R]
-git rm [TODO/foo.R]
+git add source/bar.R
+git rm source/foo.R
 git commit -m "Rename temporary file"
 ```
 
@@ -338,7 +347,7 @@ git commit -m "Rename temporary file"
 
 <br>
 
-__Exercise__: In the previous exercise, you again renamed the file `[TODO]/foo.R` to `[TODO/bar.R]`. Now create a commit that removes `[TODO/bar.R]` but __does not delete__ the file from your local directory.
+__Exercise__: In the previous exercise, you again renamed the file `source/foo.R` to `source/bar.R`. Now create a commit that removes `source/bar.R` but __does not delete__ the file from your local directory.
 
 <button type="button" class="collapsible">View solution</button>
 <div class="content">
@@ -346,13 +355,13 @@ __Exercise__: In the previous exercise, you again renamed the file `[TODO]/foo.R
 This can be accomplished using the following (not very intuitively named) option:
 
 ```{bash, eval = FALSE}
-git remove --cached [TODO]/bar.R
+git remove --cached source/bar.R
 git commit -m "Remove temporary file"
 ```
 
-Using `ls` should confirm that `[TODO]/bar.R` has not been deleted from your directory. 
+Using `ls` should confirm that `source/bar.R` has not been deleted from your directory. 
 
-Checking `git status` should show that `[TODO]/bar.R` is now treated as any other untracked file. For example, it could be added back to a new commit.
+Checking `git status` should show that `source/bar.R` is now treated as any other untracked file. For example, it could be added back to a new commit.
 
 </div>
 
@@ -364,10 +373,10 @@ In this exercise, we will:
 
 * create a `.gitignore` file to ignore certain files
 
-After completion of the previous exercise, you should have a file named `[TODO]/bar.R` that is untracked by git. If you did not complete the previous exercise or do not have such a file available, then create one by running:
+After completion of the previous exercise, you should have a file named `source/bar.R` that is untracked by git. If you did not complete the previous exercise or do not have such a file available, then create one by running:
 
 ```{bash, eval = FALSE}
-touch [TODO]/bar.R
+touch source/bar.R
 ```
 
 Now we are ready to create our `.gitignore` file. In R Studio, select File: New File: Text file.
@@ -380,12 +389,12 @@ Now add the following text to the `.gitignore` file
 # don't want credentials in git!
 .Renviron
 # ignoring this file to see behavior
-[TODO]/bar.R
+source/bar.R
 ````
 
 Save the file when you are done adding the text.
 
-Now check `git status` again. You should no longer see [TODO]/bar.R appear as an untracked file.
+Now check `git status` again. You should no longer see source/bar.R appear as an untracked file.
 
 __Exercise__: You may have also noticed that git is now treating the `.gitignore` file itself as an untracked file. Here's what should be an easy exercise by now (hopefully!) -- make a new commit that includes the `.gitignore` file
 
@@ -514,14 +523,14 @@ Once you have pushed, refresh your browser on your GitHub repository. You should
 
 In this exercise, we will:
 
-* write a `README.md` file for your GitHub repository
+* modify `README.md` file for your GitHub repository
 * add, commit, and push `README.md` to your GitHub repository
 
-__Exercise__: Create a file called `README.md` using R Studio. Put the following contents into the file:
+__Exercise__: Open the `README.md` using R Studio. 
+
+Add the following passage somewhere in the document.
 
 ````
-# COVID-19 Wastewater Analysis
-
 This repo houses test code from the SISMID 2024 course Hitchhikers Guide to reproducibility.
 ````
 
@@ -548,7 +557,8 @@ git push origin main
 
 <br> 
 
-__Exercise__: Instead of creating a markdown file directly, we will instead use R Markdown to create the file. 
+<!--
+__Exercise__: Instead of creating a markdown file directly, we could instead use R Markdown to create the file. 
 
 Create a new file called `README.Rmd`. In the `yaml` header, include `output_type: github_document`. Write a new `README` file using R Markdown syntax. Feel free to include code chunks or whatever. This is your opportunity to tell people how your code works!
 
@@ -592,6 +602,8 @@ Refresh your GitHub repository to see the changes to your `README`.
 
 <br>
 
+--> 
+
 ### Creating and merging branches
 
 In this series of exercises, we will:
@@ -601,7 +613,7 @@ In this series of exercises, we will:
 * merge the new branch with `main`
 * delete the new branch
 
-__Exercise__: Create a branch named `plot`. Checkout this branch and begin to make minor modifications to the figure generated by `[TODO]/[TODO].R`. Create a commit with the new changes.
+__Exercise__: Create a branch named `plot`. Checkout this branch and begin to make more minor modifications to the figure generated by `source/04_data_visualization.R`. Create a commit with the new changes.
 
 <button type="button" class="collapsible">View solution</button>
 <div class="content">
@@ -629,7 +641,7 @@ Now you can modify the plotting file as you please. E.g., you might change the a
 Make a commit on the `plot` branch:
 
 ```{bash, eval = FALSE}
-git add [TODO]/[TODO.R]
+git add source/04_data_visualization.R
 git commit -m "Update plotting code"
 ```
 
@@ -645,7 +657,7 @@ To do this, we simply move the `HEAD` pointer by checking out `main`.
 git checkout main
 ```
 
-View the contents of `[TODO]/[TODO.R]` in R Studio. You should see the older version of the code.
+View the contents of `source/04_data_visualization.R` in R Studio. You should see the older version of the code.
 
 
 __Exercise__: Merge `plot` into `main`.
@@ -685,7 +697,7 @@ git branch readme
 git checkout readme
 ```
 
-Open `README.Rmd` in R Studio. Modify the line:
+Open `README.md` in R Studio. Modify the line:
 
 ````
 This repo houses test code from the SISMID 2024 course Hitchhikers Guide to reproducibility.
@@ -701,11 +713,11 @@ Save the file, knit it, and commit the changes:
 
 ```{bash, eval = FALSE}
 # use pattern matching to add both files
-git add README*
-git commit -m "Update READMEs with thoughts on course."
+git add README.md
+git commit -m "Update README with thoughts on course."
 ```
 
-Now checkout the `main` branch. When you open `README.Rmd` you should see that the text has reverted to
+Now checkout the `main` branch. When you open `README.md` you should see that the text has reverted to
 
 ````
 This repo houses test code from the SISMID 2024 course Hitchhikers Guide to reproducibility.
@@ -721,8 +733,8 @@ Save the file, knit it, and commit the changes:
 
 ```{bash, eval = FALSE}
 # use pattern matching to add both files
-git add README*
-git commit -m "Update READMEs with new thoughts on course."
+git add README.md
+git commit -m "Update README with new thoughts on course."
 ```
 
 __Exercise__: Attempt to merge `readme` into `main`. Identify the merge conflicts by selecting your true feelings for this course. Commit the result.
@@ -730,7 +742,7 @@ __Exercise__: Attempt to merge `readme` into `main`. Identify the merge conflict
 <button type="button" class="collapsible">View solution</button>
 <div class="content">
 
-There will be conflicts in `README.Rmd` and `README.md`. In both files you should see something like this:
+There will be conflicts in `README.md`. In both files you should see something like this:
 
 ````
 <<<<<<< HEAD
@@ -745,7 +757,7 @@ Remember that we are on the `main` branch so `HEAD` is currently point to `main`
 Express your true feelings by removing the text that you do not want to keep (and the extra symbols). Save the file and commit the result:
 
 ```{bash, eval = FALSE}
-git add README*
+git add README.md
 git commit -m "Resolve my conflict(ed feelings)"
 ```
 
@@ -829,9 +841,9 @@ If the output of `git remote -v` shows that you accidentally used `https://` syn
   * recall that this simultaneously creates and checks out a new branch called `feature`
   * confirm that *User B* has switched to the new branch by executing `git branch`. You should see a star next to `feature`
 
-* Modify something about the `[TODO]/[TODO.R]` script. E.g., [TODO]
+* Modify something about the `analysis/final_report.Rmd` script. E.g., modify section heading names or the `title` field in the `yaml` header.
 
-* After completing changes, appropriately use `git add` and `git commit` to make a new commit along the `feature` branch
+* After completing changes, appropriately use `git add` and `git commit` to make a new commit along the `feature` branch.
 
 * Push the `feature` branch to GitHub.
 
