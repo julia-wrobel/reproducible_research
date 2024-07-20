@@ -206,7 +206,7 @@ class: title-slide, center, inverse, middle
 background-color: #487f84
 
 .large[
-`r fontawesome::fa("desktop", fill = "#ffffff")` .white[Interactive look at Docker container]
+`r fontawesome::fa("desktop", fill = "#ffffff")` .white[[Interactive look at Docker container](http://juliawrobel.com/reproducible_research/docker.html#Interactive_look_at_Docker_container)]
 ]
 
 ???
@@ -234,7 +234,7 @@ class: title-slide, center, inverse, middle
 background-color: #487f84
 
 .large[
-`r fontawesome::fa("desktop", fill = "#ffffff")` .white[Running R Studio in a container]
+`r fontawesome::fa("desktop", fill = "#ffffff")` .white[[Running R Studio in a container](http://juliawrobel.com/reproducible_research/docker.html#Running_R_Studio_in_a_container)]
 ]
 
 ???
@@ -283,7 +283,7 @@ class: title-slide, center, inverse, middle
 background-color: #487f84
 
 .large[
-`r fontawesome::fa("desktop", fill = "#ffffff")` .white[Mounting project directory]
+`r fontawesome::fa("desktop", fill = "#ffffff")` .white[[Mounting project directory](http://juliawrobel.com/reproducible_research/docker.html#Mounting_project_directory)]
 ]
 
 ???
@@ -371,7 +371,7 @@ class: title-slide, center, inverse, middle
 background-color: #487f84
 
 .large[
-`r fontawesome::fa("desktop", fill = "#ffffff")` .white[Building your own image]
+`r fontawesome::fa("desktop", fill = "#ffffff")` .white[[Building your own image](http://juliawrobel.com/reproducible_research/docker.html#Building_your_own_image)]
 ]
 
 ???
