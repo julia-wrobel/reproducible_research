@@ -23,7 +23,7 @@ knitr::opts_chunk$set(
 
 ## Slide Deck
 
-<div class="container" style="position: relative; overflow: hidden; width: 100%; padding-top: 100%;">
+<div class="container" style="position: relative; overflow: hidden; width: 100%; padding-top: 60%;">
 <iframe class="responsive-iframe" style="position: absolute; top: 0; left: 0; right: 0; width: 100%; height: auto; aspect-ratio: 560 / 314" title="Motivation notes" src="https://www.dropbox.com/scl/fi/8nnmxma56fwk4v4tc97rp/codestyle.pdf?rlkey=wnsf5btg7nzvyhqgn363nbmdm&raw=1"></iframe>
 </div>
 
