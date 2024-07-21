@@ -19,12 +19,12 @@ navbar:
           href: motivations.html
         - text: "Course data"
           href: course_data.html
+        - text: "Coding style"
+          href: coding_style.html
         - text: "Command line"
           href: command_line.html
         - text: "Project organization"
-          href: construction.html
-        - text: "Coding style"
-          href: coding_style.html
+          href: project_organization.html
         - text: "Git and GitHub"
           href: git.html
         - text: "Docker"

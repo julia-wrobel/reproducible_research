@@ -476,7 +476,7 @@ We will get to the here package in a bit.
 For now, show off the use of R projects!
 ---
 
-### Exercise 1
+### Example 1
 
 We will walk through the following tasks together. We will be using this folder for the rest of the course so please set up your own folder as we go, and ask questions if you get lost!
 
@@ -485,7 +485,7 @@ We will walk through the following tasks together. We will be using this folder 
 3. Make an Rmarkdown document that knits to html called `final_report.Rmd` and put it in the `analysis` folder of your project directory.
 ---
 
-### Exercise 1 cont'd
+### Example 1 cont'd
 
 The `01_data_download.R` script should look like this:
 
@@ -596,7 +596,9 @@ Makes it easy to load data using a relative file path that works across differen
 
 ```{rm eval = FALSE}
 library(here)
-my_data = read.csv(here("data", "file_i_want.csv"))
+# relative path using here()
+here_path = here("data", "file_i_want.csv")
+my_data = read.csv(here_path)
 ```
 
 In contrast to:
@@ -610,6 +612,7 @@ my_data = read.csv(ugly_path)
 In contrast to:
 
 ```{r, eval = FALSE}
+# relative path using NOT using here()
 relative_path = "./data/file_i_want.csv"
 my_data = read.csv(relative_path)
 ```
@@ -735,7 +738,7 @@ Using our cleaned data, we will visualize the concentration by county and over t
 
 ---
 
-### Exercise 3
+### Example 3
 
 We will walk through this together as well, using the `20240722_sismid_repro` project we set up already.
 
@@ -844,3 +847,8 @@ render_report = function(state, year) {
 }
 ```
 
+---
+
+### Try it: parameterized reports
+
+In groups, try Exercises 1 and 2.
