@@ -41,8 +41,6 @@ class: left, middle, inverse, title-slide
   * naming conventions, file structure
 * Raw data are sacred. Keep them separate from everything else. 
 * Separate code and data.
-* Use `make` files and/or READMEs to document dependencies.
-* No spaces in file names. 
 * Use meaningful file names.
 * Use YYYY-MM-DD date formatting.
 * .red[No absolute paths.]
@@ -58,19 +56,6 @@ Organization might not seem like a big deal now, but remember your career is jus
 
 ---
 
-background-color: #84754e
-class: title-slide, center, inverse, middle
-
-*You mostly collaborate with yourself, and me-from-two-months-ago never responds to email.*
-&lt;div&gt; [Karen Cranston](http://kcranston.github.io/)
-
-???
-
-This is as much for preserving your own sanity as it is about being reproducible (though it is about that too). There's a (big) upfront cost here, but in the end it is worth it. 
-
-Have sympathy for your future self!
-
----
 
 ### What to organize?
 
@@ -471,7 +456,7 @@ We will get to the here package in a bit.
 For now, show off the use of R projects!
 ---
 
-### Exercise 1
+### Example 1
 
 We will walk through the following tasks together. We will be using this folder for the rest of the course so please set up your own folder as we go, and ask questions if you get lost!
 
@@ -480,7 +465,7 @@ We will walk through the following tasks together. We will be using this folder 
 3. Make an Rmarkdown document that knits to html called `final_report.Rmd` and put it in the `analysis` folder of your project directory.
 ---
 
-### Exercise 1 cont'd
+### Example 1 cont'd
 
 The `01_data_download.R` script should look like this:
 
@@ -594,7 +579,9 @@ Makes it easy to load data using a relative file path that works across differen
 
 ``` rm
 library(here)
-my_data = read.csv(here("data", "file_i_want.csv"))
+# relative path using here()
+here_path = here("data", "file_i_want.csv")
+my_data = read.csv(here_path)
 ```
 
 In contrast to:
@@ -610,6 +597,7 @@ In contrast to:
 
 
 ``` r
+# relative path using NOT using here()
 relative_path = "./data/file_i_want.csv"
 my_data = read.csv(relative_path)
 ```
@@ -739,7 +727,7 @@ Using our cleaned data, we will visualize the concentration by county and over t
 
 ---
 
-### Exercise 3
+### Example 3
 
 We will walk through this together as well, using the `20240722_sismid_repro` project we set up already.
 
@@ -851,6 +839,11 @@ render_report = function(state, year) {
 }
 ```
 
+---
+
+### Try it: parameterized reports
+
+In groups, try Exercises 1 and 2.
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>

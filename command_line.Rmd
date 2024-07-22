@@ -25,7 +25,10 @@ knitr::opts_chunk$set(
 ## Slides
 
 
-<iframe src="slides/cl_slides.html" width="800" height="600" allowfullscreen = "true"></iframe>
+<div class="container" style="position: relative; overflow: hidden; width: 100%; padding-top: 60%;">
+<iframe class="responsive-iframe" style="position: absolute; top: 0; left: 0; right: 0; width: 100%; height: auto; aspect-ratio: 560 / 314" title="Command line" src="slides/cl_slides.pdf"></iframe>
+</div>
+
 
 
 ## Exercise 1

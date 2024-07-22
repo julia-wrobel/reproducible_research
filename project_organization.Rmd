@@ -14,7 +14,8 @@ knitr::opts_chunk$set(
   fig.asp = .6,
   message = FALSE,
   out.width = "90%",
-  warning = FALSE
+  warning = FALSE,
+  eval = FALSE
 )
 
 theme_set(theme_bw() + theme(legend.position = "bottom"))
@@ -23,7 +24,9 @@ theme_set(theme_bw() + theme(legend.position = "bottom"))
 
 ## Slides
 
-<iframe src="slides/cl_slides.html" width="800" height="600" allowfullscreen = "true"></iframe>
+<div class="container" style="position: relative; overflow: hidden; width: 100%; padding-top: 60%;">
+<iframe class="responsive-iframe" style="position: absolute; top: 0; left: 0; right: 0; width: 100%; height: auto; aspect-ratio: 560 / 314" title="Project organization" src="slides/projectorg_slides.pdf"></iframe>
+</div>
 
 
 ## Examples
@@ -128,7 +131,7 @@ Close your R session and then reopen it by double-clicking `20240722_sismid_repr
 
 You can check by typing the following into the R console:
 
-```{r}
+```{r, eval = TRUE}
 Sys.getenv("EMAIL")
 ```
 
@@ -205,6 +208,145 @@ save(covid, file = here::here("data", "clean.Rdata"))
 ## Breakout exercises
 
 ### Exercise 1
+
+
+In your breakout group, turn your `final_report.Rmd` document into a parameterized report with the following parameters:
+
+* a `state` parameter that reads in a character vector that is the abbreviation of a US state (e.g. "ga")
+* a parameter called `download_raw_data` that takes in logical values (TRUE/FALSE). If set to TRUE, the raw data will be downloaded from the CDC API. If set to FALSE, the other steps of the analysis will proceed without downloadeding the raw data.
+
+
+<button type="button" class="collapsible">View solution</button>
+<div class="content">
+
+The YAML header will look like this:
+
+````
+---
+title: "Analysis of SARS-CoV-2 concentration in wastewater"
+author: "Julia Wrobel"
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    code_folding: hide
+    toc: true
+    toc_float: true
+params:
+  state: "ga"
+  download_raw_data: FALSE
+hitheme: tomorrow
+highlighter: highlight.js
+---
+````
+
+The default state is Georgia.
+
+To be able to access these parameters, I added the following R code chunk to `final_report.Rmd`:
+
+
+```{r set_params, eval = FALSE}
+state = tolower(params$state)
+download_raw_data = params$download_raw_data
+```
+
+To be able to filter by state, we will need to edit the file `02_data_cleaning.R` to filter by this `state` variable, and make it into a function that reads in `state` as a parameter.
+
+```{r, eval = FALSE}
+# define function that takes in state as a parameter and cleans the data
+clean_data = function(state){
+
+  # load raw data
+  #source(here::here("source", "01_data_download.R"))
+  load(here::here("data", "raw.Rdata"))
+
+  # grab only observations from the specified state
+  covid = covid %>%
+    filter(grepl(state, key_plot_id))
+
+
+  # only include columns from counties dataset we are interested in
+  counties = counties %>%
+    filter(grepl(state, key_plot_id)) %>%
+    select(key_plot_id, wwtp_id, county = county_names,
+           county_fips, population_served) %>%
+    distinct()
+
+  # merge covid data with the county label information
+  # convert  variables from character to numeric
+  # concentration variable more intuitive name
+  covid = left_join(covid, counties, by = "key_plot_id") %>%
+    select(-key_plot_id) %>%
+    mutate(pcr_conc_lin = as.numeric(pcr_conc_lin),
+           population_served = as.numeric(population_served)) %>%
+    rename(concentration = pcr_conc_lin)
+
+  rm(counties)
+  ## save tidied data object and date data was accessed
+  save(covid, file = here::here("data", "clean.Rdata"))
+}
+```
+
+
+We add the param `download_raw_data` with the following code to allow the user to toggle whether or not to download the raw data.
+
+```{r}
+if(download_raw_data){
+  source(here("source", "01_data_download.R")) 
+}
+
+source(here("source", "02_data_cleaning.R")) 
+clean_data(state)
+```
+
+Finally, we can run the parameterized report by knitting the document, or by running the following code in the R console:
+
+```{r}
+rmarkdown::render(here::here("analysis","final_report.Rmd"), params = list(
+  state = "nj",
+  download_raw_data = TRUE
+))
+```
+
+
+
+A copy of the entire `20240722_sismid_repro` folder with parameterized final report is available for download [here](scripts/20240722_sismid_repro.zip).
+
+
+</div>
+
+
+### Exercise 2
+
+Write a function in R that will run your `final_report.Rmd` for all US states and output a different html document for each state. The function should store the documents in your "results" folder.
+
+<button type="button" class="collapsible">View solution</button>
+<div class="content">
+
+The function is below:
+
+```{r}
+render_report = function(state, download_raw_data = FALSE) {
+  filename = paste0("Report-", state, "-", download_raw_data, ".html")
+    
+  rmarkdown::render(here::here("analysis","final_report.Rmd"), params = list(
+    state = state,
+    download_raw_data = download_raw_data
+    ),
+    output_file = here::here("results", filename)
+  )
+}
+```
+
+Run the function for 5 states:
+
+```{r}
+lapply(c("ga", "co", "ny", "pa", "nj"), render_report)
+```
+
+
+</div>
+
+### Exercise 3
 
 
 1. Use `projectr::proj_start()` to initiate a new project called `20240722_YOURNAME_sismid`.   Use the argument `data_dir = NULL`. Where is your data being stored?
