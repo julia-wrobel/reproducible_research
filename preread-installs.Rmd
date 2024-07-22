@@ -129,7 +129,7 @@ Several R packages are used in this course and ideally should be installed prior
 
 ```{r, eval = FALSE}
 install.packages(c(
-  "tidyverse", "gtsummary", "here", "RSocrata", "forcats"
+  "tidyverse", "devtools", "gtsummary", "here", "RSocrata", "forcats"
 ))
 ```
 
