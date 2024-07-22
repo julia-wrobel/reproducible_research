@@ -26,7 +26,7 @@ knitr::opts_chunk$set(
 
 
 <div class="container" style="position: relative; overflow: hidden; width: 100%; padding-top: 60%;">
-<iframe class="responsive-iframe" style="position: absolute; top: 0; left: 0; right: 0; width: 100%; height: auto; aspect-ratio: 560 / 314" title="Motivation notes" src="slides/cl_slides.pdf"></iframe>
+<iframe class="responsive-iframe" style="position: absolute; top: 0; left: 0; right: 0; width: 100%; height: auto; aspect-ratio: 560 / 314" title="Command line" src="slides/cl_slides.pdf"></iframe>
 </div>
 
 
