@@ -279,7 +279,7 @@ A copy of the entire `20240722_sismid_repro` folder with parameterized final rep
 
 ### Exercise 2
 
-Write a function in R that will run your `final_report.Rmd` for all US states and output a different html document for each state. The function should store the documents in your "results" folder.
+Write a for loop in R that will run your `final_report.Rmd` for all US states and output a different html document for each state. The loop should store the documents in your "results" folder.
 
 <button type="button" class="collapsible">View solution</button>
 <div class="content">
@@ -287,23 +287,21 @@ Write a function in R that will run your `final_report.Rmd` for all US states an
 The function is below:
 
 ```{r}
-render_report = function(state, download_raw_data = FALSE) {
-  filename = paste0("Report-", state, "-", download_raw_data, ".html")
-    
-  rmarkdown::render(here::here("analysis","final_report.Rmd"), params = list(
-    state = state,
-    download_raw_data = download_raw_data
+states = c("ga", "co", "ny", "pa", "nj")
+for(s in states){
+  filename = paste0("Report-", s, ".html")
+  
+  rmarkdown::render(
+    here::here("analysis","final_report.Rmd"), 
+    params = list(
+      state = s,
+      download_raw_data = FALSE
     ),
     output_file = here::here("results", filename)
   )
 }
 ```
 
-Run the function for 5 states:
-
-```{r}
-lapply(c("ga", "co", "ny", "pa", "nj"), render_report)
-```
 
 
 </div>
