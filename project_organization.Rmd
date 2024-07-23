@@ -241,61 +241,23 @@ highlighter: highlight.js
 
 The default state is Georgia.
 
-To be able to access these parameters, I added the following R code chunk to `final_report.Rmd`:
-
-
-```{r set_params, eval = FALSE}
-state = tolower(params$state)
-download_raw_data = params$download_raw_data
-```
-
-To be able to filter by state, we will need to edit the file `02_data_cleaning.R` to filter by this `state` variable, and make it into a function that reads in `state` as a parameter.
+To be able to filter by state, we will need to add a line of code to the file `02_data_cleaning.R` so that it can access the value of `param$state`. Add the following line of code to the beginning of the `02_data_cleaning.R` file.
 
 ```{r, eval = FALSE}
-# define function that takes in state as a parameter and cleans the data
-clean_data = function(state){
-
-  # load raw data
-  #source(here::here("source", "01_data_download.R"))
-  load(here::here("data", "raw.Rdata"))
-
-  # grab only observations from the specified state
-  covid = covid %>%
-    filter(grepl(state, key_plot_id))
-
-
-  # only include columns from counties dataset we are interested in
-  counties = counties %>%
-    filter(grepl(state, key_plot_id)) %>%
-    select(key_plot_id, wwtp_id, county = county_names,
-           county_fips, population_served) %>%
-    distinct()
-
-  # merge covid data with the county label information
-  # convert  variables from character to numeric
-  # concentration variable more intuitive name
-  covid = left_join(covid, counties, by = "key_plot_id") %>%
-    select(-key_plot_id) %>%
-    mutate(pcr_conc_lin = as.numeric(pcr_conc_lin),
-           population_served = as.numeric(population_served)) %>%
-    rename(concentration = pcr_conc_lin)
-
-  rm(counties)
-  ## save tidied data object and date data was accessed
-  save(covid, file = here::here("data", "clean.Rdata"))
-}
+state = params$state
 ```
 
 
 We add the param `download_raw_data` with the following code to allow the user to toggle whether or not to download the raw data.
 
 ```{r}
-if(download_raw_data){
+if(params$download_raw_data){
+  source(here("source", "01_data_download.R")) 
+}else if(!file.exists(here::here("data", "raw.Rdata"))){
   source(here("source", "01_data_download.R")) 
 }
 
-source(here("source", "02_data_cleaning.R")) 
-clean_data(state)
+source(here("source", "02_data_cleaning.R"))  
 ```
 
 Finally, we can run the parameterized report by knitting the document, or by running the following code in the R console:
@@ -317,7 +279,7 @@ A copy of the entire `20240722_sismid_repro` folder with parameterized final rep
 
 ### Exercise 2
 
-Write a function in R that will run your `final_report.Rmd` for all US states and output a different html document for each state. The function should store the documents in your "results" folder.
+Write a for loop in R that will run your `final_report.Rmd` for all US states and output a different html document for each state. The loop should store the documents in your "results" folder.
 
 <button type="button" class="collapsible">View solution</button>
 <div class="content">
@@ -325,23 +287,21 @@ Write a function in R that will run your `final_report.Rmd` for all US states an
 The function is below:
 
 ```{r}
-render_report = function(state, download_raw_data = FALSE) {
-  filename = paste0("Report-", state, "-", download_raw_data, ".html")
-    
-  rmarkdown::render(here::here("analysis","final_report.Rmd"), params = list(
-    state = state,
-    download_raw_data = download_raw_data
+states = c("ga", "co", "ny", "pa", "nj")
+for(s in states){
+  filename = paste0("Report-", s, ".html")
+  
+  rmarkdown::render(
+    here::here("analysis","final_report.Rmd"), 
+    params = list(
+      state = s,
+      download_raw_data = FALSE
     ),
     output_file = here::here("results", filename)
   )
 }
 ```
 
-Run the function for 5 states:
-
-```{r}
-lapply(c("ga", "co", "ny", "pa", "nj"), render_report)
-```
 
 
 </div>
