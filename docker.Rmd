@@ -56,6 +56,12 @@ docker run -it rocker/tidyverse:4.4.1 bash
 * `-it` means we want to run an interactive container
 * `bash` at the end means we want to open a bash terminal in the container (see below)
 
+If you are on a Windows machine you may need to pre-fix the call with `winpty`:
+
+```{bash, eval = FALSE}
+winpty docker run -it rocker/tidyverse:4.4.1 bash
+```
+
 When you execute this command, docker will check for the existence of the image on your computer. The first time you run this command, you likely will not have downloaded the `rocker/tidyverse:4.4.1` image from docker hub. As a result, the command will automatically download the image for you. While the image downloads you will see various status updates that look like this:
 
 ````
@@ -107,6 +113,8 @@ __Execise__: Start a new container using exactly the same syntax as above:
 docker run -it rocker/tidyverse:4.4.1 bash
 ```
 
+(Remember to add `winpty` if you are on Windows and using `git bash`)
+
 Check for the existence of the file you created above, `/home/rstudio/foo`. Can you find the file?
 
 <button type="button" class="collapsible">View solution</button>
@@ -135,6 +143,8 @@ To run an interactive R Studio session, run the following command:
 ```{bash, eval = FALSE}
 docker run -e PASSWORD="SECRET123" -p 8787:8787 rocker/tidyverse:4.4.1
 ```
+
+(Remember to add `winpty` if you are on Windows and using `git bash`)
 
 You will see some printed messages. You will know that your container is successfully running if you see:
 
@@ -246,6 +256,8 @@ docker run -e PASSWORD="SECRET123" \
 -v $(pwd):/home/rstudio \
 rstudio-plus
 ```
+
+(Remember to add `winpty` if you are on Windows and using `git bash`)
 
 Note that this is the same syntax above, except we have changed the name of the image that we are using to `rstudio-plus`.
 
