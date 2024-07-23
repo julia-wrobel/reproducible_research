@@ -224,7 +224,16 @@ davidbenkeser$ docker run -e PASSWORD="SECRET123" -p 8787:8787 rocker/rstudio:4.
 [services.d] done.
 ]
 
-Open web browser and go to http://localhost:8787.
+If you are using `git bash` you may need to pre-fix the command with `winpty`, i.e., run 
+.code-box[
+davidbenkeser$ docker run -e PASSWORD="SECRET123" -p 8787:8787 rocker/rstudio:4.4.1
+]
+
+---
+
+## R Studio images
+
+When the container is running, open web browser and go to http://localhost:8787.
 * Username: rstudio
 * Password: `SECRET123`
 
