@@ -532,7 +532,7 @@ View solution
 <pre><code>---
 title: &quot;Analysis of SARS-CoV-2 concentration in wastewater&quot;
 author: &quot;Julia Wrobel&quot;
-date: &quot;2024-07-22&quot;
+date: &quot;2024-07-23&quot;
 output:
   html_document:
     code_folding: hide
@@ -573,27 +573,28 @@ href="scripts/20240722_sismid_repro.zip">here</a>.</p>
 </div>
 <div id="exercise-2" class="section level3">
 <h3>Exercise 2</h3>
-<p>Write a function in R that will run your
+<p>Write a for loop in R that will run your
 <code>final_report.Rmd</code> for all US states and output a different
-html document for each state. The function should store the documents in
+html document for each state. The loop should store the documents in
 your “results” folder.</p>
 <button type="button" class="collapsible">
 View solution
 </button>
 <div class="content">
 <p>The function is below:</p>
-<pre class="r"><code>render_report = function(state, download_raw_data = FALSE) {
-  filename = paste0(&quot;Report-&quot;, state, &quot;-&quot;, download_raw_data, &quot;.html&quot;)
-    
-  rmarkdown::render(here::here(&quot;analysis&quot;,&quot;final_report.Rmd&quot;), params = list(
-    state = state,
-    download_raw_data = download_raw_data
+<pre class="r"><code>states = c(&quot;ga&quot;, &quot;co&quot;, &quot;ny&quot;, &quot;pa&quot;, &quot;nj&quot;)
+for(s in states){
+  filename = paste0(&quot;Report-&quot;, s, &quot;.html&quot;)
+  
+  rmarkdown::render(
+    here::here(&quot;analysis&quot;,&quot;final_report.Rmd&quot;), 
+    params = list(
+      state = s,
+      download_raw_data = FALSE
     ),
     output_file = here::here(&quot;results&quot;, filename)
   )
 }</code></pre>
-<p>Run the function for 5 states:</p>
-<pre class="r"><code>lapply(c(&quot;ga&quot;, &quot;co&quot;, &quot;ny&quot;, &quot;pa&quot;, &quot;nj&quot;), render_report)</code></pre>
 </div>
 </div>
 <div id="exercise-3" class="section level3">
