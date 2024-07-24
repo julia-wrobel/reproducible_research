@@ -62,6 +62,18 @@ If you are on a Windows machine you may need to pre-fix the call with `winpty`:
 winpty docker run -it rocker/tidyverse:4.4.1 bash
 ```
 
+If you are on a Mac that has an Apple Silicon chip (e.g., M1/M2/M3), you may see an error similar to the following:
+
+````
+WARNING: The requested image's platform (linux/amd64) does not match the detected host platform (linux/arm64/v8) and no specific platform was requested
+````
+
+If you see this you need the `--platform linux/amd64` option to your `docker run` commands (and all subsequent `docker run` commands below). So your command would look like:
+
+```{bash, eval = FALSE}
+docker run --platform linux/amd64 -it rocker/tidyverse:4.4.1 bash
+```
+
 When you execute this command, docker will check for the existence of the image on your computer. The first time you run this command, you likely will not have downloaded the `rocker/tidyverse:4.4.1` image from docker hub. As a result, the command will automatically download the image for you. While the image downloads you will see various status updates that look like this:
 
 ````
@@ -144,7 +156,7 @@ To run an interactive R Studio session, run the following command:
 docker run -e PASSWORD="SECRET123" -p 8787:8787 rocker/tidyverse:4.4.1
 ```
 
-(Remember to add `winpty` if you are on Windows and using `git bash`)
+(Remember to add `winpty` if you are on Windows and using `git bash` and to add `--platform linux/amd64` if you needed to use that option earlier)
 
 You will see some printed messages. You will know that your container is successfully running if you see:
 
@@ -181,7 +193,7 @@ In this exercise, we will:
 
 Before we start confirm that your working directory is in project root directory, using `pwd` and `cd`, as needed. 
 
-Once you have confirmed your working directory is your project directory, then you can execute:
+Once you have confirmed your working directory is your project directory, if you are on a Mac, you can execute:
 
 ```{bash, eval = FALSE}
 docker run -e PASSWORD="SECRET123" \
@@ -190,7 +202,18 @@ docker run -e PASSWORD="SECRET123" \
 rocker/tidyverse:4.4.1
 ```
 
-There are two new things about this command:
+(Remember to include `--platform linux/amd64` if needed.)
+
+If you are on Windows, you can execute:
+
+```{bash, eval = FALSE}
+winpty docker run -e PASSWORD="SECRET123" \
+-p 8787:8787 \
+-v /$(pwd):/home/rstudio \
+rocker/tidyverse:4.4.1
+```
+
+There are two new things about the above commands:
 
 * we are using `\` (i.e., an *escape character*) to break the command over multiple lines (so it's easier for you to see on the website)
 * we added the `-v` option
