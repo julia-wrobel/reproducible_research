@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Project organization</title>
+
+<script src="site_libs/header-attrs-2.28/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/font-awesome-6.4.2/css/all.min.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+<link rel="stylesheet" href="custom_test.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Hitchhikers Guide to Reproducible Research</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="about.html">About</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Pre-read materials
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="preread-installs.html">Software installations</a>
+    </li>
+    <li>
+      <a href="preread-rstudio-review.html">R Markdown review</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Course materials
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="intro.html">Introduction</a>
+    </li>
+    <li>
+      <a href="motivations.html">Motivations</a>
+    </li>
+    <li>
+      <a href="course_data.html">Course data</a>
+    </li>
+    <li>
+      <a href="coding_style.html">Coding style</a>
+    </li>
+    <li>
+      <a href="command_line.html">Command line</a>
+    </li>
+    <li>
+      <a href="project_organization.html">Project organization</a>
+    </li>
+    <li>
+      <a href="git.html">Git and GitHub</a>
+    </li>
+    <li>
+      <a href="docker.html">Docker</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="https://github.com/julia-wrobel/reproducible_research">
+    <span class="fa fa-github fa-lg"></span>
+     
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Project organization</h1>
+
+</div>
+
+
+<div id="slides" class="section level2">
+<h2>Slides</h2>
+<div class="container"
+style="position: relative; overflow: hidden; width: 100%; padding-top: 60%;">
+<iframe class="responsive-iframe" style="position: absolute; top: 0; left: 0; right: 0; width: 100%; height: auto; aspect-ratio: 560 / 314" title="Project organization" src="slides/projectorg_slides.pdf">
+</iframe>
+</div>
+</div>
+<div id="examples" class="section level2">
+<h2>Examples</h2>
+<div id="example-1-creating-a-new-project" class="section level3">
+<h3>Example 1: creating a new project</h3>
+<p>In this exercise we will create a new project that will be used
+throughout the rest of this course. I highly encourage you to follow
+along with me.</p>
+<ol style="list-style-type: decimal">
+<li>Use <code>projectr::proj_start()</code> to initiate a new project
+called <code>20240722_sismid_repro</code>. Set up a directory in a
+separate location using the argument <code>data_dir</code>. I typically
+store my data on OneDrive, but the idea is to put it in a secure
+location.</li>
+</ol>
+<p><strong>Run the following code in R</strong></p>
+<pre class="r"><code>
+# Setting up a folder WITH a symbolic link to the data subfolder
+projectr::proj_start(proj_dir = &quot;~/icloud/Documents/projects/2024/20240722_sismid_repro&quot;, 
+                     data_dir = &quot;~/onedrive/Data/2024/20240722_sismid_repro&quot;) </code></pre>
+<p>Next, open the new project by double clicking the <code>.Rproj</code>
+icon. This will open up a new Rstudio session with the working director
+set to that project folder. It will also set the working directory of
+the terminal tab to that folder.</p>
+<ol start="2" style="list-style-type: decimal">
+<li>Download the <a href="scripts/01_data_download.R">data download
+script</a> and save it in the <code>source</code> folder of your new
+project directory as <code>01_data_download.R</code>.</li>
+</ol>
+<p>It would be fine to copy/paste the code for
+<code>01_data_download.R</code> and saving it via point and click, but
+you can also do this using tools from the command line module by
+entering the following into the terminal:</p>
+<pre class="bash"><code>echo &#39;# install.packages(&quot;RSocrata&quot;)
+library(&quot;RSocrata&quot;)
+library(tidyverse)
+
+# download longitudinal Covid WW concentration data from API
+covid &lt;- read.socrata(
+  &quot;https://data.cdc.gov/resource/g653-rqe2.json&quot;,
+  app_token = Sys.getenv(&quot;TOKEN&quot;),
+  email     = Sys.getenv(&quot;EMAIL&quot;),
+  password  = Sys.getenv(&quot;PASSWORD&quot;)
+) %&gt;%
+  mutate(date_downloaded = Sys.Date())
+
+
+# download cross-sectional Covid WW concentration data from API, which will be used to get county names
+counties &lt;- read.socrata(
+  &quot;https://data.cdc.gov/resource/2ew6-ywp6.json&quot;,
+  app_token = Sys.getenv(&quot;TOKEN&quot;),
+  email     = Sys.getenv(&quot;EMAIL&quot;),
+  password  = Sys.getenv(&quot;PASSWORD&quot;)
+)
+
+
+## save intermediate data object and data data was accessed
+save(covid, counties, file = here::here(&quot;data&quot;, &quot;raw.Rdata&quot;))&#39; &gt; source/01_data_download.R</code></pre>
+<p>Check that you have saved this script in the <code>source</code>
+folder using the terminal tab:</p>
+<pre class="bash"><code>ls source</code></pre>
+<ol start="3" style="list-style-type: decimal">
+<li>Make an Rmarkdown document that knits to html called
+<code>final_report.Rmd</code> and put it in the <code>analysis</code>
+folder of your project directory.</li>
+</ol>
+<p><img src="slides/figures/template.png" style="width:50%"></p>
+<p>We will come back to the <code>final_report.Rmd</code> document later
+in the lecture.</p>
+</div>
+<div id="example-2-adding-.renviron-variables" class="section level3">
+<h3>Example 2: adding <code>.Renviron</code> variables</h3>
+<ol style="list-style-type: decimal">
+<li>Add a <code>.Renviron</code> file to the root directory of your
+<code>20240722_sismid_repro</code> project folder.</li>
+</ol>
+<p>Open the terminal. I will use the terminal tab of the
+<code>20240722_sismid_repro</code> project. First, check that your
+working directory is <code>20240722_sismid_repro</code>.</p>
+<pre class="bash"><code>pwd</code></pre>
+<p>If you are not in the correct directory use the <code>cd</code>
+command to move into <code>~\20240722_sismid_repro</code>. Next, create
+and open the <code>.Renviron</code> file.</p>
+<pre class="bash"><code>touch .Renviron
+open .Renviron</code></pre>
+<ol start="2" style="list-style-type: decimal">
+<li>Edit the <code>.Renviron</code> file by defining variables called
+TOKEN, EMAIL, an PASSWORD that contain your app token, and email and
+password used to obtain your app token.</li>
+</ol>
+<p>Your edited <code>.Renviron</code> file should look something like
+this:</p>
+<pre class="r"><code>PASSWORD=&quot;password333&quot;
+EMAIL=&quot;julia.wrobel@emory.edu&quot;
+TOKEN=&quot;K1MVpmwDDeefZ0vPuYk2wRN&quot;</code></pre>
+<p>Close your R session and then reopen it by double-clicking
+<code>20240722_sismid_repro</code>. Your environment variables defined
+through <code>.Renviron</code> should now be defined.</p>
+<p>You can check by typing the following into the R console:</p>
+<pre class="r"><code>Sys.getenv(&quot;EMAIL&quot;)
+## [1] &quot;julia.wrobel@emory.edu&quot;</code></pre>
+<p>This should print out your email address.</p>
+<ol start="3" style="list-style-type: decimal">
+<li>Add the <code>.Renviron</code> file to your <code>.gitignore</code>
+file.</li>
+</ol>
+<p>This is not necessary for accessing the environment variables you
+just defined, but will be important for later in the course when we
+start using git and GitHub. <strong>You do not want to accidentally put
+your .Renviron on GitHub</strong>, and by adding the file to
+<code>.gitignore</code> we can avoid this mistake.</p>
+<p>To do this, go to your terminal and execute the following two lines
+of code:</p>
+<pre class="bash"><code>echo &quot;&quot; &gt;&gt; .gitignore # ensures you are writing on a new line
+echo &quot;.Renviron&quot; &gt;&gt; .gitignore</code></pre>
+<p>Alternatively, you can just open the .gitignore file and add
+<code>.Renviron</code> on a new line. Sometimes I find this to be
+simpler.</p>
+<ol start="4" style="list-style-type: decimal">
+<li>Check that the code in your <code>01_data_download.R</code> file
+will run.</li>
+</ol>
+</div>
+<div id="example-3" class="section level3">
+<h3>Example 3</h3>
+<ol style="list-style-type: decimal">
+<li>Using the <code>projectr</code> template, make an Rmarkdown document
+called <code>exploratory_analysis.Rmd</code> and put it in the
+<code>analysis</code> folder of your project directory. Load and explore
+the data. Take notes on what you learn. Add in brief descriptions of the
+key variables.</li>
+</ol>
+<p>Might be helpful to reference the page <a
+href="https://data.cdc.gov/Public-Health-Surveillance/NWSS-Public-SARS-CoV-2-Wastewater-Metric-Data/2ew6-ywp6/about_data">about
+the data</a>.</p>
+<ol start="2" style="list-style-type: decimal">
+<li>Download the <a href="scripts/02_data_cleaning.R">data cleaning
+script</a> and save it in the <code>source</code> folder of your new
+project directory as <code>02_data_cleaning.R</code>.</li>
+</ol>
+<pre class="bash"><code>echo &#39;# set up a variable to define which state you want to analyze
+state = &quot;ga&quot;
+
+# download raw data
+source(here::here(&quot;source&quot;, &quot;01_data_download.R&quot;))
+
+# grab only observations from the specified state
+covid = covid %&gt;%
+  filter(grepl(state, key_plot_id))
+
+
+# only include columns from counties dataset we are interested in
+counties = counties %&gt;%
+  filter(grepl(state, key_plot_id)) %&gt;%
+  select(key_plot_id, wwtp_id, county = county_names,
+         county_fips, population_served) %&gt;%
+  distinct()
+
+# merge covid data with the county label information
+# convert  variables from character to numeric
+# concentration variable more intuitive name
+covid = left_join(covid, counties, by = &quot;key_plot_id&quot;) %&gt;%
+  select(-key_plot_id) %&gt;%
+  mutate(pcr_conc_lin = as.numeric(pcr_conc_lin),
+         population_served = as.numeric(population_served)) %&gt;%
+  rename(concentration = pcr_conc_lin)
+
+
+## save intermediate data object and data data was accessed
+save(covid, file = here::here(&quot;data&quot;, &quot;clean.Rdata&quot;))
+&#39; &gt; source/02_data_cleaning.R</code></pre>
+<ol start="3" style="list-style-type: decimal">
+<li><p>Download the <a href="scripts/03_data_analysis.R">data analysis
+script</a> and save it in the <code>source</code> folder of your new
+project directory as <code>03_data_analysis.R</code>.</p></li>
+<li><p>Download the <a href="scripts/04_data_visualization.R">data
+visualization script</a> and save it in the <code>source</code> folder
+of your new project directory as
+<code>04_data_visualization.R</code>.</p></li>
+<li><p>Open your <code>final_report.Rmd</code> document and source each
+of the scripts. Add comments to explain the document.</p></li>
+</ol>
+</div>
+</div>
+<div id="breakout-exercises" class="section level2">
+<h2>Breakout exercises</h2>
+<div id="exercise-1" class="section level3">
+<h3>Exercise 1</h3>
+<p>In your breakout group, turn your <code>final_report.Rmd</code>
+document into a parameterized report with the following parameters:</p>
+<ul>
+<li>a <code>state</code> parameter that reads in a character vector that
+is the abbreviation of a US state (e.g. “ga”)</li>
+<li>a parameter called <code>download_raw_data</code> that takes in
+logical values (TRUE/FALSE). If set to TRUE, the raw data will be
+downloaded from the CDC API. If set to FALSE, the other steps of the
+analysis will proceed without downloadeding the raw data.</li>
+</ul>
+<button type="button" class="collapsible">
+View solution
+</button>
+<div class="content">
+<p>The YAML header will look like this:</p>
+<pre><code>---
+title: &quot;Analysis of SARS-CoV-2 concentration in wastewater&quot;
+author: &quot;Julia Wrobel&quot;
+date: &quot;2024-10-28&quot;
+output:
+  html_document:
+    code_folding: hide
+    toc: true
+    toc_float: true
+params:
+  state: &quot;ga&quot;
+  download_raw_data: FALSE
+hitheme: tomorrow
+highlighter: highlight.js
+---</code></pre>
+<p>The default state is Georgia.</p>
+<p>To be able to filter by state, we will need to add a line of code to
+the file <code>02_data_cleaning.R</code> so that it can access the value
+of <code>param$state</code>. Add the following line of code to the
+beginning of the <code>02_data_cleaning.R</code> file.</p>
+<pre class="r"><code>state = params$state</code></pre>
+<p>We add the param <code>download_raw_data</code> with the following
+code to allow the user to toggle whether or not to download the raw
+data.</p>
+<pre class="r"><code>if(params$download_raw_data){
+  source(here(&quot;source&quot;, &quot;01_data_download.R&quot;)) 
+}else if(!file.exists(here::here(&quot;data&quot;, &quot;raw.Rdata&quot;))){
+  source(here(&quot;source&quot;, &quot;01_data_download.R&quot;)) 
+}
+
+source(here(&quot;source&quot;, &quot;02_data_cleaning.R&quot;))  </code></pre>
+<p>Finally, we can run the parameterized report by knitting the
+document, or by running the following code in the R console:</p>
+<pre class="r"><code>rmarkdown::render(here::here(&quot;analysis&quot;,&quot;final_report.Rmd&quot;), params = list(
+  state = &quot;nj&quot;,
+  download_raw_data = TRUE
+))</code></pre>
+<p>A copy of the entire <code>20240722_sismid_repro</code> folder with
+parameterized final report is available for download <a
+href="scripts/20240722_sismid_repro.zip">here</a>.</p>
+</div>
+</div>
+<div id="exercise-2" class="section level3">
+<h3>Exercise 2</h3>
+<p>Write a for loop in R that will run your
+<code>final_report.Rmd</code> for all US states and output a different
+html document for each state. The loop should store the documents in
+your “results” folder.</p>
+<button type="button" class="collapsible">
+View solution
+</button>
+<div class="content">
+<p>The function is below:</p>
+<pre class="r"><code>states = c(&quot;ga&quot;, &quot;co&quot;, &quot;ny&quot;, &quot;pa&quot;, &quot;nj&quot;)
+for(s in states){
+  filename = paste0(&quot;Report-&quot;, s, &quot;.html&quot;)
+  
+  rmarkdown::render(
+    here::here(&quot;analysis&quot;,&quot;final_report.Rmd&quot;), 
+    params = list(
+      state = s,
+      download_raw_data = FALSE
+    ),
+    output_file = here::here(&quot;results&quot;, filename)
+  )
+}</code></pre>
+</div>
+</div>
+<div id="exercise-3" class="section level3">
+<h3>Exercise 3</h3>
+<ol style="list-style-type: decimal">
+<li>Use <code>projectr::proj_start()</code> to initiate a new project
+called <code>20240722_YOURNAME_sismid</code>. Use the argument
+<code>data_dir = NULL</code>. Where is your data being stored?</li>
+<li>Using the terminal, set up a symbolic link for where you will store
+data for this course that points to
+<code>20240722_YOURNAME_sismid/data</code>.</li>
+</ol>
+<button type="button" class="collapsible">
+View solution
+</button>
+<div class="content">
+<p>Set up the project directory structure.</p>
+<pre class="r"><code>## set up a new project
+# devtools::install_github(&quot;julia-wrobel/projectr&quot;)
+library(projectr)
+
+
+# Setting up a folder without a symbolic link to the data subfolder
+projectr::proj_start(proj_dir = &quot;~/icloud/Documents/projects/2024/202407_wrobel_sismid&quot;, 
+                     data_dir = NULL) 
+</code></pre>
+<p>Set a symbolic link by opening a Terminal window and executing code
+like the following. Note that I am storing my data in a folder on
+OneDrive and you may want to store yours elsewhere.</p>
+<pre class="bash"><code>ln -s &quot;~/onedrive/Data/2024/202407_wrobel_sismid&quot;  &quot;~/projects/2024/202407_wrobel_sismid/data&quot; </code></pre>
+</div>
+</div>
+</div>
+<div id="additional-readings" class="section level2">
+<h2>Additional readings</h2>
+<ul>
+<li><a href="https://rstats.wtf/project-oriented-workflow.html">Jenny
+Bryan and James Hester’s chapter on project-oriented workflow</a></li>
+<li><a href="https://r4ds.had.co.nz/workflow-projects.html">Hadley
+Wickham on R Projects</a></li>
+<li><a href="https://github.com/julia-wrobel/projectr">My version of
+projectr package on Github</a></li>
+<li><a href="https://makefiletutorial.com/">A MakeFile tutorial</a></li>
+<li><a
+href="https://www.cs.colby.edu/maxwell/courses/tutorials/maketutor/">Another
+MakeFile tutorial</a></li>
+<li><a
+href="https://bookdown.org/yihui/rmarkdown/parameterized-reports.html">Yihui
+Xie on Parameterized Reports</a></li>
+</ul>
+<script language="JavaScript" src="custom_js.js"></script>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

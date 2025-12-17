@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Reproducible project organization</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Julia Wrobel" />
+    <script src="projectorg_slides_BIOS580_files/header-attrs-2.28/header-attrs.js"></script>
+    <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: left, middle, inverse, title-slide
+
+.title[
+# Reproducible project organization
+]
+.author[
+### Julia Wrobel
+]
+
+---
+
+
+
+&lt;style type="text/css"&gt;
+.remark-slide-content {
+    font-size: 24px
+}
+&lt;/style&gt;
+
+
+## Reproducibility
+
+
+![](projectorg_slides_BIOS580_files/figure-html/repro-fig-1.png)&lt;!-- --&gt;
+.center[
+	.small[
+		Working terminology (figure produced using [scifigure](https://cran.r-project.org/web/packages/scifigure/vignettes/Visualizing_Scientific_Replication.html) R package)
+	]
+]
+
+???
+
+We will focus on building analyses that satisfy the reproducibility 
+definition outlined above. Could a different analyst sit down with your code, 
+execute it and get exactly the same results?
+
+Reproducibility is a *minimal* standard. Just because something is 
+*reproducible* does not necessarily imply that it is *correct*. The 
+code may have bugs. The methods may be poorly behaved. But reproducibility 
+is likely correlated with correctness -- if you are careful enough to 
+make everything reproducible, you're probably more likely to be careful
+in designing the analysis in the first place. 
+
+We will use replicability to mean a new experiment using the same methods
+coming to the same conclusions. 
+
+Generalizability refers to taking conclusions from your study population
+and generalizing them to a new population. 
+
+---
+
+
+## Why should I care about reproducibility?
+
+* Careful coding means more likely to produce __correct results__.
+* In the long run, you will __save (a lot of) time__.
+* Higher __impact__ of your science.
+* __Avoid embarrassment__ on a public stage. 
+
+???
+
+Doing reproducible science is time consuming, but is ultimately time-saving.
+As you practice these tools more and more, they will start to become
+habits. I do analyses now in a day or so (and at much higher quality) now
+that would take me a (frustrating) week seven or eight years ago. 
+
+One of my great fears as an academic is being accused of intentionally 
+doing bad science. Leaving a paper trail that any one else can follow is
+a bit intimidating -- we all make mistakes. Reproducible work indicates 
+that any mistakes made were likely honest.
+
+
+---
+
+
+## Basic principles
+
+* .red[Put everything in one version-controlled directory.]
+* Develop your own system. 
+* Be consistent, but look for ways to improve.
+  * naming conventions, file structure
+* Raw data are sacred. Keep them separate from everything else. 
+* Separate code and data.
+* Use meaningful file names.
+* Use YYYY-MM-DD date formatting.
+* .red[No absolute paths.]
+
+
+???
+
+There is not one correct way to organize a project, but there are many incorrect ways. Over time you will develop your own system for doing so. We'll discuss a few frameworks that may be helpful. 
+
+The biggest thing is to commit to using the same structure for as long as its working for you. As you are working on many projects, be self-aware during the process. Are you consistently losing track of certain types of files? Are there gaps in the workflow that make things hard to reproduce? What can you do to fill in the gaps?
+
+Organization might not seem like a big deal now, but remember your career is just getting started. Expect to work on 2-20 different projects a year for the rest of your working life. The number of projects you will work on is staggering! You need a way to keep track.
+
+---
+
+
+## What to organize?
+
+It is probably useful to have a system for organizing:
+* data analysis projects;
+* first-author papers;
+* talks.
+
+The systems should adhere to the same general principles, but different requirements may necessitate different structures. 
+
+.red[Think about organization of a project from the outset!]
+
+???
+
+Thinking about project organization from the outset is the most important thing. Map out (e.g., as comments in a README) how you see the project developing. Even if things change over time, it's good to have a structure in place from the beginning. 
+
+This pertains to project directories in particular, but also to your hard drive in general. What about projects that weren't finished when I got to Emory? What about projects that I continued developing once I got here. It's a mess. Don't be like me. 
+
+---
+
+## Collaborative projects
+
+Collaborative projects present a greater challenge. 
+* Not everyone is comfortable with LaTeX or git or ...
+
+I don't have a great solution for this. 
+* Google drive/Word online helps to a certain extent, but you lose in other areas (reference management, math typesetting)
+* [Overleaf](http://overleaf.com/) has gotten much better for LaTeX
+
+Some advice: 
+* Address organization from the outset.
+* Keep your contribution as reproducible as possible.
+* Ideally, bring people on board to your (version controlled, reproducible) system.
+* Keep open lines of communication (especially if using GitHub)
+
+???
+
+There's almost always some pain associated with working in close collaboration with someone else on a project. The most important thing is to commit to being organized from the outset. And to agree on what that means. 
+
+Even if some elements of the project are outside your control, you can try to bring in elements to your workflow. 
+* E.g., if you receive comments with tracked changes from a colleague, incorporate them into the document, add a commit message describing who's edits they were.
+
+If working on a shared GitHub repo, keep open lines of communication, e.g., short emails (or [slack](https://slack.com/) messages, etc...), "Just pushed `x`..."
+
+
+---
+
+
+## Example data analysis project 
+
+.code-box[
+YYYY_MM_PI_topic/ &lt;br&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp; data/ &lt;br&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; data/raw_data.csv &lt;br&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; data/tidied_data.Rdata &lt;br&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp; analysis/ &lt;br&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; analysis/exploratory_data_analysis.Rmd &lt;br&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; analysis/report.Rmd &lt;br&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp; source/ &lt;br&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; source/01_clean_raw_data.R &lt;br&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; source/02_modeling_functions.R &lt;br&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; source/03_plotting_functions.R &lt;br&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; source/utils.R &lt;br&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp; results/ &lt;br&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp; literature/ &lt;br&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp; README.md &lt;br&gt;
+]
+
+???
+This is MY process. You'll see on the next slide David's process. We are different, were trained differently. There are some things from David's process that I have learned from putting these slides together that I like, and will adopt in the future.
+
+Goal is to find a workflow that will be AS EASY AS POSSIBLE FOR YOU TO ADOPT AND MAINTAIN IN THE LONG TERM.
+
+Also, the files I need for a methods project versus a more applied project may be very different
+
+Some notes:
+* separate raw data and processed data
+* separate folder for figures (could possible move R code for figures there)
+* `sandbox` is where I like to keep messy stuff that I'm trying out but never want to see the light of day
+* informative file names for `R` scripts broken down into logical steps of a workflow
+* `.gitignore` would include
+  * definitely: `figs/*`, `ref_papers/*`
+  * possibly: `raw_data`/`data` (if sensitive), `sandbox` (if informal)
+
+The `00`, `01`, ... number system is something that many people use because it helps create a sortable file system. It generally works, but some workflows don't really logically follow this sort of convention (e.g., things can happen in parallel).  
+
+---
+
+## Example data analysis project, cont'd 
+
+I typically have other ancillary files in my root directory as well. These are files I don't (often) modify but are important for workflow or reproducibility:
+
+.code-box[
+YYYY_MM_PI_topic/ &lt;br&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp; YYYY_MM_PI_topic.Rproj &lt;br&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp; .git &lt;br&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp; .gitignore &lt;br&gt;
+]
+
+???
+
+The `00`, `01`, ... number system is something that many people use because it helps create a sortable file system. It generally works, but some workflows don't really logically follow this sort of convention (e.g., things can happen in parallel).  
+
+
+* `.gitignore` would include
+  * definitely: `figs/*`, `ref_papers/*`
+  * possibly: `raw_data`/`data` (if sensitive), `sandbox` (if informal)
+  
+
+---
+
+
+## Organizing data
+
+Raw data are sacred... but may be a mess. 
+* You'll be surprised (and disheartened) by how many color-coded excel sheets you'll get in your life.
+
+Tempting to edit raw data by hand. .red[Don't!]
+* Everything scripted!
+
+Use meta-data files to describe raw and cleaned data.
+* structure as data (e.g., `.csv` so easy to read)
+
+**You should be able to get a new version of the data and easily re-run your analysis. Urge your collaborators to not mess with the structure of the data in between versions!**
+
+???
+
+The generation of the raw data may be the one thing out of your control in an analysis. But from the time the data are passed on to you, everything that happens should be reproducible. 
+
+This can be painful. For many projects, 90% of time might be devoted to wrangling raw data into a format that is usable. Save yourself from the danger of having to re-do all those painful bits when (not if) the data change.
+
+You should be able to get a new version of the data and easily re-run your analysis. Urge your collaborators to not mess with the structure of the data in between versions.
+---
+
+## Organizing data
+
+Hadley Wickham [defined the notion of tidy data](https://doi.org/10.18637/jss.v059.i10). 
+* Each variable forms a column.
+* Each observation forms a row.
+* Each observational unit forms a table. 
+
+.code-box[
+| ptid | day | age | drug | out |
+|------|-----|-----|------|-----|
+| 1    | 1   | 28  | 0    | 0   |
+| 1    | 2   | 28  | 0    | 1   |
+| 2    | 1   | 65  | 0    | 0   |
+| 2    | 2   | 65  | 1    | 1   |
+| 3    | 1   | 34  | 0    | 0   |
+| 3    | 2   | 34  | -    | 1   |
+]
+---
+
+## Exploring data
+
+One of the first things we'll often do is open the data and start poking around.
+* Could be informal, "getting to know you."
+* Could be more formal, "see if anything looks interesting."
+
+This is often done in an ad-hoc way:
+* entering commands directly into R;
+* making and saving plots "by hand"; 
+* etc...
+
+.red[Slow down and document.]
+* Your future self will thank you!
+
+???
+
+You want to avoid situations like:
+* need to recreate a plot that you made "by hand" and saved "by hand";
+* figuring out why you removed certain observations;
+* trying to remember what variables had an interesting relationship that you wanted to follow up on later.
+---
+
+## Exploring data
+
+Write out a set of comments describing what you are try to accomplish and fill in code from there. 
+* I do this for every coding project.
+  * Data analysis, methods coding, package development
+
+Leave a search-able comment tag by code to return to later
+* I use e.g., `# TO DO: add math expression to labels; make colors prettier`.
+
+Sets "the bones" of a formal analysis in place while allowing for some creative flow. 
+
+???
+
+From the outset, stop and think about what you want to do. Start filling in details from there. That simple approach will increase efficiency and reproducibility. 
+
+---
+
+## Exploring data
+
+Other helpful ideas for formalizing exploratory data analysis:
+
+* `.Rhistory` files
+  * all the commands used in an R session
+* `save` intermediate objects and workspaces
+  * and document what they contain! 
+* Informal `.Rmd` documents. 
+  * easy way to organize code/comments into readable format
+
+---
+
+
+
+## .Rproj files
+
+You may have noticed a file with the extension `.Rproj` in the productTesting folder
+* These are called `R projects` 
+* `projectr::proj_start()` automatically sets up an `.Rproj`.
+&lt;img src="figures/Rproj_example.png" style="width:105%"&gt;
+
+I'm going to try to convince you that these are the best.
+
+---
+
+
+## Benefits of using R projects
+
+__Project organization__: 
+* Relative file paths: ensures file paths are relative to the project directory, making scripts portable and easier to share.
+* Separate workspaces: prevents conflicts between variables and packages across different projects.
+
+
+__Reproducibility__
+* Can hand off entire directory to someone else and have them rerun your analysis
+* Works great with the `here` package
+
+Double clicking the `202405_sarah_productTesting.Rproj` opens up an R Studio session and automatically sets your working directory to the `202405_sarah_productTesting` folder.
+
+
+???
+We will get to the here package next.
+---
+
+
+## Absolute vs. relative file paths
+
+
+.pull-left[.center[
+Absolute paths
+* .left[`/Users/juliawrobel`]
+* .left[`~/Documents`]
+* .left[`/`]
+]]
+
+.pull-right[.center[
+Relative paths
+* .left[`./Documents`]
+* .left[`../Documents`]
+* .left[`../../`]
+]]
+
+* Absolute paths include the __whole path__ for a directory
+* Relative paths depend on the working directory that they are executed in 
+  * The `./` means "in the current directory"
+  * The `../` means "in one directory
+up from the current directory".
+
+???
+In project management, we  prefer relative paths. It makes
+sharing code easier -- between different users or, with yourself, on a 
+different computer (e.g., your laptop vs. AWS). The two file systems are probably 
+(definitely) structured differently, but if they share a  project folder with 
+the same relative structure, then code with relative paths should still work.
+
+
+Why might you want to use relative rather than absolute file paths?
+
+---
+
+
+
+
+
+## The `here` package
+
+.red[No absolute paths.]
+* Absolute paths are the enemy of project reproducibility.
+
+For `R` projects, the [`here`](https://here.r-lib.org/) package provides a simple way to use relative file paths.
+* Read [Jenny Bryan and James Hester's chapter](https://rstats.wtf/project-oriented-workflow.html) on project-oriented work-flows.
+
+The use of `here` is simple and best illustrated by example.
+
+---
+
+## The `here` package
+
+Consider this simple project structure.
+
+.code-box[
+my_project/ &lt;br&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp; my_project.Rproj &lt;br&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp; data/ &lt;br&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; my_data.csv &lt;br&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp; output/ &lt;br&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp; R/ &lt;br&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; R/my_analysis.R &lt;br&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp; Rmd/ &lt;br&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; Rmd/my_report.Rmd &lt;br&gt;
+]
+
+Here, the folder `my_project` is the __root directory__.
+* Where `.Rproj` lives
+* All file paths should be .green[relative] to `my_project`!
+
+---
+
+## The `here` package
+
+Makes it easy to load data using a relative file path that works across different operating systems: 
+
+
+``` rm
+library(here)
+# relative path using here()
+here_path = here("data", "file_i_want.csv")
+my_data = read.csv(here_path)
+```
+
+In contrast to:
+
+
+``` r
+# absolute path
+ugly_path = "/Users/JWROB/projects/my_project/data/file_i_want.csv"
+my_data = read.csv(ugly_path)
+```
+
+In contrast to:
+
+
+``` r
+# relative path using NOT using here()
+relative_path = "./data/file_i_want.csv"
+my_data = read.csv(relative_path)
+```
+
+
+???
+The relative path is better, but still not reproducible across different OS. I want to be able to hand you my project folder and have you run it without having to change a single thing.
+---
+
+## The `here` package
+
+`here` works, regardless of where the associated source file lives inside your project
+* If you have an `.Rproj` file in your root directory of your project, here will set the location of the `.Rproj` to be the top-level directory 
+  * This is the behavior we want!
+* These paths will “just work” during interactive development, without incessant fiddling with the working directory of your IDE’s R process.    
+* I am oversimplifying the heuristics, feel free to [read more](https://github.com/jennybc/here_here?tab=readme-ov-file).
+
+
+???
+Raise your hand if you've ever gotten frustrated while interactively coding and the working directory is different from where your Rmarkdown lives... here has changed my life so much that I forgot that can even happen.
+---
+
+## The `here` package
+
+What if I want to load data in a document that lives in a subfolder such as `my_project\analysis\code.Rmd`?
+* Doesn't matter! You can use the same code within the `.Rmd` document to load the data
+
+``` r
+library(here)
+path_to_data = here("data", "file_i_want.csv")
+my_data = read.csv(path_to_data)
+```
+
+
+What if my data I want to access is nested in a subfolder of data, such as `my_project\data\raw_data\raw_file.csv`?
+
+
+``` r
+library(here)
+path_to_data = here("data", "raw_data", "raw_file.csv")
+my_data = read.csv(path_to_data)
+```
+
+???
+It's not only data you can access this way, but this is the most common use case.
+---
+
+
+
+## Starting a new analysis
+
+Once I've received data and decided to start an analysis, I'll typically follow these steps first:
+
+1. .gray[Set up a new project directory using `projectr::proj_start()`]
+2. .green[Open and do very basic exploration of the raw data]
+  * How many rows and columns do I have?
+  * Is the data in the format I need for analysis?
+3. .green[Make sure I understand the columns in my data.]
+  * If a data dictionary doesn't exist, I create one
+4. .green[Make a data cleaning file that reads in the raw data and outputs a tidied dataset]
+  * Typically reduces data to only information necessary for the planned analysis
+
+
+
+---
+
+
+
+
+
+## CDC open data
+
+The CDC has [1331](https://data.cdc.gov/browse) open-source datasets available at [data.cdc.gov](https://data.cdc.gov).
+* Topic areas include injury &amp; violence, vaccination, smoking, pregnancy, chronic disease, and disease surveillance
+* Great source of Covid surveillance data
+
+
+FYI, under the OPEN Government Data Act (2018), government data is required to be made available in open, machine-readable formats, while continuing to ensure privacy and security.
+* [data.gov](https://data.gov/) hosts additional 250K+ datasets
+
+---
+
+
+## Covid19 wastewater data
+
+We will work with the National Wastewater Surveillance System (NWSS) Public SARS-CoV-2 Concentration in Wastewater Data.
+* SARS-CoV-2 concentration at different sampling locations
+* Updated daily
+
+
+__Longitudinal data__
+* Provides concentrations over time 
+* 4 columns
+
+
+
+__Cross-sectional data__
+* Current concentrations and other summaries
+* 16 columns, including state, county
+
+---
+
+
+## Covid19 wastewater data
+
+We will merge these datasets and analyze concentration over time in different counties. 
+* Data can be downloaded from [Socrata](https://dev.socrata.com/foundry/data.cdc.gov/g653-rqe2)
+  * Socrata is a cloud-based platform used by many local/state/federal governments for data-sharing
+
+* Goal will be to produce end-to-end reproducible workflows with this data
+
+
+???
+The goal here is not to do a really complicated analysis, but to show a reproducible workflow using real open-source infectious disease data.
+
+---
+
+## Covid19 wastewater data
+
+&lt;img src="figures/CDC_download.png" alt="download" width="550" /&gt;
+
+???
+You can just click this button to export the data as a CSV file. Why might this not be a great idea?
+---
+
+
+
+## Analysis of Covid WW concentration data
+
+We are interesting in analyzing wastewater concentration of SARS-CoV-2 over time at the county level for counties in Georgia. Analysis steps:
+
+1. Download data: from CDC.gov API
+2. Clean data: Longitudinal data contains concentrations over time, and cross-sectional data contains information about county each data collection site is located in.
+  * We will need to merge these two datasets
+  * We also want to subset to collection sites in Georgia only
+3. Analyze data
+4. Visualize data
+
+
+???
+We will do a very simple analysis.
+---
+
+
+
+
+
+## Pulling it all together
+
+Knitting `final_report.Rmd` will ensure that if one step of the data analysis gets updated, it will be carried through the rest of the pipeline.
+* Critical for reproducibility because a common error is to edit one piece of the code but not have changes follow through to the end of analysis
+
+
+__make__: an alternative option, a command-line tool that automatically builds and compiles code by following instructions in a __Makefile__.
+
+
+???
+David uses make, and it's cool! A little beyond the scope of what we are going to talk about since it involves new syntax but I have included a tutorial in the extra materials.
+---
+
+
+## Special topic: parameterized reports
+
+So far we have focused on analysis of counties in Georgia. What if we wanted to reproduce this analysis for any state in the US?
+
+__Parameterized reports__ in R markdown allow you to create a report template that can be reused across multiple similar scenarios. Examples include:
+* Running a report that covers a specific time period
+* Showing results for a specific geographic location
+
+---
+
+## Declaring parameters
+
+Parameters are specified using the `params` field within the YAML header of the R Markdown document. We can specify one or more parameters with each item on a new line:
+
+
+``` rmd
+---
+title: My Document
+output: html_document
+params:
+  year: 2024
+  state: "ga"
+  printcode: TRUE
+---
+```
+
+It's worth noting that all standard R types that can be parsed by `yaml::yaml.load()` can be included as parameters, including `character`, `numeric`, `integer`, and `logical` types.
+---
+
+
+## Using parameters
+
+You can access the parameters within the knitting environment and the R console
+* The values are contained within a list called `params`:
+  * `params$year`
+  * `params$state`
+
+Parameters can also be used to control the behavior of `knitr`:
+
+
+&lt;img src="figures/params_example.png" style="width:75%"&gt;
+
+---
+
+
+## Knitting with parameters
+
+There are a few ways in which a parameterized report can be knitted:
+
+1. Using the `knit` button in R Studio. The default values listed in the YAML will be used.
+2. `rmarkdown::render()` with the `params` argument. Allows you to override the default values listed in the YAML.
+
+
+``` r
+rmarkdown::render("MyDocument.Rmd", params = list(
+  year = 2022,
+  state = "nj",
+  printcode = FALSE,
+))
+```
+
+You don't have to explicitly state all parameters in the `params` argument. Any parameters not specified will default to the values in the YAML header.
+
+???
+Option 1 doesn't do much for us, since we'll still have to edit the master document to get a report for a different state.
+---
+
+
+## Rendering parameterized reports
+
+You can even integrate these into a function that can be used to create an output file with a different filename for each combination of parameters!
+
+
+``` r
+render_report = function(state, year) {
+  rmarkdown::render(
+    "MyDocument.Rmd", params = list(
+      region = region,
+      year = year
+    ),
+    output_file = paste0("Report-", region, "-", year, ".html")
+  )
+}
+```
+
+
+
+
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create();
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+// add `data-at-shortcutkeys` attribute to <body> to resolve conflicts with JAWS
+// screen reader (see PR #262)
+(function(d) {
+  let res = {};
+  d.querySelectorAll('.remark-help-content table tr').forEach(tr => {
+    const t = tr.querySelector('td:nth-child(2)').innerText;
+    tr.querySelectorAll('td:first-child .key').forEach(key => {
+      const k = key.innerText;
+      if (/^[a-z]$/.test(k)) res[k] = t;  // must be a single letter (key)
+    });
+  });
+  d.body.setAttribute('data-at-shortcutkeys', JSON.stringify(res));
+})(document);
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
