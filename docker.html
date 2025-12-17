@@ -431,12 +431,20 @@ in the container (see below)</li>
 <p>If you are on a Windows machine you may need to pre-fix the call with
 <code>winpty</code>:</p>
 <pre class="bash"><code>winpty docker run -it rocker/tidyverse:4.4.1 bash</code></pre>
+<<<<<<< HEAD
+<p>If you are on a Mac that has an Apple Silicon chip (e.g., M1/M2/M3), you may see an error similar to the following:</p>
+<pre><code>WARNING: The requested image&#39;s platform (linux/amd64) does not match the detected host platform (linux/arm64/v8) and no specific platform was requested</code></pre>
+<p>If you see this you need the <code>--platform linux/amd64</code> option to your <code>docker run</code> commands (and all subsequent <code>docker run</code> commands below). So your command would look like:</p>
+<pre class="bash"><code>docker run --platform linux/amd64 -it rocker/tidyverse:4.4.1 bash</code></pre>
+<p>When you execute this command, docker will check for the existence of the image on your computer. The first time you run this command, you likely will not have downloaded the <code>rocker/tidyverse:4.4.1</code> image from docker hub. As a result, the command will automatically download the image for you. While the image downloads you will see various status updates that look like this:</p>
+=======
 <p>When you execute this command, docker will check for the existence of
 the image on your computer. The first time you run this command, you
 likely will not have downloaded the <code>rocker/tidyverse:4.4.1</code>
 image from docker hub. As a result, the command will automatically
 download the image for you. While the image downloads you will see
 various status updates that look like this:</p>
+>>>>>>> e05cf3875280297f81990f236a51718f8f5e5a56
 <pre><code>Unable to find image &#39;rocker/tidyverse:4.4.1&#39; locally
 4.4.1: Pulling from rocker/tidyverse
 7646c8da3324: Pull complete 
@@ -499,10 +507,8 @@ option</li>
 <p>To run an interactive R Studio session, run the following
 command:</p>
 <pre class="bash"><code>docker run -e PASSWORD=&quot;SECRET123&quot; -p 8787:8787 rocker/tidyverse:4.4.1</code></pre>
-<p>(Remember to add <code>winpty</code> if you are on Windows and using
-<code>git bash</code>)</p>
-<p>You will see some printed messages. You will know that your container
-is successfully running if you see:</p>
+<p>(Remember to add <code>winpty</code> if you are on Windows and using <code>git bash</code> and to add <code>--platform linux/amd64</code> if you needed to use that option earlier)</p>
+<p>You will see some printed messages. You will know that your container is successfully running if you see:</p>
 <pre><code>[services.d] done.</code></pre>
 <p>Before opening R Studio, let’s pause to describe the options that we
 included in the <code>docker run</code> call:</p>
@@ -539,16 +545,19 @@ working directory” is for R Studio in the container.</p>
 <li>attempt to build our report in the container</li>
 <li>install R packages in a container</li>
 </ul>
-<p>Before we start confirm that your working directory is in project
-root directory, using <code>pwd</code> and <code>cd</code>, as
-needed.</p>
-<p>Once you have confirmed your working directory is your project
-directory, then you can execute:</p>
+<p>Before we start confirm that your working directory is in project root directory, using <code>pwd</code> and <code>cd</code>, as needed.</p>
+<p>Once you have confirmed your working directory is your project directory, if you are on a Mac, you can execute:</p>
 <pre class="bash"><code>docker run -e PASSWORD=&quot;SECRET123&quot; \
 -p 8787:8787 \
 -v $(pwd):/home/rstudio \
 rocker/tidyverse:4.4.1</code></pre>
-<p>There are two new things about this command:</p>
+<p>(Remember to include <code>--platform linux/amd64</code> if needed.)</p>
+<p>If you are on Windows, you can execute:</p>
+<pre class="bash"><code>winpty docker run -e PASSWORD=&quot;SECRET123&quot; \
+-p 8787:8787 \
+-v /$(pwd):/home/rstudio \
+rocker/tidyverse:4.4.1</code></pre>
+<p>There are two new things about the above commands:</p>
 <ul>
 <li>we are using <code>\</code> (i.e., an <em>escape character</em>) to
 break the command over multiple lines (so it’s easier for you to see on
